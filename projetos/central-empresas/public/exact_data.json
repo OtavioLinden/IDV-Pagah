@@ -1,0 +1,271 @@
+[
+  {
+    "id": 2,
+    "Número_id": "555192866925@c.us",
+    "Delay": 5,
+    "Última_Msg": "2026-03-12T11:42:56.599+00:00",
+    "Sessão": "VERIFICADO-ALAN",
+    "Nome": "IMPERA - AMS Produtos Naturais",
+    "id_Empresa": 102,
+    "Mensagens": "Oi, {cliente}! Tudo bem?\r\nAqui é a {atendente}, da {empresa} 🌿\r\n\r\nVi que você solicitou o estorno da compra do *{produto}* diretamente com o banco, e gostaria de entender um pouco melhor o que aconteceu para melhorarmos nosso atendimento e nossos produtos 💬\r\n\r\nSe puder me contar breve o motivo do cancelamento, vai ajudar bastante a evoluirmos🙏\r\n\r\n*Aguardo seu retorno!* 💪",
+    "tipo_msg": "chargeback",
+    "Atendente": "Marilia",
+    "pode_repetir": false,
+    "horario": {
+      "sexta": [],
+      "terca": [],
+      "quarta": [],
+      "quinta": [],
+      "sabado": [],
+      "domingo": [],
+      "segunda": []
+    },
+    "msg_fora_de_hora": null,
+    "ativo": true,
+    "agentes": [
+      "Atendente - 102"
+    ],
+    "inboxId": 1323
+  },
+  {
+    "id": 4,
+    "Número_id": null,
+    "Delay": 5,
+    "Última_Msg": "2026-03-12T11:42:17.402+00:00",
+    "Sessão": "Glyk-32",
+    "Nome": "GLYK",
+    "id_Empresa": 32,
+    "Mensagens": "Olá {cliente}!👋🏻\r\n\r\nVim informar que seu pedido foi realizado com sucesso!\r\n✅ Seguem os detalhes:\r\n\r\n*Número do pedido:* {num_pedido}\r\n*Produto:* {produto}\r\n*Valor:* {parcelas} parcelas de R$ {val_parc} totalizando: R$ {valor_t}\r\n\r\n*ATENÇÃO: Entraremos em contato via ligação para explicar modo de uso*",
+    "tipo_msg": "pago",
+    "Atendente": "Glyk",
+    "pode_repetir": true,
+    "horario": {
+      "sexta": [
+        {
+          "fim": "12:00",
+          "inicio": "07:00"
+        }
+      ],
+      "terca": [
+        {
+          "fim": "16:00",
+          "inicio": "08:00"
+        }
+      ],
+      "quarta": [
+        {
+          "fim": "16:00",
+          "inicio": "09:00"
+        }
+      ],
+      "quinta": [
+        {
+          "fim": "16:00",
+          "inicio": "08:00"
+        }
+      ],
+      "sabado": [],
+      "domingo": [],
+      "segunda": [
+        {
+          "fim": "16:00",
+          "inicio": "08:00"
+        }
+      ]
+    },
+    "msg_fora_de_hora": "Prezado(a) cliente,\r\n\r\nAgradecemos o seu contato. Informamos que o nosso *horário de atendimento é de segunda a quinta-feira, das 8h00 às 16h00 e das  7h00 às 12h00 na sexta feira.*\r\n\r\nNo momento, estamos fora do horário de expediente, mas responderemos sua mensagem assim que possível.\r\n\r\nPedimos desculpas por qualquer transtorno e agradecemos a compreensão.Obrigado!",
+    "ativo": true,
+    "agentes": []
+  },
+  {
+    "id": 6,
+    "Número_id": null,
+    "Delay": 15,
+    "Última_Msg": "2026-01-13T09:11:11.41+00:00",
+    "Sessão": "Suporte-367",
+    "Nome": "Pagar Fácil",
+    "id_Empresa": 367,
+    "Mensagens": "Olá {cliente}!👋🏻\r\n\r\nVim informar que seu pedido foi realizado com sucesso!\r\n✅ Seguem os detalhes:\r\n\r\n*Número do pedido:* {num_pedido}\r\n*Produto:* {produto}\r\n*Valor:* {parcelas} parcelas de R$ {val_parc} totalizando: R$ {valor_t}\r\n\r\nSe precisar de qualquer coisa relacionada ao seu pedido, estamos aqui para ajudar com o que for necessário! 😊",
+    "tipo_msg": "pago",
+    "Atendente": "Pagar Fácil",
+    "pode_repetir": true,
+    "horario": {
+      "sexta": [
+        {
+          "fim": "12:00",
+          "inicio": "07:00"
+        }
+      ],
+      "terca": [
+        {
+          "fim": "16:00",
+          "inicio": "08:00"
+        }
+      ],
+      "quarta": [
+        {
+          "fim": "16:00",
+          "inicio": "12:00"
+        }
+      ],
+      "quinta": [
+        {
+          "fim": "16:00",
+          "inicio": "08:00"
+        }
+      ],
+      "sabado": [],
+      "domingo": [],
+      "segunda": [
+        {
+          "fim": "16:00",
+          "inicio": "08:00"
+        }
+      ]
+    },
+    "msg_fora_de_hora": "Prezado(a) cliente,\r\n\r\nAgradecemos o seu contato. Informamos que o nosso *horário de atendimento é de segunda a quinta-feira, das 8h00 às 16h00 e das  7h00 às 12h00 na sexta feira.*\r\n\r\nNo momento, estamos fora do horário de expediente, mas responderemos sua mensagem assim que possível.\r\n\r\nPedimos desculpas por qualquer transtorno e agradecemos a compreensão.Obrigado!",
+    "ativo": false,
+    "agentes": [
+      "Glyk"
+    ],
+    "inboxId": 1163
+  },
+  {
+    "id": 7,
+    "Número_id": null,
+    "Delay": 5,
+    "Última_Msg": "2026-03-12T11:42:56.599+00:00",
+    "Sessão": "VERIFICADO-ALAN",
+    "Nome": "IMPERA - AMS Produtos Naturais",
+    "id_Empresa": 102,
+    "Mensagens": "Olá {cliente}!👋🏻\r\n\r\nVim informar que seu pedido foi realizado com sucesso!\r\n✅ Seguem os detalhes:\r\n\r\n*Número do pedido:* {num_pedido}\r\n*Produto:* {produto}\r\n*Valor:* {parcelas} parcelas de R$ {val_parc} totalizando: R$ {valor_t}\r\n\r\nSe precisar de qualquer coisa relacionada ao seu pedido, estamos aqui para ajudar com o que for necessário! 😊",
+    "tipo_msg": "pago",
+    "Atendente": "Marilia",
+    "pode_repetir": true,
+    "horario": {
+      "sexta": [],
+      "terca": [],
+      "quarta": [],
+      "quinta": [],
+      "sabado": [],
+      "domingo": [],
+      "segunda": []
+    },
+    "msg_fora_de_hora": null,
+    "ativo": true,
+    "agentes": [
+      "Atendente - 102"
+    ],
+    "inboxId": 1323
+  },
+  {
+    "id": 8,
+    "Número_id": null,
+    "Delay": 10,
+    "Última_Msg": "2026-03-12T11:38:17.32+00:00",
+    "Sessão": "SN-339",
+    "Nome": null,
+    "id_Empresa": 445,
+    "Mensagens": "Olá {cliente}!👋🏻\r\n\r\nVim informar que seu pedido foi realizado com sucesso!\r\n✅ Seguem os detalhes:\r\n\r\n*Número do pedido:* {num_pedido}\r\n*Produto:* {produto}\r\n*Valor:* {parcelas} parcelas de R$ {val_parc} totalizando: R$ {valor_t}\r\n\r\n*ATENÇÃO: Entraremos em contato via ligação para explicar modo de uso*",
+    "tipo_msg": "pago",
+    "Atendente": "445",
+    "pode_repetir": true,
+    "horario": {
+      "sexta": [
+        {
+          "fim": "12:00",
+          "inicio": "07:00"
+        }
+      ],
+      "terca": [
+        {
+          "fim": "16:00",
+          "inicio": "08:00"
+        }
+      ],
+      "quarta": [
+        {
+          "fim": "16:00",
+          "inicio": "08:00"
+        }
+      ],
+      "quinta": [
+        {
+          "fim": "16:00",
+          "inicio": "08:00"
+        }
+      ],
+      "sabado": [],
+      "domingo": [],
+      "segunda": [
+        {
+          "fim": "16:00",
+          "inicio": "08:00"
+        }
+      ]
+    },
+    "msg_fora_de_hora": "Prezado(a) cliente,\r\n\r\nAgradecemos o seu contato. Informamos que o nosso *horário de atendimento é de segunda a quinta-feira, das 8h00 às 16h00 e das  7h00 às 12h00 na sexta feira.*\r\n\r\nNo momento, estamos fora do horário de expediente, mas responderemos sua mensagem assim que possível.\r\n\r\nPedimos desculpas por qualquer transtorno e agradecemos a compreensão.Obrigado!",
+    "ativo": true,
+    "agentes": [
+      "Débora Suporte"
+    ],
+    "inboxId": 1663
+  },
+  {
+    "id": 9,
+    "Número_id": null,
+    "Delay": 15,
+    "Última_Msg": "2026-03-11T09:04:58.446+00:00",
+    "Sessão": "215",
+    "Nome": "215",
+    "id_Empresa": 215,
+    "Mensagens": "Olá {cliente}!👋🏻\r\n\r\nVim informar que seu pedido foi realizado com sucesso!\r\n✅ Seguem os detalhes:\r\n\r\n*Número do pedido:* {num_pedido}\r\n*Produto:* {produto}\r\n*Valor:* {parcelas} parcelas de R$ {val_parc} totalizando: R$ {valor_t}\r\n\r\n*ATENÇÃO: Entraremos em contato via ligação para explicar modo de uso*",
+    "tipo_msg": "pago",
+    "Atendente": "215",
+    "pode_repetir": true,
+    "horario": {
+      "sexta": [],
+      "terca": [],
+      "quarta": [],
+      "quinta": [],
+      "sabado": [],
+      "domingo": [],
+      "segunda": []
+    },
+    "msg_fora_de_hora": null,
+    "ativo": true,
+    "agentes": [
+      "Suporte - 215"
+    ],
+    "inboxId": 1737
+  },
+  {
+    "id": 10,
+    "Número_id": null,
+    "Delay": 15,
+    "Última_Msg": "2026-03-11T03:09:57.726+00:00",
+    "Sessão": "sub-pagah-ins5",
+    "Nome": "Pagah",
+    "id_Empresa": 105,
+    "Mensagens": "Olá {cliente}!👋🏻\r\n\r\nVim informar que seu pedido foi realizado com sucesso!\r\n✅ Seguem os detalhes:\r\n\r\n*Número do pedido:* {num_pedido}\r\n*Produto:* {produto}\r\n*Valor:* {parcelas} parcelas de R$ {val_parc} totalizando: R$ {valor_t}\r\n\r\n*Caso tenha qualquer dúvida sobre o produto pode nos chamar!*",
+    "tipo_msg": "pago",
+    "Atendente": "Pagah",
+    "pode_repetir": true,
+    "horario": {
+      "sexta": [],
+      "terca": [],
+      "quarta": [],
+      "quinta": [],
+      "sabado": [],
+      "domingo": [],
+      "segunda": []
+    },
+    "msg_fora_de_hora": null,
+    "ativo": true,
+    "agentes": [
+      "Atendimento 105",
+      "Atendente - 102"
+    ],
+    "inboxId": 1926
+  }
+]
