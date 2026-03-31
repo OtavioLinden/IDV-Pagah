@@ -16,12 +16,12 @@ O **Pagah** é uma plataforma enterprise-level que oferece:
 ## 🚀 Tecnologias Principais
 
 ### Backend
-- **Laravel 8.x** - Framework PHP
+- **Laravel 10** - Framework PHP
 - **Laravel Jetstream** - Autenticação e gestão de usuários
 - **Laravel Fortify** - Backend de autenticação
 - **Laravel Sanctum** - API Authentication
 - **Laravel Livewire** - Componentes dinâmicos
-- **PHP 7.4+** ou **PHP 8.0+**
+- **PHP 8.0+**
 
 ### Frontend
 - **Vue.js 2.5.17** - Framework JavaScript
