@@ -185,8 +185,14 @@
                    class="w-full border border-[#DADADA] rounded-lg pl-9 pr-3 py-2 text-sm text-[#1C1C1C] bg-white focus:outline-none focus:border-[#F1E52F] focus:ring-1 focus:ring-[#F1E52F] placeholder-[#DADADA]">
           </div>
 
+          <button onclick="openComissaoPadraoModal()"
+                  class="flex items-center gap-2 border border-[#1C1C1C] text-[#1C1C1C] font-semibold text-sm rounded-lg px-4 py-2 hover:bg-[#1C1C1C] hover:text-white transition-all ml-auto">
+            <i data-lucide="percent" class="w-4 h-4"></i>
+            Comissao Padrao
+          </button>
+
           <button onclick="openEditModal('Novo Usuario')"
-                  class="flex items-center gap-2 bg-[#F1E52F] text-[#1C1C1C] font-bold text-sm rounded-lg px-4 py-2 hover:brightness-95 transition-all ml-auto">
+                  class="flex items-center gap-2 bg-[#F1E52F] text-[#1C1C1C] font-bold text-sm rounded-lg px-4 py-2 hover:brightness-95 transition-all">
             <i data-lucide="user-plus" class="w-4 h-4"></i>
             Novo Usuario
           </button>
@@ -214,6 +220,7 @@
                   <th class="px-5 py-3 text-left font-semibold">Perfil</th>
                   <th class="px-5 py-3 text-left font-semibold">Gerente Vinculado</th>
                   <th class="px-5 py-3 text-center font-semibold">Ativo</th>
+                  <th class="px-5 py-3 text-center font-semibold">Comissao</th>
                   <th class="px-5 py-3 text-left font-semibold">Acoes</th>
                 </tr>
               </thead>
@@ -238,6 +245,7 @@
                       <div class="toggle-track"><div class="toggle-thumb"></div></div>
                     </label>
                   </td>
+                  <td class="px-5 py-3.5 text-center text-[#DADADA]">—</td>
                   <td class="px-5 py-3.5">
                     <div class="flex items-center gap-2">
                       <button onclick="openEditModal('Pedro Admin')"
@@ -267,6 +275,7 @@
                       <div class="toggle-track"><div class="toggle-thumb"></div></div>
                     </label>
                   </td>
+                  <td class="px-5 py-3.5 text-center text-[#DADADA]">—</td>
                   <td class="px-5 py-3.5">
                     <div class="flex items-center gap-2">
                       <button onclick="openEditModal('Maria Gerente')"
@@ -305,6 +314,7 @@
                       <div class="toggle-track"><div class="toggle-thumb"></div></div>
                     </label>
                   </td>
+                  <td class="px-5 py-3.5 text-center text-[#DADADA]">—</td>
                   <td class="px-5 py-3.5">
                     <div class="flex items-center gap-2">
                       <button onclick="openEditModal('Ricardo Gerente')"
@@ -343,6 +353,13 @@
                       <div class="toggle-track"><div class="toggle-thumb"></div></div>
                     </label>
                   </td>
+                  <td class="px-5 py-3.5 text-center">
+                    <button onclick="openComissaoUserModal('Joao Silva', false)" title="Comissao Padrao"
+                            class="inline-flex items-center gap-1 text-[#575756] hover:text-[#1C1C1C] transition-colors">
+                      <i data-lucide="percent" class="w-4 h-4"></i>
+                      <span class="text-xs text-[#DADADA]">Padrao</span>
+                    </button>
+                  </td>
                   <td class="px-5 py-3.5">
                     <div class="flex items-center gap-2">
                       <button onclick="openEditModal('Joao Silva')"
@@ -375,6 +392,13 @@
                       <input type="checkbox" checked>
                       <div class="toggle-track"><div class="toggle-thumb"></div></div>
                     </label>
+                  </td>
+                  <td class="px-5 py-3.5 text-center">
+                    <button onclick="openComissaoUserModal('Ana Santos', false)" title="Comissao Padrao"
+                            class="inline-flex items-center gap-1 text-[#575756] hover:text-[#1C1C1C] transition-colors">
+                      <i data-lucide="percent" class="w-4 h-4"></i>
+                      <span class="text-xs text-[#DADADA]">Padrao</span>
+                    </button>
                   </td>
                   <td class="px-5 py-3.5">
                     <div class="flex items-center gap-2">
@@ -409,6 +433,13 @@
                       <div class="toggle-track"><div class="toggle-thumb"></div></div>
                     </label>
                   </td>
+                  <td class="px-5 py-3.5 text-center">
+                    <button onclick="openComissaoUserModal('Lucas Mendes', false)" title="Comissao Padrao"
+                            class="inline-flex items-center gap-1 text-[#575756] hover:text-[#1C1C1C] transition-colors">
+                      <i data-lucide="percent" class="w-4 h-4"></i>
+                      <span class="text-xs text-[#DADADA]">Padrao</span>
+                    </button>
+                  </td>
                   <td class="px-5 py-3.5">
                     <div class="flex items-center gap-2">
                       <button onclick="openEditModal('Lucas Mendes')"
@@ -442,6 +473,13 @@
                       <div class="toggle-track"><div class="toggle-thumb"></div></div>
                     </label>
                   </td>
+                  <td class="px-5 py-3.5 text-center">
+                    <button onclick="openComissaoUserModal('Fernanda Costa', true)" title="Comissao Personalizada"
+                            class="inline-flex items-center gap-1 text-[#F1E52F] hover:brightness-90 transition-colors">
+                      <i data-lucide="percent" class="w-4 h-4"></i>
+                      <span class="text-xs font-semibold bg-[#F1E52F] text-[#1C1C1C] rounded-full px-1.5 py-0.5 leading-none">!</span>
+                    </button>
+                  </td>
                   <td class="px-5 py-3.5">
                     <div class="flex items-center gap-2">
                       <button onclick="openEditModal('Fernanda Costa')"
@@ -474,6 +512,13 @@
                       <input type="checkbox">
                       <div class="toggle-track"><div class="toggle-thumb"></div></div>
                     </label>
+                  </td>
+                  <td class="px-5 py-3.5 text-center">
+                    <button onclick="openComissaoUserModal('Carlos Oliveira', true)" title="Comissao Personalizada"
+                            class="inline-flex items-center gap-1 text-[#F1E52F] hover:brightness-90 transition-colors">
+                      <i data-lucide="percent" class="w-4 h-4"></i>
+                      <span class="text-xs font-semibold bg-[#F1E52F] text-[#1C1C1C] rounded-full px-1.5 py-0.5 leading-none">!</span>
+                    </button>
                   </td>
                   <td class="px-5 py-3.5">
                     <div class="flex items-center gap-2">
@@ -747,6 +792,134 @@
 
 
   <!-- ============================================================
+       MODAL — COMISSAO PADRAO
+  ============================================================ -->
+  <div id="modal-comissao-padrao" class="modal-overlay hidden" onclick="handleOverlayClick(event, 'modal-comissao-padrao')">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-xl" onclick="event.stopPropagation()">
+
+      <div class="flex items-center justify-between px-6 py-4 border-b border-[#DADADA]">
+        <div>
+          <h2 class="text-base font-bold text-[#1C1C1C]">Comissao Padrao por Tipo de Atendimento</h2>
+          <p class="text-xs text-[#575756] mt-0.5">Aplicada a todos os vendedores que nao possuem comissao personalizada</p>
+        </div>
+        <button onclick="closeComissaoPadraoModal()" class="text-[#575756] hover:text-[#1C1C1C] transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="px-6 py-4 max-h-[420px] overflow-y-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-[#DADADA]">
+              <th class="text-left py-2 text-xs font-semibold text-[#575756] uppercase">Tipo de Atendimento</th>
+              <th class="text-right py-2 text-xs font-semibold text-[#575756] uppercase w-24">Comissao %</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-[#F2F2F2]">
+              <td class="py-2.5 text-[#1C1C1C]">Cartoes Aprovados KITS Site</td>
+              <td class="py-2.5 text-right"><input type="number" value="4" step="0.5" min="0" max="100" class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-right focus:outline-none focus:border-[#F1E52F]"></td>
+            </tr>
+            <tr class="border-b border-[#F2F2F2]">
+              <td class="py-2.5 text-[#1C1C1C]">Cartoes Aprovados AMOSTRAS Site</td>
+              <td class="py-2.5 text-right"><input type="number" value="3" step="0.5" min="0" max="100" class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-right focus:outline-none focus:border-[#F1E52F]"></td>
+            </tr>
+            <tr class="border-b border-[#F2F2F2]">
+              <td class="py-2.5 text-[#1C1C1C]">Recuperacao amostras recusados</td>
+              <td class="py-2.5 text-right"><input type="number" value="5" step="0.5" min="0" max="100" class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-right focus:outline-none focus:border-[#F1E52F]"></td>
+            </tr>
+            <tr class="border-b border-[#F2F2F2]">
+              <td class="py-2.5 text-[#1C1C1C]">Abandonos Site</td>
+              <td class="py-2.5 text-right"><input type="number" value="5" step="0.5" min="0" max="100" class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-right focus:outline-none focus:border-[#F1E52F]"></td>
+            </tr>
+            <tr class="border-b border-[#F2F2F2]">
+              <td class="py-2.5 text-[#1C1C1C]">Pix Pagos Site</td>
+              <td class="py-2.5 text-right"><input type="number" value="3" step="0.5" min="0" max="100" class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-right focus:outline-none focus:border-[#F1E52F]"></td>
+            </tr>
+            <tr class="border-b border-[#F2F2F2]">
+              <td class="py-2.5 text-[#1C1C1C]">Pix Pendentes Site</td>
+              <td class="py-2.5 text-right"><input type="number" value="4" step="0.5" min="0" max="100" class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-right focus:outline-none focus:border-[#F1E52F]"></td>
+            </tr>
+            <tr class="border-b border-[#F2F2F2]">
+              <td class="py-2.5 text-[#1C1C1C]">Boletos Pagos Site</td>
+              <td class="py-2.5 text-right"><input type="number" value="3" step="0.5" min="0" max="100" class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-right focus:outline-none focus:border-[#F1E52F]"></td>
+            </tr>
+            <tr class="border-b border-[#F2F2F2]">
+              <td class="py-2.5 text-[#1C1C1C]">Boletos Pendentes Site</td>
+              <td class="py-2.5 text-right"><input type="number" value="4" step="0.5" min="0" max="100" class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-right focus:outline-none focus:border-[#F1E52F]"></td>
+            </tr>
+            <tr class="border-b border-[#F2F2F2]">
+              <td class="py-2.5 text-[#1C1C1C]">Cartao Recusado KIT Site</td>
+              <td class="py-2.5 text-right"><input type="number" value="6" step="0.5" min="0" max="100" class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-right focus:outline-none focus:border-[#F1E52F]"></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 text-[#1C1C1C]">Cartao Recusado Falta de Saldo</td>
+              <td class="py-2.5 text-right"><input type="number" value="6" step="0.5" min="0" max="100" class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-right focus:outline-none focus:border-[#F1E52F]"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-[#DADADA]">
+        <button onclick="closeComissaoPadraoModal()" class="border border-[#DADADA] text-[#575756] rounded-lg px-4 py-2 text-sm hover:border-[#575756] hover:text-[#1C1C1C] transition-colors">Cancelar</button>
+        <button onclick="closeComissaoPadraoModal()" class="bg-[#F1E52F] text-[#1C1C1C] font-bold rounded-lg px-5 py-2 text-sm hover:brightness-95 transition-all">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       MODAL — COMISSAO DO USUARIO
+  ============================================================ -->
+  <div id="modal-comissao-user" class="modal-overlay hidden" onclick="handleOverlayClick(event, 'modal-comissao-user')">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl" onclick="event.stopPropagation()">
+
+      <div class="flex items-center justify-between px-6 py-4 border-b border-[#DADADA]">
+        <div>
+          <h2 class="text-base font-bold text-[#1C1C1C]">Comissao</h2>
+          <p id="comissao-user-subtitle" class="text-xs text-[#575756] mt-0.5">Vendedor: —</p>
+        </div>
+        <button onclick="closeComissaoUserModal()" class="text-[#575756] hover:text-[#1C1C1C] transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Info banner -->
+      <div class="mx-6 mt-4 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2 flex items-start gap-2">
+        <i data-lucide="info" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+        <p class="text-xs text-blue-700">Valores em branco usam a comissao padrao. Altere apenas os tipos que precisam de comissao diferenciada.</p>
+      </div>
+
+      <div class="px-6 py-4 max-h-[380px] overflow-y-auto">
+        <table class="w-full text-sm" id="comissao-user-table">
+          <thead>
+            <tr class="border-b border-[#DADADA]">
+              <th class="text-left py-2 text-xs font-semibold text-[#575756] uppercase">Tipo de Atendimento</th>
+              <th class="text-center py-2 text-xs font-semibold text-[#575756] uppercase w-24">Padrao %</th>
+              <th class="text-center py-2 text-xs font-semibold text-[#575756] uppercase w-28">Personalizado %</th>
+            </tr>
+          </thead>
+          <tbody id="comissao-user-tbody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex items-center justify-between px-6 py-4 border-t border-[#DADADA]">
+        <button onclick="restaurarPadrao()" class="border border-[#DADADA] text-[#575756] rounded-lg px-4 py-2 text-sm hover:border-[#575756] hover:text-[#1C1C1C] transition-colors flex items-center gap-1.5">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          Restaurar Padrao
+        </button>
+        <div class="flex items-center gap-3">
+          <button onclick="closeComissaoUserModal()" class="border border-[#DADADA] text-[#575756] rounded-lg px-4 py-2 text-sm hover:border-[#575756] hover:text-[#1C1C1C] transition-colors">Cancelar</button>
+          <button onclick="closeComissaoUserModal()" class="bg-[#F1E52F] text-[#1C1C1C] font-bold rounded-lg px-5 py-2 text-sm hover:brightness-95 transition-all">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
        MODAL 3 — GERENCIAR EQUIPE
   ============================================================ -->
   <div id="modal-equipe" class="modal-overlay hidden" onclick="handleOverlayClick(event, 'modal-equipe')">
@@ -889,6 +1062,78 @@
       document.body.style.overflow = '';
     }
 
+    // ── Modal: Comissao Padrao ────────────────────────────────────
+    function openComissaoPadraoModal() {
+      document.getElementById('modal-comissao-padrao').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeComissaoPadraoModal() {
+      document.getElementById('modal-comissao-padrao').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // ── Modal: Comissao do Usuario ──────────────────────────────
+    const comissaoTipos = [
+      { tipo: 'Cartoes Aprovados KITS Site', padrao: 4 },
+      { tipo: 'Cartoes Aprovados AMOSTRAS Site', padrao: 3 },
+      { tipo: 'Recuperacao amostras recusados', padrao: 5 },
+      { tipo: 'Abandonos Site', padrao: 5 },
+      { tipo: 'Pix Pagos Site', padrao: 3 },
+      { tipo: 'Pix Pendentes Site', padrao: 4 },
+      { tipo: 'Boletos Pagos Site', padrao: 3 },
+      { tipo: 'Boletos Pendentes Site', padrao: 4 },
+      { tipo: 'Cartao Recusado KIT Site', padrao: 6 },
+      { tipo: 'Cartao Recusado Falta de Saldo', padrao: 6 },
+    ];
+
+    // Mock: vendedores com comissao personalizada
+    const comissaoPersonalizada = {
+      'Fernanda Costa': { 'Abandonos Site': 7, 'Cartao Recusado KIT Site': 8, 'Pix Pagos Site': 5 },
+      'Carlos Oliveira': { 'Cartoes Aprovados KITS Site': 5, 'Recuperacao amostras recusados': 7 },
+    };
+
+    function openComissaoUserModal(userName, hasCustom) {
+      const subtitle = document.getElementById('comissao-user-subtitle');
+      const tbody = document.getElementById('comissao-user-tbody');
+      subtitle.textContent = 'Vendedor: ' + userName;
+
+      const custom = comissaoPersonalizada[userName] || {};
+
+      tbody.innerHTML = comissaoTipos.map(t => {
+        const customVal = custom[t.tipo];
+        const hasVal = customVal !== undefined;
+        const rowBg = hasVal ? 'bg-yellow-50' : '';
+        return `
+          <tr class="border-b border-[#F2F2F2] ${rowBg}">
+            <td class="py-2.5 text-[#1C1C1C]">${t.tipo}</td>
+            <td class="py-2.5 text-center text-[#DADADA]">${t.padrao}%</td>
+            <td class="py-2.5 text-center">
+              <input type="number" ${hasVal ? 'value="' + customVal + '"' : ''} step="0.5" min="0" max="100"
+                     placeholder="—"
+                     class="w-20 border border-[#DADADA] rounded-lg px-2 py-1.5 text-sm text-center focus:outline-none focus:border-[#F1E52F] placeholder-[#DADADA]">
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('modal-comissao-user').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      lucide.createIcons();
+    }
+
+    function closeComissaoUserModal() {
+      document.getElementById('modal-comissao-user').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function restaurarPadrao() {
+      document.querySelectorAll('#comissao-user-tbody input').forEach(input => {
+        input.value = '';
+        input.closest('tr').classList.remove('bg-yellow-50');
+      });
+    }
+
     // ── Modal: Gerenciar Equipe ───────────────────────────────────
     const allSellers = [
       { name: 'Joao Silva', initials: 'JS', gerente: 'Maria Gerente' },
@@ -965,6 +1210,8 @@
         if (modalId === 'modal-editar') closeEditModal();
         if (modalId === 'modal-permissoes') closePermissoesModal();
         if (modalId === 'modal-equipe') closeEquipeModal();
+        if (modalId === 'modal-comissao-padrao') closeComissaoPadraoModal();
+        if (modalId === 'modal-comissao-user') closeComissaoUserModal();
       }
     }
 
@@ -974,6 +1221,8 @@
         closeEditModal();
         closePermissoesModal();
         closeEquipeModal();
+        closeComissaoPadraoModal();
+        closeComissaoUserModal();
       }
     });
   </script>
