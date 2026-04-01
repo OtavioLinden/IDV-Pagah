@@ -277,6 +277,11 @@
                               class="border border-[#DADADA] text-[#575756] rounded-lg px-3 py-1.5 text-xs hover:border-[#575756] hover:text-[#1C1C1C] transition-colors">
                         Permissoes
                       </button>
+                      <button onclick="openEquipeModal('Maria Gerente')"
+                              class="bg-[#1C1C1C] text-white rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-[#333] transition-colors flex items-center gap-1">
+                        <i data-lucide="users" class="w-3 h-3"></i>
+                        Gerenciar Equipe
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -309,6 +314,11 @@
                       <button onclick="openPermissoesModal('Ricardo Gerente')"
                               class="border border-[#DADADA] text-[#575756] rounded-lg px-3 py-1.5 text-xs hover:border-[#575756] hover:text-[#1C1C1C] transition-colors">
                         Permissoes
+                      </button>
+                      <button onclick="openEquipeModal('Ricardo Gerente')"
+                              class="bg-[#1C1C1C] text-white rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-[#333] transition-colors flex items-center gap-1">
+                        <i data-lucide="users" class="w-3 h-3"></i>
+                        Gerenciar Equipe
                       </button>
                     </div>
                   </td>
@@ -737,6 +747,63 @@
 
 
   <!-- ============================================================
+       MODAL 3 — GERENCIAR EQUIPE
+  ============================================================ -->
+  <div id="modal-equipe" class="modal-overlay hidden" onclick="handleOverlayClick(event, 'modal-equipe')">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-lg" onclick="event.stopPropagation()">
+
+      <!-- Modal header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-[#DADADA]">
+        <div>
+          <h2 class="text-base font-bold text-[#1C1C1C]">Gerenciar Equipe</h2>
+          <p id="equipe-subtitle" class="text-xs text-[#575756] mt-0.5">Gerente: —</p>
+        </div>
+        <button onclick="closeEquipeModal()" class="text-[#575756] hover:text-[#1C1C1C] transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Info banner -->
+      <div class="mx-6 mt-4 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2 flex items-start gap-2">
+        <i data-lucide="info" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+        <p class="text-xs text-blue-700">Selecione os vendedores que serao vinculados a este gerente. Vendedores ja vinculados a outro gerente estao sinalizados.</p>
+      </div>
+
+      <!-- Search -->
+      <div class="px-6 pt-4">
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#575756]">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </span>
+          <input type="text" placeholder="Buscar vendedor..." class="w-full border border-[#DADADA] rounded-lg pl-9 pr-3 py-2 text-sm focus:outline-none focus:border-[#F1E52F] focus:ring-1 focus:ring-[#F1E52F] placeholder-[#DADADA]">
+        </div>
+      </div>
+
+      <!-- Sellers list -->
+      <div class="px-6 py-4 space-y-1 max-h-[340px] overflow-y-auto" id="equipe-sellers-list">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Modal footer -->
+      <div class="flex items-center justify-between px-6 py-4 border-t border-[#DADADA]">
+        <p class="text-xs text-[#575756]" id="equipe-count">0 vendedores selecionados</p>
+        <div class="flex items-center gap-3">
+          <button onclick="closeEquipeModal()"
+                  class="border border-[#DADADA] text-[#575756] rounded-lg px-4 py-2 text-sm hover:border-[#575756] hover:text-[#1C1C1C] transition-colors">
+            Cancelar
+          </button>
+          <button onclick="closeEquipeModal()"
+                  class="bg-[#F1E52F] text-[#1C1C1C] font-bold rounded-lg px-5 py-2 text-sm hover:brightness-95 transition-all">
+            Salvar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
        SCRIPTS
   ============================================================ -->
   <script>
@@ -822,11 +889,82 @@
       document.body.style.overflow = '';
     }
 
+    // ── Modal: Gerenciar Equipe ───────────────────────────────────
+    const allSellers = [
+      { name: 'Joao Silva', initials: 'JS', gerente: 'Maria Gerente' },
+      { name: 'Ana Santos', initials: 'AS', gerente: 'Maria Gerente' },
+      { name: 'Lucas Mendes', initials: 'LM', gerente: 'Ricardo Gerente' },
+      { name: 'Fernanda Costa', initials: 'FC', gerente: 'Ricardo Gerente' },
+      { name: 'Carlos Oliveira', initials: 'CO', gerente: 'Maria Gerente' },
+      { name: 'Bruno Almeida', initials: 'BA', gerente: null },
+      { name: 'Priscila Rocha', initials: 'PR', gerente: null },
+      { name: 'Thiago Martins', initials: 'TM', gerente: null },
+    ];
+
+    function openEquipeModal(gerenteName) {
+      const modal = document.getElementById('modal-equipe');
+      const subtitle = document.getElementById('equipe-subtitle');
+      const list = document.getElementById('equipe-sellers-list');
+
+      subtitle.textContent = 'Gerente: ' + gerenteName;
+
+      list.innerHTML = allSellers.map(s => {
+        const isLinkedToThis = s.gerente === gerenteName;
+        const isLinkedToOther = s.gerente && s.gerente !== gerenteName;
+        const checkedAttr = isLinkedToThis ? 'checked' : '';
+
+        let vinculoHtml = '';
+        if (isLinkedToOther) {
+          vinculoHtml = `<span class="text-xs text-orange-600 bg-orange-50 border border-orange-200 rounded-full px-2 py-0.5 flex items-center gap-1 whitespace-nowrap">
+            <i data-lucide="link" class="w-3 h-3"></i>
+            Vinculado a ${s.gerente}
+          </span>`;
+        } else if (isLinkedToThis) {
+          vinculoHtml = `<span class="text-xs text-green-600 bg-green-50 border border-green-200 rounded-full px-2 py-0.5 flex items-center gap-1 whitespace-nowrap">
+            <i data-lucide="check" class="w-3 h-3"></i>
+            Na sua equipe
+          </span>`;
+        } else {
+          vinculoHtml = `<span class="text-xs text-[#DADADA]">Sem vinculo</span>`;
+        }
+
+        return `
+          <label class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-[#F2F2F2] cursor-pointer transition-colors">
+            <input type="checkbox" ${checkedAttr}
+                   class="w-4 h-4 rounded border-[#DADADA] accent-[#1C1C1C] cursor-pointer shrink-0"
+                   onchange="updateEquipeCount()">
+            <div class="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-xs font-bold shrink-0">${s.initials}</div>
+            <span class="text-sm font-medium text-[#1C1C1C] flex-1">${s.name}</span>
+            ${vinculoHtml}
+          </label>
+        `;
+      }).join('');
+
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+
+      // Re-render lucide icons inside the modal
+      lucide.createIcons();
+      updateEquipeCount();
+    }
+
+    function closeEquipeModal() {
+      const modal = document.getElementById('modal-equipe');
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function updateEquipeCount() {
+      const checkboxes = document.querySelectorAll('#equipe-sellers-list input[type="checkbox"]:checked');
+      document.getElementById('equipe-count').textContent = checkboxes.length + ' vendedores selecionados';
+    }
+
     // Close modal when clicking the dark overlay
     function handleOverlayClick(event, modalId) {
       if (event.target === event.currentTarget) {
         if (modalId === 'modal-editar') closeEditModal();
         if (modalId === 'modal-permissoes') closePermissoesModal();
+        if (modalId === 'modal-equipe') closeEquipeModal();
       }
     }
 
@@ -835,6 +973,7 @@
       if (e.key === 'Escape') {
         closeEditModal();
         closePermissoesModal();
+        closeEquipeModal();
       }
     });
   </script>
