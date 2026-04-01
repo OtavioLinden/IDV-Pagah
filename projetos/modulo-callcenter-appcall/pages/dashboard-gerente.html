@@ -51,6 +51,40 @@
     /* Conversion bar */
     .conv-bar { height: 6px; border-radius: 3px; background: #F2F2F2; }
     .conv-bar-fill { height: 100%; border-radius: 3px; }
+
+    /* Multi-select & date picker dropdowns */
+    .ms-dropdown, .drp-dropdown {
+      position: absolute; top: calc(100% + 4px); left: 0; z-index: 60;
+      background: #fff; border: 1px solid #DADADA; border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10); min-width: 220px;
+      display: none;
+    }
+    .ms-dropdown.open, .drp-dropdown.open { display: block; }
+    .ms-trigger { cursor: pointer; user-select: none; display: flex; align-items: center; gap: 6px; }
+    .ms-trigger:focus, .drp-trigger:focus { border-color: #F1E52F !important; box-shadow: 0 0 0 2px rgba(241,229,47,0.20); outline: none; }
+    .ms-badge { background: #F2F2F2; color: #1C1C1C; font-size: 11px; border-radius: 9999px; padding: 1px 8px; font-weight: 600; white-space: nowrap; }
+    .ms-search { border: 1px solid #DADADA; border-radius: 6px; padding: 6px 8px; font-size: 12px; width: 100%; outline: none; }
+    .ms-search:focus { border-color: #F1E52F; box-shadow: 0 0 0 2px rgba(241,229,47,0.20); }
+    .ms-option { display: flex; align-items: center; gap: 8px; padding: 6px 10px; font-size: 12px; cursor: pointer; border-radius: 4px; }
+    .ms-option:hover { background: #F2F2F2; }
+    .ms-option input[type="checkbox"] { accent-color: #F1E52F; width: 14px; height: 14px; cursor: pointer; }
+    .ms-actions { display: flex; justify-content: space-between; padding: 6px 10px; border-bottom: 1px solid #F2F2F2; }
+    .ms-actions a { font-size: 11px; color: #575756; cursor: pointer; text-decoration: none; font-weight: 600; }
+    .ms-actions a:hover { color: #1C1C1C; }
+
+    /* Date range picker calendar */
+    .drp-trigger { cursor: pointer; user-select: none; }
+    .drp-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
+    .drp-day { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 12px; border-radius: 6px; cursor: pointer; color: #1C1C1C; transition: background 0.1s; }
+    .drp-day:hover { background: #F2F2F2; }
+    .drp-day.other-month { color: #DADADA; }
+    .drp-day.in-range { background: rgba(241,229,47,0.15); border-radius: 0; }
+    .drp-day.range-start { background: #F1E52F; color: #1C1C1C; font-weight: 700; border-radius: 6px 0 0 6px; }
+    .drp-day.range-end { background: #F1E52F; color: #1C1C1C; font-weight: 700; border-radius: 0 6px 6px 0; }
+    .drp-day.range-start.range-end { border-radius: 6px; }
+    .drp-day.today { border: 1.5px solid #F1E52F; }
+    .drp-wday { font-size: 10px; font-weight: 700; color: #575756; text-transform: uppercase; padding: 4px 0; }
+    .filter-label { font-size: 10px; font-weight: 600; color: #575756; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
   </style>
 </head>
 <body class="bg-[#F2F2F2] min-h-screen">
@@ -145,37 +179,85 @@
               <p class="text-xs text-[#575756] mt-0.5">Visao consolidada de todos os vendedores</p>
             </div>
 
-            <!-- Date range -->
-            <div class="flex items-center gap-2 ml-2">
-              <div class="relative">
-                <i data-lucide="calendar" class="w-4 h-4 text-[#575756] absolute left-2.5 top-1/2 -translate-y-1/2"></i>
-                <input type="date" value="2025-01-01"
-                       class="border border-[#DADADA] rounded-lg pl-8 pr-3 py-1.5 text-xs text-[#1C1C1C] bg-white focus:outline-none focus:border-[#F1E52F] focus:ring-1 focus:ring-[#F1E52F]">
-              </div>
-              <span class="text-xs text-[#575756]">ate</span>
-              <div class="relative">
-                <i data-lucide="calendar" class="w-4 h-4 text-[#575756] absolute left-2.5 top-1/2 -translate-y-1/2"></i>
-                <input type="date" value="2025-01-31"
-                       class="border border-[#DADADA] rounded-lg pl-8 pr-3 py-1.5 text-xs text-[#1C1C1C] bg-white focus:outline-none focus:border-[#F1E52F] focus:ring-1 focus:ring-[#F1E52F]">
+            <!-- Date range picker -->
+            <div class="relative ml-2" id="drp-header">
+              <div class="filter-label">Periodo</div>
+              <button type="button"
+                      class="drp-trigger border border-[#DADADA] rounded-lg px-3 py-2 bg-white flex items-center gap-2 text-xs text-[#1C1C1C] focus:border-[#F1E52F] focus:ring-2 focus:ring-[#F1E52F]/20"
+                      onclick="toggleDateRangePicker()">
+                <i data-lucide="calendar" class="w-4 h-4 text-[#575756]"></i>
+                <span id="drp-label">01/03/2026 — 31/03/2026</span>
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#575756]"></i>
+              </button>
+              <div class="drp-dropdown" id="drp-dropdown" style="min-width:280px;">
+                <div class="p-3">
+                  <!-- Month nav -->
+                  <div class="flex items-center justify-between mb-3">
+                    <button type="button" onclick="drpPrevMonth()" class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-[#F2F2F2] text-[#575756]">
+                      <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    </button>
+                    <span id="drp-month-label" class="text-sm font-semibold text-[#1C1C1C]"></span>
+                    <button type="button" onclick="drpNextMonth()" class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-[#F2F2F2] text-[#575756]">
+                      <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                  <!-- Weekday headers -->
+                  <div class="drp-cal-grid mb-1">
+                    <div class="drp-wday">D</div><div class="drp-wday">S</div><div class="drp-wday">T</div><div class="drp-wday">Q</div><div class="drp-wday">Q</div><div class="drp-wday">S</div><div class="drp-wday">S</div>
+                  </div>
+                  <!-- Days grid -->
+                  <div class="drp-cal-grid" id="drp-days"></div>
+                </div>
+                <!-- Actions -->
+                <div class="flex items-center justify-between px-3 py-2.5 border-t border-[#F2F2F2]">
+                  <button type="button" onclick="drpClear()" class="text-xs text-[#575756] hover:text-[#1C1C1C] font-semibold">Limpar</button>
+                  <button type="button" onclick="drpApply()" class="bg-[#F1E52F] text-[#1C1C1C] font-bold text-xs rounded-lg px-4 py-1.5 hover:brightness-95 transition-all">Aplicar</button>
+                </div>
               </div>
             </div>
 
-            <!-- Vendedor select -->
-            <select class="border border-[#DADADA] rounded-lg px-3 py-1.5 text-xs text-[#575756] bg-white focus:outline-none focus:border-[#F1E52F] focus:ring-1 focus:ring-[#F1E52F]">
-              <option>Todos os Vendedores</option>
-              <option>Joao Silva</option>
-              <option>Ana Santos</option>
-              <option>Lucas Mendes</option>
-              <option>Fernanda Costa</option>
-              <option>Carlos Oliveira</option>
-            </select>
+            <!-- Header: Vendedor multi-select -->
+            <div class="relative" id="ms-header-vendedor">
+              <div class="filter-label">Vendedor</div>
+              <button type="button"
+                      class="ms-trigger border border-[#DADADA] rounded-lg px-3 py-2 bg-white text-xs text-[#1C1C1C] focus:border-[#F1E52F] focus:ring-2 focus:ring-[#F1E52F]/20"
+                      onclick="toggleMultiSelect('ms-header-vendedor')">
+                <span class="ms-label">Todos</span>
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#575756]"></i>
+              </button>
+              <div class="ms-dropdown">
+                <div class="p-2"><input type="text" class="ms-search" placeholder="Buscar vendedor..." oninput="filterMultiSelectOptions(this)"></div>
+                <div class="ms-actions"><a onclick="msSelectAll(this)">Selecionar todos</a><a onclick="msClearAll(this)">Limpar</a></div>
+                <div class="max-h-48 overflow-y-auto px-1 pb-1">
+                  <label class="ms-option"><input type="checkbox" value="Todos" checked onchange="msOptionChanged(this)"><span>Todos</span></label>
+                  <label class="ms-option"><input type="checkbox" value="Joao Silva" onchange="msOptionChanged(this)"><span>Joao Silva</span></label>
+                  <label class="ms-option"><input type="checkbox" value="Ana Santos" onchange="msOptionChanged(this)"><span>Ana Santos</span></label>
+                  <label class="ms-option"><input type="checkbox" value="Lucas Mendes" onchange="msOptionChanged(this)"><span>Lucas Mendes</span></label>
+                  <label class="ms-option"><input type="checkbox" value="Fernanda Costa" onchange="msOptionChanged(this)"><span>Fernanda Costa</span></label>
+                  <label class="ms-option"><input type="checkbox" value="Carlos Oliveira" onchange="msOptionChanged(this)"><span>Carlos Oliveira</span></label>
+                </div>
+              </div>
+            </div>
 
-            <!-- Equipe select -->
-            <select class="border border-[#DADADA] rounded-lg px-3 py-1.5 text-xs text-[#575756] bg-white focus:outline-none focus:border-[#F1E52F] focus:ring-1 focus:ring-[#F1E52F]">
-              <option>Todas as Equipes</option>
-              <option>Maria Gerente</option>
-              <option>Ricardo Gerente</option>
-            </select>
+            <!-- Header: Equipe multi-select -->
+            <div class="relative" id="ms-header-equipe">
+              <div class="filter-label">Equipe</div>
+              <button type="button"
+                      class="ms-trigger border border-[#DADADA] rounded-lg px-3 py-2 bg-white text-xs text-[#1C1C1C] focus:border-[#F1E52F] focus:ring-2 focus:ring-[#F1E52F]/20"
+                      onclick="toggleMultiSelect('ms-header-equipe')">
+                <span class="ms-label">Todas</span>
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#575756]"></i>
+              </button>
+              <div class="ms-dropdown">
+                <div class="p-2"><input type="text" class="ms-search" placeholder="Buscar equipe..." oninput="filterMultiSelectOptions(this)"></div>
+                <div class="ms-actions"><a onclick="msSelectAll(this)">Selecionar todos</a><a onclick="msClearAll(this)">Limpar</a></div>
+                <div class="max-h-48 overflow-y-auto px-1 pb-1">
+                  <label class="ms-option"><input type="checkbox" value="Todas" checked onchange="msOptionChanged(this)"><span>Todas</span></label>
+                  <label class="ms-option"><input type="checkbox" value="Maria Gerente" onchange="msOptionChanged(this)"><span>Maria Gerente</span></label>
+                  <label class="ms-option"><input type="checkbox" value="Ricardo Gerente" onchange="msOptionChanged(this)"><span>Ricardo Gerente</span></label>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Right: Admin info -->
@@ -617,35 +699,68 @@
                 <h2 class="text-base font-bold text-[#1C1C1C]">Detalhamento</h2>
                 <div class="flex items-center gap-2 flex-wrap">
 
-                  <!-- Vendedor select -->
-                  <select class="border border-[#DADADA] rounded-lg px-3 py-1.5 text-xs text-[#575756] bg-white focus:outline-none focus:border-[#F1E52F] focus:ring-1 focus:ring-[#F1E52F]">
-                    <option>Todos os Vendedores</option>
-                    <option>Flavio Call</option>
-                    <option>Andrey Call</option>
-                    <option>Romon Call</option>
-                    <option>Joao Silva</option>
-                    <option>Eduardo Call</option>
-                    <option>Gustavo Call</option>
-                    <option>Paula Call</option>
-                    <option>Anderson Call</option>
-                  </select>
+                  <!-- Detalhamento: Vendedor multi-select -->
+                  <div class="relative" id="ms-det-vendedor">
+                    <button type="button"
+                            class="ms-trigger border border-[#DADADA] rounded-lg px-3 py-1.5 bg-white text-xs text-[#1C1C1C] focus:border-[#F1E52F] focus:ring-2 focus:ring-[#F1E52F]/20"
+                            onclick="toggleMultiSelect('ms-det-vendedor')">
+                      <span class="ms-label">Todos os Vendedores</span>
+                      <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#575756]"></i>
+                    </button>
+                    <div class="ms-dropdown">
+                      <div class="p-2"><input type="text" class="ms-search" placeholder="Buscar vendedor..." oninput="filterMultiSelectOptions(this)"></div>
+                      <div class="ms-actions"><a onclick="msSelectAll(this)">Selecionar todos</a><a onclick="msClearAll(this)">Limpar</a></div>
+                      <div class="max-h-48 overflow-y-auto px-1 pb-1">
+                        <label class="ms-option"><input type="checkbox" value="Todos" checked onchange="msOptionChanged(this)"><span>Todos</span></label>
+                        <label class="ms-option"><input type="checkbox" value="Joao Silva" onchange="msOptionChanged(this)"><span>Joao Silva</span></label>
+                        <label class="ms-option"><input type="checkbox" value="Ana Santos" onchange="msOptionChanged(this)"><span>Ana Santos</span></label>
+                        <label class="ms-option"><input type="checkbox" value="Lucas Mendes" onchange="msOptionChanged(this)"><span>Lucas Mendes</span></label>
+                        <label class="ms-option"><input type="checkbox" value="Fernanda Costa" onchange="msOptionChanged(this)"><span>Fernanda Costa</span></label>
+                        <label class="ms-option"><input type="checkbox" value="Carlos Oliveira" onchange="msOptionChanged(this)"><span>Carlos Oliveira</span></label>
+                      </div>
+                    </div>
+                  </div>
 
-                  <!-- Empresa select -->
-                  <select class="border border-[#DADADA] rounded-lg px-3 py-1.5 text-xs text-[#575756] bg-white focus:outline-none focus:border-[#F1E52F] focus:ring-1 focus:ring-[#F1E52F]">
-                    <option>Todas as Empresas</option>
-                    <option>NutriVida</option>
-                    <option>BelezaPura</option>
-                    <option>DermaPlus</option>
-                    <option>VitalFarma</option>
-                  </select>
+                  <!-- Detalhamento: Empresa multi-select -->
+                  <div class="relative" id="ms-det-empresa">
+                    <button type="button"
+                            class="ms-trigger border border-[#DADADA] rounded-lg px-3 py-1.5 bg-white text-xs text-[#1C1C1C] focus:border-[#F1E52F] focus:ring-2 focus:ring-[#F1E52F]/20"
+                            onclick="toggleMultiSelect('ms-det-empresa')">
+                      <span class="ms-label">Todas as Empresas</span>
+                      <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#575756]"></i>
+                    </button>
+                    <div class="ms-dropdown">
+                      <div class="p-2"><input type="text" class="ms-search" placeholder="Buscar empresa..." oninput="filterMultiSelectOptions(this)"></div>
+                      <div class="ms-actions"><a onclick="msSelectAll(this)">Selecionar todos</a><a onclick="msClearAll(this)">Limpar</a></div>
+                      <div class="max-h-48 overflow-y-auto px-1 pb-1">
+                        <label class="ms-option"><input type="checkbox" value="Todas" checked onchange="msOptionChanged(this)"><span>Todas</span></label>
+                        <label class="ms-option"><input type="checkbox" value="EMP001 - Empresa Alpha" onchange="msOptionChanged(this)"><span>EMP001 - Empresa Alpha</span></label>
+                        <label class="ms-option"><input type="checkbox" value="EMP002 - Empresa Beta" onchange="msOptionChanged(this)"><span>EMP002 - Empresa Beta</span></label>
+                        <label class="ms-option"><input type="checkbox" value="EMP003 - Empresa Gamma" onchange="msOptionChanged(this)"><span>EMP003 - Empresa Gamma</span></label>
+                        <label class="ms-option"><input type="checkbox" value="EMP004 - Empresa Delta" onchange="msOptionChanged(this)"><span>EMP004 - Empresa Delta</span></label>
+                      </div>
+                    </div>
+                  </div>
 
-                  <!-- Metodo select -->
-                  <select class="border border-[#DADADA] rounded-lg px-3 py-1.5 text-xs text-[#575756] bg-white focus:outline-none focus:border-[#F1E52F] focus:ring-1 focus:ring-[#F1E52F]">
-                    <option>Todos os Metodos</option>
-                    <option>Cartao de Credito</option>
-                    <option>PIX</option>
-                    <option>Boleto</option>
-                  </select>
+                  <!-- Detalhamento: Metodo multi-select -->
+                  <div class="relative" id="ms-det-metodo">
+                    <button type="button"
+                            class="ms-trigger border border-[#DADADA] rounded-lg px-3 py-1.5 bg-white text-xs text-[#1C1C1C] focus:border-[#F1E52F] focus:ring-2 focus:ring-[#F1E52F]/20"
+                            onclick="toggleMultiSelect('ms-det-metodo')">
+                      <span class="ms-label">Todos os Metodos</span>
+                      <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#575756]"></i>
+                    </button>
+                    <div class="ms-dropdown">
+                      <div class="p-2"><input type="text" class="ms-search" placeholder="Buscar metodo..." oninput="filterMultiSelectOptions(this)"></div>
+                      <div class="ms-actions"><a onclick="msSelectAll(this)">Selecionar todos</a><a onclick="msClearAll(this)">Limpar</a></div>
+                      <div class="max-h-48 overflow-y-auto px-1 pb-1">
+                        <label class="ms-option"><input type="checkbox" value="Todos" checked onchange="msOptionChanged(this)"><span>Todos</span></label>
+                        <label class="ms-option"><input type="checkbox" value="Cartao de Credito" onchange="msOptionChanged(this)"><span>Cartao de Credito</span></label>
+                        <label class="ms-option"><input type="checkbox" value="Pix" onchange="msOptionChanged(this)"><span>Pix</span></label>
+                        <label class="ms-option"><input type="checkbox" value="Boleto" onchange="msOptionChanged(this)"><span>Boleto</span></label>
+                      </div>
+                    </div>
+                  </div>
 
                   <!-- Search -->
                   <div class="relative">
@@ -1204,11 +1319,8 @@
 
     // ── Tab switching ───────────────────────────────────────────
     function switchTab(tabName) {
-      // Deactivate all tabs
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
-
-      // Activate clicked tab
       event.currentTarget.classList.add('active');
       document.getElementById('tab-' + tabName).classList.add('active');
     }
@@ -1243,13 +1355,259 @@
       }
     }
 
-    // ── Keyboard: Escape closes modals ──────────────────────────
+    // ── Keyboard: Escape closes modals & dropdowns ──────────────
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(modal => {
           modal.classList.add('hidden');
         });
         document.body.style.overflow = '';
+        closeAllDropdowns();
+      }
+    });
+
+
+    // ================================================================
+    //  MULTI-SELECT DROPDOWN COMPONENT
+    // ================================================================
+
+    let currentOpenDropdown = null;
+
+    function closeAllDropdowns() {
+      document.querySelectorAll('.ms-dropdown.open').forEach(d => d.classList.remove('open'));
+      const drp = document.getElementById('drp-dropdown');
+      if (drp) drp.classList.remove('open');
+      currentOpenDropdown = null;
+    }
+
+    function toggleMultiSelect(containerId) {
+      const container = document.getElementById(containerId);
+      const dropdown = container.querySelector('.ms-dropdown');
+      const isOpen = dropdown.classList.contains('open');
+
+      closeAllDropdowns();
+
+      if (!isOpen) {
+        dropdown.classList.add('open');
+        currentOpenDropdown = containerId;
+        // Focus search input
+        const search = dropdown.querySelector('.ms-search');
+        if (search) setTimeout(() => search.focus(), 50);
+      }
+    }
+
+    function msOptionChanged(checkbox) {
+      const container = checkbox.closest('[id^="ms-"]');
+      updateMultiSelectLabel(container);
+    }
+
+    function updateMultiSelectLabel(container) {
+      const checkboxes = container.querySelectorAll('.ms-option input[type="checkbox"]');
+      const checked = Array.from(checkboxes).filter(cb => cb.checked);
+      const labelEl = container.querySelector('.ms-label');
+      const trigger = container.querySelector('.ms-trigger');
+
+      // Remove existing badge
+      const existingBadge = trigger.querySelector('.ms-badge');
+      if (existingBadge) existingBadge.remove();
+
+      if (checked.length === 0) {
+        labelEl.textContent = 'Nenhum selecionado';
+      } else if (checked.length === 1) {
+        labelEl.textContent = checked[0].value;
+      } else if (checked.length === 2) {
+        labelEl.textContent = checked.map(cb => cb.value).join(', ');
+      } else {
+        labelEl.textContent = checked[0].value;
+        const badge = document.createElement('span');
+        badge.className = 'ms-badge';
+        badge.textContent = checked.length + ' selecionados';
+        // Insert badge before the chevron icon
+        const chevron = trigger.querySelector('[data-lucide="chevron-down"]');
+        trigger.insertBefore(badge, chevron);
+      }
+    }
+
+    function msSelectAll(link) {
+      const container = link.closest('[id^="ms-"]');
+      container.querySelectorAll('.ms-option input[type="checkbox"]').forEach(cb => {
+        if (cb.closest('.ms-option').style.display !== 'none') cb.checked = true;
+      });
+      updateMultiSelectLabel(container);
+    }
+
+    function msClearAll(link) {
+      const container = link.closest('[id^="ms-"]');
+      container.querySelectorAll('.ms-option input[type="checkbox"]').forEach(cb => cb.checked = false);
+      updateMultiSelectLabel(container);
+    }
+
+    function filterMultiSelectOptions(input) {
+      const query = input.value.toLowerCase();
+      const container = input.closest('[id^="ms-"]');
+      container.querySelectorAll('.ms-option').forEach(opt => {
+        const text = opt.querySelector('span').textContent.toLowerCase();
+        opt.style.display = text.includes(query) ? '' : 'none';
+      });
+    }
+
+
+    // ================================================================
+    //  DATE RANGE PICKER COMPONENT
+    // ================================================================
+
+    const MONTH_NAMES = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+    let drpViewYear = 2026;
+    let drpViewMonth = 2; // 0-indexed: March = 2
+    let drpStartDate = new Date(2026, 2, 1);
+    let drpEndDate = new Date(2026, 2, 31);
+    let drpSelecting = false; // false = next click sets start, true = next click sets end
+
+    function toggleDateRangePicker() {
+      const drp = document.getElementById('drp-dropdown');
+      const isOpen = drp.classList.contains('open');
+      closeAllDropdowns();
+      if (!isOpen) {
+        drp.classList.add('open');
+        currentOpenDropdown = 'drp-header';
+        renderDrpCalendar();
+      }
+    }
+
+    function drpPrevMonth() {
+      drpViewMonth--;
+      if (drpViewMonth < 0) { drpViewMonth = 11; drpViewYear--; }
+      renderDrpCalendar();
+    }
+
+    function drpNextMonth() {
+      drpViewMonth++;
+      if (drpViewMonth > 11) { drpViewMonth = 0; drpViewYear++; }
+      renderDrpCalendar();
+    }
+
+    function renderDrpCalendar() {
+      document.getElementById('drp-month-label').textContent = MONTH_NAMES[drpViewMonth] + ' ' + drpViewYear;
+      const grid = document.getElementById('drp-days');
+      grid.innerHTML = '';
+
+      const firstDay = new Date(drpViewYear, drpViewMonth, 1).getDay(); // 0=Sun
+      const daysInMonth = new Date(drpViewYear, drpViewMonth + 1, 0).getDate();
+      const daysInPrevMonth = new Date(drpViewYear, drpViewMonth, 0).getDate();
+      const today = new Date(); today.setHours(0,0,0,0);
+
+      // Previous month fill
+      for (let i = firstDay - 1; i >= 0; i--) {
+        const d = daysInPrevMonth - i;
+        const el = makeDayEl(d, true, new Date(drpViewYear, drpViewMonth - 1, d));
+        grid.appendChild(el);
+      }
+
+      // Current month days
+      for (let d = 1; d <= daysInMonth; d++) {
+        const date = new Date(drpViewYear, drpViewMonth, d);
+        const el = makeDayEl(d, false, date);
+        if (date.getTime() === today.getTime()) el.classList.add('today');
+        grid.appendChild(el);
+      }
+
+      // Next month fill
+      const totalCells = grid.children.length;
+      const remaining = (7 - (totalCells % 7)) % 7;
+      for (let d = 1; d <= remaining; d++) {
+        const el = makeDayEl(d, true, new Date(drpViewYear, drpViewMonth + 1, d));
+        grid.appendChild(el);
+      }
+
+      // Apply range styling
+      applyRangeStyles();
+      lucide.createIcons();
+    }
+
+    function makeDayEl(day, isOtherMonth, date) {
+      const el = document.createElement('div');
+      el.className = 'drp-day' + (isOtherMonth ? ' other-month' : '');
+      el.textContent = day;
+      el.dataset.date = date.toISOString().split('T')[0];
+      el.addEventListener('click', function() { onDrpDayClick(date); });
+      return el;
+    }
+
+    function onDrpDayClick(date) {
+      if (!drpSelecting) {
+        // First click: set start
+        drpStartDate = date;
+        drpEndDate = null;
+        drpSelecting = true;
+      } else {
+        // Second click: set end
+        if (date < drpStartDate) {
+          drpEndDate = drpStartDate;
+          drpStartDate = date;
+        } else {
+          drpEndDate = date;
+        }
+        drpSelecting = false;
+      }
+      applyRangeStyles();
+    }
+
+    function applyRangeStyles() {
+      document.querySelectorAll('#drp-days .drp-day').forEach(el => {
+        el.classList.remove('in-range', 'range-start', 'range-end');
+        const d = new Date(el.dataset.date + 'T00:00:00');
+
+        if (drpStartDate && !drpEndDate) {
+          if (d.getTime() === drpStartDate.getTime()) {
+            el.classList.add('range-start', 'range-end');
+          }
+        } else if (drpStartDate && drpEndDate) {
+          const s = drpStartDate.getTime(), e = drpEndDate.getTime(), t = d.getTime();
+          if (t === s) el.classList.add('range-start');
+          if (t === e) el.classList.add('range-end');
+          if (t > s && t < e) el.classList.add('in-range');
+        }
+      });
+    }
+
+    function drpClear() {
+      drpStartDate = null;
+      drpEndDate = null;
+      drpSelecting = false;
+      applyRangeStyles();
+      document.getElementById('drp-label').textContent = 'Selecionar periodo';
+    }
+
+    function drpApply() {
+      if (drpStartDate && drpEndDate) {
+        document.getElementById('drp-label').textContent = formatDateBR(drpStartDate) + ' \u2014 ' + formatDateBR(drpEndDate);
+      } else if (drpStartDate) {
+        document.getElementById('drp-label').textContent = formatDateBR(drpStartDate) + ' \u2014 ...';
+      }
+      document.getElementById('drp-dropdown').classList.remove('open');
+      currentOpenDropdown = null;
+    }
+
+    function formatDateBR(d) {
+      return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
+    }
+
+    // Initialize calendar on load
+    renderDrpCalendar();
+
+
+    // ================================================================
+    //  CLICK OUTSIDE TO CLOSE
+    // ================================================================
+
+    document.addEventListener('click', function(e) {
+      // Close multi-selects if click is outside
+      if (currentOpenDropdown) {
+        const container = document.getElementById(currentOpenDropdown);
+        if (container && !container.contains(e.target)) {
+          closeAllDropdowns();
+        }
       }
     });
   </script>

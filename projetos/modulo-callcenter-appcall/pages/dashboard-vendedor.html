@@ -12,7 +12,85 @@
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-  <style>body { font-family: 'Ubuntu', sans-serif; }</style>
+  <style>
+    body { font-family: 'Ubuntu', sans-serif; }
+
+    /* Date range picker */
+    .drp-trigger { position: relative; }
+    .drp-dropdown {
+      position: absolute; top: calc(100% + 6px); right: 0; z-index: 30;
+      background: #fff; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,.15);
+      width: 320px; padding: 16px; user-select: none;
+    }
+    .drp-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .drp-nav button { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 6px; color: #575756; }
+    .drp-nav button:hover { background: #F2F2F2; }
+    .drp-nav span { font-weight: 600; font-size: 14px; color: #1C1C1C; }
+    .drp-weekdays { display: grid; grid-template-columns: repeat(7,1fr); text-align: center; font-size: 11px; color: #575756; font-weight: 600; margin-bottom: 4px; }
+    .drp-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+    .drp-day {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 8px; font-size: 13px;
+      cursor: pointer; color: #1C1C1C; transition: background .15s;
+    }
+    .drp-day:hover { background: #F2F2F2; }
+    .drp-day.empty { cursor: default; }
+    .drp-day.empty:hover { background: transparent; }
+    .drp-day.today { font-weight: 700; }
+    .drp-day.range-start, .drp-day.range-end { background: #F1E52F !important; font-weight: 700; color: #1C1C1C; }
+    .drp-day.in-range { background: #F1E52F33; }
+    .drp-day.other-month { color: #DADADA; }
+    .drp-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #F2F2F2; }
+    .drp-actions button { padding: 6px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
+    .drp-actions .btn-clear { background: #F2F2F2; color: #575756; }
+    .drp-actions .btn-clear:hover { background: #DADADA; }
+    .drp-actions .btn-apply { background: #F1E52F; color: #1C1C1C; }
+    .drp-actions .btn-apply:hover { filter: brightness(.95); }
+
+    /* Multi-select */
+    .ms-container { position: relative; }
+    .ms-trigger {
+      display: flex; align-items: center; gap: 6px; border: 1px solid #DADADA; border-radius: 8px;
+      padding: 7px 12px; background: #fff; cursor: pointer; font-size: 14px; color: #1C1C1C;
+      min-width: 180px; transition: border-color .15s, box-shadow .15s;
+    }
+    .ms-trigger:focus, .ms-trigger.open {
+      border-color: #F1E52F; box-shadow: 0 0 0 3px rgba(241,229,47,.2); outline: none;
+    }
+    .ms-trigger .ms-pills { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; align-items: center; }
+    .ms-trigger .ms-pill {
+      background: #F2F2F2; color: #1C1C1C; font-size: 12px; border-radius: 9999px;
+      padding: 1px 8px; white-space: nowrap; font-weight: 500;
+    }
+    .ms-trigger .ms-placeholder { color: #575756; font-size: 14px; }
+    .ms-trigger .ms-chevron { margin-left: auto; flex-shrink: 0; transition: transform .2s; color: #575756; }
+    .ms-trigger.open .ms-chevron { transform: rotate(180deg); }
+    .ms-dropdown {
+      position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 30;
+      background: #fff; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,.15);
+      padding: 8px; min-width: 240px;
+    }
+    .ms-dropdown .ms-search {
+      width: 100%; border: 1px solid #DADADA; border-radius: 8px; padding: 7px 10px;
+      font-size: 13px; margin-bottom: 6px; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .ms-dropdown .ms-search:focus { border-color: #F1E52F; box-shadow: 0 0 0 3px rgba(241,229,47,.2); }
+    .ms-dropdown .ms-links { display: flex; justify-content: space-between; padding: 4px 4px 8px; font-size: 12px; }
+    .ms-dropdown .ms-links a { color: #575756; cursor: pointer; font-weight: 600; text-decoration: none; }
+    .ms-dropdown .ms-links a:hover { color: #1C1C1C; }
+    .ms-dropdown .ms-list { max-height: 192px; overflow-y: auto; }
+    .ms-dropdown .ms-option {
+      display: flex; align-items: center; gap: 8px; padding: 7px 8px;
+      border-radius: 6px; cursor: pointer; font-size: 13px; color: #1C1C1C;
+    }
+    .ms-dropdown .ms-option:hover { background: #F2F2F2; }
+    .ms-dropdown .ms-option input[type="checkbox"] { accent-color: #F1E52F; width: 16px; height: 16px; cursor: pointer; }
+    .ms-dropdown .ms-option.hidden-opt { display: none; }
+
+    /* Label styling for filter labels */
+    .filter-label { font-size: 11px; font-weight: 600; color: #575756; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  </style>
 </head>
 <body class="bg-[#F2F2F2] flex h-screen overflow-hidden">
 
@@ -68,9 +146,27 @@
         <h1 class="text-base font-semibold text-[#1C1C1C]">Dashboard Vendedor</h1>
       </div>
       <div class="flex items-center gap-4">
-        <div class="flex items-center gap-2 border border-[#DADADA] rounded-lg px-3 py-1.5 text-sm text-[#575756]">
-          <i data-lucide="calendar" class="w-4 h-4"></i>
-          <span>01/03/2026 - 31/03/2026</span>
+        <div class="drp-trigger" id="drp-container">
+          <button id="drp-trigger-btn" type="button" class="flex items-center gap-2 border border-[#DADADA] rounded-lg px-3 py-2 text-sm text-[#575756] bg-white hover:border-[#F1E52F] focus:border-[#F1E52F] focus:ring-2 focus:ring-[#F1E52F]/20 transition-all cursor-pointer" onclick="toggleDatePicker()">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+            <span id="drp-label">01/03/2026 — 31/03/2026</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 ml-1"></i>
+          </button>
+          <div id="drp-dropdown" class="drp-dropdown hidden">
+            <div class="drp-nav">
+              <button onclick="drpPrevMonth()" title="Mes anterior"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+              <span id="drp-month-label"></span>
+              <button onclick="drpNextMonth()" title="Proximo mes"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+            </div>
+            <div class="drp-weekdays">
+              <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+            </div>
+            <div id="drp-days" class="drp-days"></div>
+            <div class="drp-actions">
+              <button class="btn-clear" onclick="drpClear()">Limpar</button>
+              <button class="btn-apply" onclick="drpApply()">Aplicar</button>
+            </div>
+          </div>
         </div>
         <div class="flex items-center gap-3">
           <div class="text-right">
@@ -454,22 +550,24 @@
         <div class="px-6 py-4 border-b border-[#DADADA] flex items-center justify-between flex-wrap gap-3">
           <h2 class="text-base font-bold text-[#1C1C1C]">Detalhamento</h2>
           <div class="flex items-center gap-3 flex-wrap">
-            <select class="border border-[#DADADA] rounded-lg px-3 py-2 text-sm text-[#1C1C1C] bg-white focus:outline-none focus:border-[#F1E52F]">
-              <option value="">Todas Empresas</option>
-              <option value="EMP001">EMP001</option>
-              <option value="EMP002">EMP002</option>
-            </select>
-            <select class="border border-[#DADADA] rounded-lg px-3 py-2 text-sm text-[#1C1C1C] bg-white focus:outline-none focus:border-[#F1E52F]">
-              <option value="">Todos Metodos</option>
-              <option value="cartao">Cartao</option>
-              <option value="pix">Pix</option>
-              <option value="boleto">Boleto</option>
-            </select>
-            <input type="text" placeholder="Buscar por nome, CPF, pedido..." class="border border-[#DADADA] rounded-lg px-3 py-2 text-sm text-[#1C1C1C] w-56 focus:outline-none focus:border-[#F1E52F]">
-            <button class="flex items-center gap-2 px-4 py-2 bg-[#F1E52F] text-[#1C1C1C] font-bold rounded-lg text-sm hover:brightness-95 transition-all">
-              <i data-lucide="search" class="w-4 h-4"></i>
-              Filtrar
-            </button>
+            <div>
+              <div class="filter-label">Empresa</div>
+              <div id="ms-empresa" class="ms-container"></div>
+            </div>
+            <div>
+              <div class="filter-label">Metodo</div>
+              <div id="ms-metodo" class="ms-container"></div>
+            </div>
+            <div>
+              <div class="filter-label">Buscar</div>
+              <input type="text" placeholder="Nome, CPF, pedido..." class="border border-[#DADADA] rounded-lg px-3 py-2 text-sm text-[#1C1C1C] w-56 focus:outline-none focus:border-[#F1E52F] focus:ring-2 focus:ring-[#F1E52F]/20 transition-all" style="height:38px;">
+            </div>
+            <div class="self-end">
+              <button class="flex items-center gap-2 px-4 py-2 bg-[#F1E52F] text-[#1C1C1C] font-bold rounded-lg text-sm hover:brightness-95 transition-all" style="height:38px;">
+                <i data-lucide="search" class="w-4 h-4"></i>
+                Filtrar
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1299,7 +1397,308 @@
     // Initialize Lucide icons
     lucide.createIcons();
 
-    // Sidebar toggle
+    // ========== GLOBAL: Close all dropdowns ==========
+    function closeAllDropdowns(except) {
+      // Close date picker
+      if (except !== 'drp') {
+        document.getElementById('drp-dropdown').classList.add('hidden');
+      }
+      // Close all multi-selects
+      document.querySelectorAll('.ms-container').forEach(c => {
+        if (except && c.id === except) return;
+        const dd = c.querySelector('.ms-dropdown');
+        const trig = c.querySelector('.ms-trigger');
+        if (dd) dd.classList.add('hidden');
+        if (trig) trig.classList.remove('open');
+      });
+    }
+
+    // Click outside closes all dropdowns
+    document.addEventListener('click', function(e) {
+      // Date picker
+      const drpContainer = document.getElementById('drp-container');
+      if (drpContainer && !drpContainer.contains(e.target)) {
+        document.getElementById('drp-dropdown').classList.add('hidden');
+      }
+      // Multi-selects
+      document.querySelectorAll('.ms-container').forEach(c => {
+        if (!c.contains(e.target)) {
+          const dd = c.querySelector('.ms-dropdown');
+          const trig = c.querySelector('.ms-trigger');
+          if (dd) dd.classList.add('hidden');
+          if (trig) trig.classList.remove('open');
+        }
+      });
+    });
+
+    // ========== DATE RANGE PICKER ==========
+    const MONTH_NAMES = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    let drpYear = 2026, drpMonth = 2; // March 2026 (0-indexed)
+    let drpStart = new Date(2026, 2, 1), drpEnd = new Date(2026, 2, 31);
+    let drpClickCount = 0;
+
+    function toggleDatePicker() {
+      const dd = document.getElementById('drp-dropdown');
+      const isHidden = dd.classList.contains('hidden');
+      closeAllDropdowns('drp');
+      if (isHidden) {
+        dd.classList.remove('hidden');
+        renderCalendar();
+      } else {
+        dd.classList.add('hidden');
+      }
+    }
+
+    function drpPrevMonth() {
+      drpMonth--;
+      if (drpMonth < 0) { drpMonth = 11; drpYear--; }
+      renderCalendar();
+    }
+
+    function drpNextMonth() {
+      drpMonth++;
+      if (drpMonth > 11) { drpMonth = 0; drpYear++; }
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      document.getElementById('drp-month-label').textContent = MONTH_NAMES[drpMonth] + ' ' + drpYear;
+      const container = document.getElementById('drp-days');
+      container.innerHTML = '';
+
+      const firstDay = new Date(drpYear, drpMonth, 1).getDay();
+      const daysInMonth = new Date(drpYear, drpMonth + 1, 0).getDate();
+      const today = new Date();
+
+      // Empty cells for days before first
+      for (let i = 0; i < firstDay; i++) {
+        const el = document.createElement('div');
+        el.className = 'drp-day empty';
+        container.appendChild(el);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const el = document.createElement('div');
+        el.className = 'drp-day';
+        el.textContent = d;
+
+        const thisDate = new Date(drpYear, drpMonth, d);
+
+        // Highlight today
+        if (thisDate.toDateString() === today.toDateString()) el.classList.add('today');
+
+        // Highlight range
+        if (drpStart && drpEnd) {
+          if (thisDate.getTime() === drpStart.getTime()) el.classList.add('range-start');
+          else if (thisDate.getTime() === drpEnd.getTime()) el.classList.add('range-end');
+          else if (thisDate > drpStart && thisDate < drpEnd) el.classList.add('in-range');
+        } else if (drpStart && thisDate.getTime() === drpStart.getTime()) {
+          el.classList.add('range-start');
+        }
+
+        el.addEventListener('click', function() {
+          drpClickCount++;
+          if (drpClickCount === 1) {
+            drpStart = thisDate;
+            drpEnd = null;
+          } else {
+            drpClickCount = 0;
+            if (thisDate < drpStart) {
+              drpEnd = drpStart;
+              drpStart = thisDate;
+            } else {
+              drpEnd = thisDate;
+            }
+          }
+          renderCalendar();
+        });
+
+        container.appendChild(el);
+      }
+
+      lucide.createIcons();
+    }
+
+    function drpClear() {
+      drpStart = null; drpEnd = null; drpClickCount = 0;
+      renderCalendar();
+    }
+
+    function drpApply() {
+      if (drpStart && drpEnd) {
+        const fmt = d => String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
+        document.getElementById('drp-label').textContent = fmt(drpStart) + ' \u2014 ' + fmt(drpEnd);
+      }
+      document.getElementById('drp-dropdown').classList.add('hidden');
+    }
+
+    // Init calendar
+    renderCalendar();
+
+    // ========== MULTI-SELECT COMPONENT ==========
+    function createMultiSelect(containerId, options, placeholder) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      let selected = new Set();
+
+      // Build trigger
+      const trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'ms-trigger';
+      trigger.tabIndex = 0;
+      trigger.innerHTML = '<div class="ms-pills"><span class="ms-placeholder">' + placeholder + '</span></div><svg class="ms-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+
+      // Build dropdown
+      const dropdown = document.createElement('div');
+      dropdown.className = 'ms-dropdown hidden';
+
+      const searchInput = document.createElement('input');
+      searchInput.type = 'text';
+      searchInput.className = 'ms-search';
+      searchInput.placeholder = 'Buscar...';
+
+      const links = document.createElement('div');
+      links.className = 'ms-links';
+      const selectAllLink = document.createElement('a');
+      selectAllLink.textContent = 'Selecionar todos';
+      const clearLink = document.createElement('a');
+      clearLink.textContent = 'Limpar';
+      links.appendChild(selectAllLink);
+      links.appendChild(clearLink);
+
+      const list = document.createElement('div');
+      list.className = 'ms-list';
+
+      options.forEach(opt => {
+        const row = document.createElement('label');
+        row.className = 'ms-option';
+        row.dataset.searchText = opt.label.toLowerCase();
+
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.value = opt.value;
+
+        const label = document.createElement('span');
+        label.textContent = opt.label;
+
+        row.appendChild(cb);
+        row.appendChild(label);
+        list.appendChild(row);
+
+        cb.addEventListener('change', function(e) {
+          e.stopPropagation();
+          if (cb.checked) selected.add(opt.value);
+          else selected.delete(opt.value);
+          updateTrigger();
+        });
+
+        row.addEventListener('click', function(e) {
+          if (e.target !== cb) {
+            e.preventDefault();
+            cb.checked = !cb.checked;
+            if (cb.checked) selected.add(opt.value);
+            else selected.delete(opt.value);
+            updateTrigger();
+          }
+        });
+      });
+
+      dropdown.appendChild(searchInput);
+      dropdown.appendChild(links);
+      dropdown.appendChild(list);
+      container.appendChild(trigger);
+      container.appendChild(dropdown);
+
+      // Search filter
+      searchInput.addEventListener('input', function() {
+        const q = searchInput.value.toLowerCase();
+        list.querySelectorAll('.ms-option').forEach(row => {
+          row.classList.toggle('hidden-opt', !row.dataset.searchText.includes(q));
+        });
+      });
+
+      // Prevent dropdown close when clicking inside
+      dropdown.addEventListener('click', function(e) { e.stopPropagation(); });
+
+      // Select all
+      selectAllLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        list.querySelectorAll('.ms-option:not(.hidden-opt) input[type="checkbox"]').forEach(cb => {
+          cb.checked = true;
+          selected.add(cb.value);
+        });
+        updateTrigger();
+      });
+
+      // Clear
+      clearLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        list.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          cb.checked = false;
+        });
+        selected.clear();
+        updateTrigger();
+      });
+
+      // Toggle dropdown
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isHidden = dropdown.classList.contains('hidden');
+        closeAllDropdowns(containerId);
+        if (isHidden) {
+          dropdown.classList.remove('hidden');
+          trigger.classList.add('open');
+          searchInput.value = '';
+          searchInput.dispatchEvent(new Event('input'));
+          setTimeout(() => searchInput.focus(), 50);
+        } else {
+          dropdown.classList.add('hidden');
+          trigger.classList.remove('open');
+        }
+      });
+
+      function updateTrigger() {
+        const pills = trigger.querySelector('.ms-pills');
+        pills.innerHTML = '';
+        if (selected.size === 0) {
+          const ph = document.createElement('span');
+          ph.className = 'ms-placeholder';
+          ph.textContent = placeholder;
+          pills.appendChild(ph);
+        } else if (selected.size === 1) {
+          const val = Array.from(selected)[0];
+          const opt = options.find(o => o.value === val);
+          const pill = document.createElement('span');
+          pill.className = 'ms-pill';
+          pill.textContent = opt ? opt.label : val;
+          pills.appendChild(pill);
+        } else {
+          const pill = document.createElement('span');
+          pill.className = 'ms-pill';
+          pill.textContent = selected.size + ' selecionados';
+          pills.appendChild(pill);
+        }
+      }
+    }
+
+    // Initialize multi-selects
+    createMultiSelect('ms-empresa', [
+      { value: 'all', label: 'Todas as empresas' },
+      { value: 'EMP001', label: 'EMP001 - Empresa Alpha' },
+      { value: 'EMP002', label: 'EMP002 - Empresa Beta' },
+      { value: 'EMP003', label: 'EMP003 - Empresa Gamma' },
+      { value: 'EMP004', label: 'EMP004 - Empresa Delta' }
+    ], 'Todas as empresas');
+
+    createMultiSelect('ms-metodo', [
+      { value: 'all', label: 'Todos os metodos' },
+      { value: 'cartao', label: 'Cartao de Credito' },
+      { value: 'pix', label: 'Pix' },
+      { value: 'boleto', label: 'Boleto' }
+    ], 'Todos os metodos');
+
+    // ========== SIDEBAR TOGGLE ==========
     let sidebarExpanded = true;
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
@@ -1330,13 +1729,11 @@
       lucide.createIcons();
     }
 
-    // Tab switching
+    // ========== TAB SWITCHING ==========
     function switchTab(tabId) {
-      // Hide all tab contents
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.add('hidden');
       });
-      // Deactivate all tab buttons
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('border-[#F1E52F]', 'text-[#1C1C1C]', 'font-semibold');
         btn.classList.add('border-transparent');
@@ -1344,9 +1741,7 @@
           btn.classList.add('text-[#575756]', 'font-medium');
         }
       });
-      // Show selected tab
       document.getElementById(tabId).classList.remove('hidden');
-      // Activate selected button
       const activeBtn = document.getElementById('btn-' + tabId);
       activeBtn.classList.add('border-[#F1E52F]', 'font-semibold');
       activeBtn.classList.remove('border-transparent', 'font-medium');
@@ -1358,7 +1753,7 @@
       }
     }
 
-    // Modal open/close
+    // ========== MODALS ==========
     function openModal(modalId) {
       document.getElementById(modalId).classList.remove('hidden');
       document.body.style.overflow = 'hidden';
@@ -1372,12 +1767,18 @@
     // Close modal on Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
+        // Close modals
         document.querySelectorAll('.fixed.z-50:not(.hidden)').forEach(modal => {
           modal.classList.add('hidden');
         });
         document.body.style.overflow = '';
+        // Close all dropdowns
+        closeAllDropdowns();
       }
     });
+
+    // Re-render Lucide icons for dynamically added elements
+    lucide.createIcons();
   </script>
 
 </body>
