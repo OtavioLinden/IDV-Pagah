@@ -493,6 +493,61 @@
         .badge-level--quase-total { background: #D1FAE5; color: #065F46; }
         .badge-level--parcial { background: #FEF9C3; color: #854D0E; }
         .badge-level--restrito { background: #FEE2E2; color: #991B1B; }
+
+        /* SISTEMA DE ABAS */
+        .perm-tabs {
+            display: flex;
+            border-bottom: 2px solid #EBEBEB;
+            padding: 0 24px;
+        }
+        .perm-tab {
+            padding: 14px 20px;
+            font-size: 14px;
+            color: #999;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-family: 'Ubuntu', sans-serif;
+        }
+        .perm-tab:hover { color: var(--pagah-dark); }
+        .perm-tab.active {
+            color: var(--pagah-dark);
+            font-weight: 600;
+            border-bottom-color: var(--pagah-yellow);
+        }
+        .perm-tab__count {
+            font-size: 11px;
+            background: #EBEBEB;
+            color: var(--pagah-gray);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .perm-tab.active .perm-tab__count {
+            background: var(--pagah-yellow);
+            color: var(--pagah-dark);
+        }
+        .perm-tab-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+        }
+        .perm-right__header {
+            padding: 20px 24px 0;
+        }
+        .perm-right__title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--pagah-dark);
+            margin-bottom: 4px;
+        }
     </style>
 </head>
 
@@ -684,7 +739,23 @@
 
             <!-- Painel direito: detalhes do grupo selecionado -->
             <div class="perm-right" id="rightPanel">
-                <!-- Detalhes do grupo selecionado serao exibidos aqui -->
+                <div class="perm-right__header">
+                    <h2 class="perm-right__title" id="rightPanelTitle">Permissões — ADMIN</h2>
+                </div>
+                <div class="perm-tabs">
+                    <button class="perm-tab active" onclick="switchTab('permissions')" id="tabPermissions">
+                        <span class="material-symbols-rounded" style="font-size:18px;">shield</span>
+                        Permissões
+                    </button>
+                    <button class="perm-tab" onclick="switchTab('users')" id="tabUsers">
+                        <span class="material-symbols-rounded" style="font-size:18px;">group</span>
+                        Usuários
+                        <span class="perm-tab__count" id="tabUsersCount">5</span>
+                    </button>
+                </div>
+                <div class="perm-tab-content" id="tabContent">
+                    <!-- Filled by JS -->
+                </div>
             </div>
 
         </div>
@@ -760,12 +831,42 @@
             renderRightPanel();
         }
 
+        let activeTab = 'permissions';
+
+        function switchTab(tab) {
+            activeTab = tab;
+            document.getElementById('tabPermissions').classList.toggle('active', tab === 'permissions');
+            document.getElementById('tabUsers').classList.toggle('active', tab === 'users');
+            renderTabContent();
+        }
+
         function renderRightPanel() {
-            // Placeholder - will be implemented in Task 3
+            const group = groups.find(g => g.id === selectedGroupId);
+            document.getElementById('rightPanelTitle').textContent = 'Permissões — ' + group.name;
+            document.getElementById('tabUsersCount').textContent = group.users;
+            renderTabContent();
+        }
+
+        function renderTabContent() {
+            const content = document.getElementById('tabContent');
+            if (activeTab === 'permissions') {
+                renderPermissionsTab(content);
+            } else {
+                renderUsersTab(content);
+            }
+        }
+
+        function renderPermissionsTab(container) {
+            container.innerHTML = '<p style="color:#999;">Seções de permissões (próxima task)</p>';
+        }
+
+        function renderUsersTab(container) {
+            container.innerHTML = '<p style="color:#999;">Lista de usuários (task futura)</p>';
         }
 
         // Init
         renderGroups();
+        renderRightPanel();
     </script>
 
 </body>
