@@ -548,6 +548,87 @@
             color: var(--pagah-dark);
             margin-bottom: 4px;
         }
+
+        /* SEÇÕES DE PERMISSÃO */
+        .perm-section { margin-bottom: 8px; }
+
+        .perm-section__header {
+            background: var(--pagah-dark);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: border-radius 0.2s;
+            user-select: none;
+        }
+        .perm-section.open .perm-section__header { border-radius: 8px 8px 0 0; }
+
+        .perm-section__icon { font-size: 20px; display: flex; align-items: center; }
+        .perm-section__name { font-size: 13px; font-weight: 600; flex: 1; }
+        .perm-section__counter {
+            background: var(--pagah-yellow); color: var(--pagah-dark);
+            font-size: 10px; font-weight: 600; padding: 3px 10px;
+            border-radius: 20px; white-space: nowrap;
+        }
+        .perm-section__chevron {
+            font-size: 20px; transition: transform 0.3s; display: flex; align-items: center;
+        }
+        .perm-section.open .perm-section__chevron { transform: rotate(180deg); }
+
+        /* Toggle switch */
+        .perm-toggle {
+            position: relative; width: 36px; height: 20px; flex-shrink: 0;
+        }
+        .perm-toggle input {
+            opacity: 0; width: 0; height: 0; position: absolute;
+        }
+        .perm-toggle__slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--pagah-light-gray);
+            border-radius: 20px; transition: background 0.3s;
+        }
+        .perm-toggle__slider::before {
+            content: ''; position: absolute;
+            width: 16px; height: 16px; left: 2px; bottom: 2px;
+            background: white; border-radius: 50%; transition: transform 0.3s;
+        }
+        .perm-toggle input:checked + .perm-toggle__slider { background: var(--pagah-yellow); }
+        .perm-toggle input:checked + .perm-toggle__slider::before { transform: translateX(16px); }
+
+        /* Header toggle (white on dark bg) */
+        .perm-section__header .perm-toggle__slider { background: rgba(255,255,255,0.3); }
+        .perm-section__header .perm-toggle input:checked + .perm-toggle__slider { background: var(--pagah-yellow); }
+
+        /* Permission items list */
+        .perm-section__body {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #FAFAFA;
+            border: 1px solid #EBEBEB; border-top: 0;
+            border-radius: 0 0 8px 8px;
+        }
+        .perm-section.open .perm-section__body { max-height: 2000px; }
+
+        .perm-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px; border-bottom: 1px solid #F0F0F0;
+            font-size: 13px; color: var(--pagah-gray);
+        }
+        .perm-item:last-child { border-bottom: none; }
+        .perm-item--child { padding-left: 32px; }
+
+        .perm-item__name {
+            flex: 1; display: flex; align-items: center; gap: 6px;
+        }
+        .perm-item__expand {
+            cursor: pointer; display: flex; align-items: center;
+            color: var(--pagah-gray); font-size: 18px; transition: transform 0.2s;
+        }
+        .perm-item__expand.open { transform: rotate(180deg); }
     </style>
 </head>
 
@@ -790,6 +871,173 @@
             { id: 7, name: 'Suporte', users: 12, activePerms: 15 },
         ];
 
+        const permissionSections = [
+            {
+                id: 'dashboard', name: 'Dashboard', icon: 'home',
+                permissions: [
+                    { key: 'dashboard_admin', name: 'Dashboard Admin' },
+                    { key: 'dashboard_terceiros', name: 'Dashboard Terceiros' },
+                    { key: 'dashboard_vendedor', name: 'Dashboard Vendedor' },
+                    { key: 'dashboard_cod', name: 'Dashboard Cash on Delivery' },
+                ]
+            },
+            {
+                id: 'relatorios', name: 'Relatórios', icon: 'monitoring',
+                permissions: [
+                    { key: 'rel_callcenter', name: 'CallCenter' },
+                    { key: 'rel_comparativo', name: 'Comparativo Vendedores' },
+                    { key: 'rel_marketplace', name: 'Marketplace Relatórios' },
+                    { key: 'rel_atendimentos', name: 'Relatório Atendimentos Leads' },
+                    { key: 'rel_botconversa', name: 'Relatório mensagens BotConversa' },
+                    { key: 'rel_tipos_atend', name: 'Relatório Tipos de Atendimentos' },
+                ]
+            },
+            {
+                id: 'produtos', name: 'Produtos', icon: 'box_add',
+                permissions: [
+                    { key: 'produtos_v', name: 'Produtos', children: [
+                        { key: 'produtos_u', name: 'Editar Produto' },
+                        { key: 'produtos_i', name: 'Incluir Produto' },
+                    ]},
+                    { key: 'kits_v', name: 'Kits', children: [
+                        { key: 'kits_u', name: 'Editar Kit' },
+                        { key: 'kits_i', name: 'Incluir Kit' },
+                    ]},
+                    { key: 'lojas_v', name: 'Lojas', children: [
+                        { key: 'lojas_u', name: 'Editar Loja' },
+                        { key: 'lojas_i', name: 'Incluir Loja' },
+                    ]},
+                    { key: 'cadastro', name: 'Cadastro' },
+                ]
+            },
+            {
+                id: 'afiliados', name: 'Afiliados', icon: 'handshake',
+                permissions: [
+                    { key: 'afiliados_produtos', name: 'Afiliados Produtos' },
+                    { key: 'modulo_afiliados', name: 'Módulo Afiliados' },
+                    { key: 'btn_x1', name: 'Botão/Recurso X1' },
+                ]
+            },
+            {
+                id: 'vendas', name: 'Vendas', icon: 'paid',
+                permissions: [
+                    { key: 'alterar_produtos_pedido', name: 'Alterar Produtos do Pedido' },
+                    { key: 'alterar_vendedor', name: 'Alterar Vendedor' },
+                    { key: 'aprovar_pedido', name: 'Aprovar Pedido' },
+                    { key: 'aprovar_estorno', name: 'Aprovar Solicitações de Estorno' },
+                    { key: 'exportar_ip', name: 'Exportar IP' },
+                    { key: 'exportar_telefone', name: 'Exportar Telefone' },
+                    { key: 'marcar_pix', name: 'Marcar Pix Pago' },
+                    { key: 'pedidos_origem', name: 'Pedidos Origem' },
+                    { key: 'pedidos_upsell', name: 'Pedidos Upsell' },
+                    { key: 'resumo_pedido', name: 'Resumo Pedido' },
+                    { key: 'solicitar_estorno', name: 'Solicitar Estorno' },
+                    { key: 'vincular_pedidos', name: 'Vincular Pedidos' },
+                    { key: 'visualizar_src', name: 'Visualizar SRC' },
+                ]
+            },
+            {
+                id: 'vendas_marketplace', name: 'Vendas Marketplace', icon: 'storefront',
+                permissions: [
+                    { key: 'marketplace_vendas', name: 'Visualizar Vendas Marketplace' },
+                    { key: 'marketplace_gestao', name: 'Gestão de Marketplace' },
+                ]
+            },
+            {
+                id: 'suporte', name: 'Suporte', icon: 'support_agent',
+                permissions: [
+                    { key: 'suporte_aprovar', name: 'Aprovar Pedidos' },
+                    { key: 'suporte_bloqueios', name: 'Bloqueios emissão de nota' },
+                    { key: 'suporte_boleto_config', name: 'Configurações Boleto Bancário' },
+                    { key: 'suporte_comprovante', name: 'Configurações Comprovante Compra' },
+                    { key: 'suporte_exp_abandonos', name: 'Exportação de Abandonos', children: [
+                        { key: 'suporte_exp_abandonos_30', name: 'Relatórios 30' },
+                        { key: 'suporte_exp_abandonos_90', name: 'Relatórios 90' },
+                        { key: 'suporte_exp_abandonos_90p', name: 'Relatórios 90+' },
+                    ]},
+                    { key: 'suporte_exp_pedidos', name: 'Exportação de Pedidos', children: [
+                        { key: 'suporte_exp_pedidos_30', name: 'Relatórios 30' },
+                        { key: 'suporte_exp_pedidos_90', name: 'Relatórios 90' },
+                        { key: 'suporte_exp_pedidos_90p', name: 'Relatórios 90+' },
+                    ]},
+                    { key: 'suporte_notas', name: 'Notas Visualizar', children: [
+                        { key: 'suporte_notas_atualizar', name: 'Atualizar Notas' },
+                        { key: 'suporte_notas_cancelar', name: 'Cancelar Notas' },
+                    ]},
+                    { key: 'suporte_estorno', name: 'Solicitações de estorno' },
+                    { key: 'suporte_produtos_extras', name: 'Solicitações de produtos extras' },
+                ]
+            },
+            {
+                id: 'conversao', name: 'Conversão', icon: 'control_camera',
+                permissions: [
+                    { key: 'pixel_v', name: 'Pixel', children: [
+                        { key: 'pixel_u', name: 'Editar Pixel' },
+                        { key: 'pixel_i', name: 'Incluir Pixel' },
+                        { key: 'pixel_d', name: 'Deletar Pixel' },
+                    ]},
+                    { key: 'campanhas', name: 'Campanhas' },
+                    { key: 'campanhas_emails', name: 'Campanhas Emails' },
+                    { key: 'campanhas_quiz', name: 'Campanhas Quiz' },
+                    { key: 'listas_sms', name: 'Listas SMS', children: [
+                        { key: 'listas_sms_exportar', name: 'Exportar Lista' },
+                    ]},
+                    { key: 'listas_email', name: 'Listas Email', children: [
+                        { key: 'listas_email_exportar', name: 'Exportar Lista' },
+                    ]},
+                    { key: 'funil_agendamentos', name: 'Funil SMS de Agendamentos' },
+                    { key: 'funil_recuperacao', name: 'Funil SMS de Recuperação' },
+                    { key: 'funil_eventos', name: 'Funil SMS/Emails de Eventos' },
+                    { key: 'bloqueio_celulares', name: 'Bloqueio de Celulares' },
+                    { key: 'listas_sms_analise', name: 'Listas SMS - Análise' },
+                    { key: 'listas_sms_categorias', name: 'Listas SMS Categorias' },
+                    { key: 'operadoras_sms', name: 'Operadoras de SMS' },
+                    { key: 'planejamento_sms', name: 'Planejamento SMS' },
+                    { key: 'sms_clicks', name: 'SMS Clicks' },
+                ]
+            },
+            {
+                id: 'ferramentas', name: 'Ferramentas', icon: 'manufacturing',
+                permissions: [
+                    { key: 'webhooks', name: 'Webhooks' },
+                    { key: 'integracoes', name: 'Integrações' },
+                ]
+            },
+            {
+                id: 'configuracoes', name: 'Configurações', icon: 'settings',
+                permissions: [
+                    { key: 'usuarios_v', name: 'Usuários', children: [
+                        { key: 'usuarios_u', name: 'Editar Usuário' },
+                        { key: 'usuarios_i', name: 'Incluir Usuário' },
+                        { key: 'usuarios_d', name: 'Deletar Usuário' },
+                    ]},
+                    { key: 'usuarios_permissoes', name: 'Grupos de Permissões' },
+                    { key: 'chamada_gateway', name: 'Chamada Gateway' },
+                    { key: 'clientes_v', name: 'Clientes' },
+                    { key: 'visualizar_src_cliente', name: 'Visualizar SRC Cliente' },
+                ]
+            },
+        ];
+
+        // Permission state per group (mock - random based on activePerms)
+        const groupPermissions = {};
+        groups.forEach(g => {
+            const allKeys = [];
+            permissionSections.forEach(s => {
+                s.permissions.forEach(p => {
+                    allKeys.push(p.key);
+                    if (p.children) p.children.forEach(c => allKeys.push(c.key));
+                });
+            });
+            const permsState = {};
+            const shuffled = [...allKeys].sort(() => Math.random() - 0.5);
+            const activeCount = Math.round((g.activePerms / TOTAL_PERMISSIONS) * allKeys.length);
+            shuffled.forEach((key, i) => {
+                permsState[key] = i < activeCount;
+            });
+            groupPermissions[g.id] = permsState;
+        });
+
         function getLevelBadge(activePerms) {
             const pct = (activePerms / TOTAL_PERMISSIONS) * 100;
             if (pct >= 90) return { label: 'Total', css: 'badge-level--total' };
@@ -857,7 +1105,114 @@
         }
 
         function renderPermissionsTab(container) {
-            container.innerHTML = '<p style="color:#999;">Seções de permissões (próxima task)</p>';
+            const perms = groupPermissions[selectedGroupId];
+
+            container.innerHTML = permissionSections.map(section => {
+                const flatKeys = [];
+                section.permissions.forEach(p => {
+                    flatKeys.push(p.key);
+                    if (p.children) p.children.forEach(c => flatKeys.push(c.key));
+                });
+                const activeCount = flatKeys.filter(k => perms[k]).length;
+                const totalCount = flatKeys.length;
+                const allActive = activeCount === totalCount;
+
+                return `
+                    <div class="perm-section" id="section-${section.id}">
+                        <div class="perm-section__header" onclick="toggleSection('${section.id}')">
+                            <span class="perm-section__icon material-symbols-rounded">${section.icon}</span>
+                            <span class="perm-section__name">${section.name}</span>
+                            <span class="perm-section__counter">${activeCount} de ${totalCount}</span>
+                            <label class="perm-toggle" onclick="event.stopPropagation();">
+                                <input type="checkbox" ${allActive ? 'checked' : ''} onchange="toggleAllSection('${section.id}', this.checked)">
+                                <span class="perm-toggle__slider"></span>
+                            </label>
+                            <span class="perm-section__chevron material-symbols-rounded">expand_more</span>
+                        </div>
+                        <div class="perm-section__body">
+                            ${renderPermissionItems(section.permissions, perms)}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderPermissionItems(permissions, perms) {
+            return permissions.map(p => {
+                const hasChildren = p.children && p.children.length > 0;
+                let html = `
+                    <div class="perm-item">
+                        <div class="perm-item__name">
+                            ${hasChildren ? '<span class="perm-item__expand material-symbols-rounded" onclick="toggleSubItems(this)">expand_more</span>' : ''}
+                            ${p.name}
+                        </div>
+                        <label class="perm-toggle">
+                            <input type="checkbox" ${perms[p.key] ? 'checked' : ''} onchange="togglePerm('${p.key}', this.checked)">
+                            <span class="perm-toggle__slider"></span>
+                        </label>
+                    </div>
+                `;
+                if (hasChildren) {
+                    html += '<div class="perm-subitems" style="display:none;">';
+                    html += p.children.map(c => `
+                        <div class="perm-item perm-item--child">
+                            <div class="perm-item__name">${c.name}</div>
+                            <label class="perm-toggle">
+                                <input type="checkbox" ${perms[c.key] ? 'checked' : ''} onchange="togglePerm('${c.key}', this.checked)">
+                                <span class="perm-toggle__slider"></span>
+                            </label>
+                        </div>
+                    `).join('');
+                    html += '</div>';
+                }
+                return html;
+            }).join('');
+        }
+
+        function toggleSection(sectionId) {
+            document.getElementById('section-' + sectionId).classList.toggle('open');
+        }
+
+        function toggleAllSection(sectionId, checked) {
+            const perms = groupPermissions[selectedGroupId];
+            const section = permissionSections.find(s => s.id === sectionId);
+            section.permissions.forEach(p => {
+                perms[p.key] = checked;
+                if (p.children) p.children.forEach(c => { perms[c.key] = checked; });
+            });
+            updateGroupActiveCount();
+            renderPermissionsTab(document.getElementById('tabContent'));
+            renderGroups();
+        }
+
+        function togglePerm(key, checked) {
+            groupPermissions[selectedGroupId][key] = checked;
+            updateGroupActiveCount();
+            renderPermissionsTab(document.getElementById('tabContent'));
+            renderGroups();
+        }
+
+        function toggleSubItems(chevron) {
+            const subitems = chevron.closest('.perm-item').nextElementSibling;
+            if (subitems && subitems.classList.contains('perm-subitems')) {
+                const isVisible = subitems.style.display !== 'none';
+                subitems.style.display = isVisible ? 'none' : 'block';
+                chevron.classList.toggle('open', !isVisible);
+            }
+        }
+
+        function updateGroupActiveCount() {
+            const perms = groupPermissions[selectedGroupId];
+            const allKeys = [];
+            permissionSections.forEach(s => {
+                s.permissions.forEach(p => {
+                    allKeys.push(p.key);
+                    if (p.children) p.children.forEach(c => allKeys.push(c.key));
+                });
+            });
+            const activeCount = allKeys.filter(k => perms[k]).length;
+            const group = groups.find(g => g.id === selectedGroupId);
+            group.activePerms = Math.round((activeCount / allKeys.length) * TOTAL_PERMISSIONS);
         }
 
         function renderUsersTab(container) {
