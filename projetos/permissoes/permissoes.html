@@ -553,23 +553,28 @@
         .perm-section { margin-bottom: 8px; }
 
         .perm-section__header {
-            background: var(--pagah-dark);
-            color: white;
+            background: #FAFAF0;
+            color: var(--pagah-dark);
+            border: 1px solid #E8E4A0;
             padding: 10px 14px;
             border-radius: 8px;
             display: flex;
             align-items: center;
             gap: 10px;
             cursor: pointer;
-            transition: border-radius 0.2s;
+            transition: border-radius 0.2s, background 0.2s;
             user-select: none;
         }
-        .perm-section.open .perm-section__header { border-radius: 8px 8px 0 0; }
+        .perm-section__header:hover { background: #F5F0C0; }
+        .perm-section.open .perm-section__header {
+            border-radius: 8px 8px 0 0;
+            border-bottom-color: #E8E4A0;
+        }
 
-        .perm-section__icon { font-size: 20px; display: flex; align-items: center; }
-        .perm-section__name { font-size: 13px; font-weight: 600; flex: 1; }
+        .perm-section__icon { font-size: 20px; display: flex; align-items: center; color: var(--pagah-dark); }
+        .perm-section__name { font-size: 13px; font-weight: 600; flex: 1; color: var(--pagah-dark); }
         .perm-section__counter {
-            background: var(--pagah-yellow); color: var(--pagah-dark);
+            background: var(--pagah-dark); color: var(--pagah-yellow);
             font-size: 10px; font-weight: 600; padding: 3px 10px;
             border-radius: 20px; white-space: nowrap;
         }
@@ -599,9 +604,8 @@
         .perm-toggle input:checked + .perm-toggle__slider { background: var(--pagah-yellow); }
         .perm-toggle input:checked + .perm-toggle__slider::before { transform: translateX(16px); }
 
-        /* Header toggle (white on dark bg) */
-        .perm-section__header .perm-toggle__slider { background: rgba(255,255,255,0.3); }
-        .perm-section__header .perm-toggle input:checked + .perm-toggle__slider { background: var(--pagah-yellow); }
+        /* Header toggle - usa o padrão normal (fundo claro) */
+        .perm-section__header .perm-toggle__slider { background: var(--pagah-light-gray); }
 
         /* Permission items list */
         .perm-section__body {
