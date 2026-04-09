@@ -664,6 +664,25 @@
         }
         .user-item__name { font-size: 14px; color: var(--pagah-dark); }
         .user-item__email { font-size: 12px; color: var(--pagah-gray); }
+
+        /* SCROLLBAR CUSTOMIZADA */
+        .perm-left__list::-webkit-scrollbar,
+        .perm-tab-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .perm-left__list::-webkit-scrollbar-track,
+        .perm-tab-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .perm-left__list::-webkit-scrollbar-thumb,
+        .perm-tab-content::-webkit-scrollbar-thumb {
+            background: var(--pagah-light-gray);
+            border-radius: 3px;
+        }
+        .perm-left__list::-webkit-scrollbar-thumb:hover,
+        .perm-tab-content::-webkit-scrollbar-thumb:hover {
+            background: var(--pagah-gray);
+        }
     </style>
 </head>
 
@@ -1107,6 +1126,7 @@
         }
 
         let selectedGroupId = 1;
+        const openSections = new Set();
 
         function renderGroups() {
             const list = document.getElementById('groupList');
@@ -1195,6 +1215,12 @@
                     </div>
                 `;
             }).join('');
+
+            // Restore open sections
+            openSections.forEach(id => {
+                const el = document.getElementById('section-' + id);
+                if (el) el.classList.add('open');
+            });
         }
 
         function renderPermissionItems(permissions, perms) {
@@ -1230,7 +1256,13 @@
         }
 
         function toggleSection(sectionId) {
-            document.getElementById('section-' + sectionId).classList.toggle('open');
+            const el = document.getElementById('section-' + sectionId);
+            el.classList.toggle('open');
+            if (el.classList.contains('open')) {
+                openSections.add(sectionId);
+            } else {
+                openSections.delete(sectionId);
+            }
         }
 
         function toggleAllSection(sectionId, checked) {
