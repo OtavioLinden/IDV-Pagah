@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupos de Permissões | Pagah</title>
+
+    <!-- Google Fonts: Ubuntu (textos) -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Google Material Symbols Rounded (icones da plataforma) -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <!-- Tailwind CSS com prefix tw- (mesmo padrao do sistema real) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            prefix: 'tw-',
+            corePlugins: { preflight: false },
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Ubuntu', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ============================================
+           VARIAVEIS DO DESIGN SYSTEM PAGAH
+           Nunca alterar esses valores.
+           ============================================ */
+        :root {
+            --pagah-yellow: #F1E52F;
+            --pagah-dark: #1C1C1C;
+            --pagah-gray: #575756;
+            --pagah-light-gray: #DADADA;
+            --pagah-bg: #F2F2F2;
+            --pagah-white: #FFFFFF;
+            --header-height: 56px;
+            --sidebar-width: 240px;
+            --sidebar-collapsed: 68px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background: var(--pagah-bg);
+            color: var(--pagah-dark);
+            font-size: 14px;
+        }
+
+        /* ============================================
+           HEADER — Barra amarela fixa no topo
+           NUNCA mudar a cor, posicao ou estrutura.
+           ============================================ */
+        .pb-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--pagah-yellow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .pb-header__left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pb-header__logo_link {
+            display: flex;
+            align-items: center;
+        }
+
+        .pb-header__logo_img {
+            height: 34px;
+            width: 34px;
+            border-radius: 8px;
+        }
+
+        .pb-header__nav_right {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .pb-header__icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .pb-header__icon:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .pb-header__icon .material-symbols-rounded {
+            font-size: 24px;
+            color: var(--pagah-dark);
+        }
+
+        /* Botao hamburger (toggle sidebar) */
+        .pb-burger__btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 10px;
+            transition: background 0.2s;
+        }
+
+        .pb-burger__btn:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .pb-burger__btn span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background: var(--pagah-dark);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* Badge de notificacao */
+        .notification-count {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: #EF4444;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        /* ============================================
+           SIDEBAR — Menu lateral BRANCO
+           Background SEMPRE #FFFFFF. NUNCA usar fundo
+           escuro (#1C1C1C) na sidebar.
+           ============================================ */
+        .pb-side_menu {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--header-height));
+            background: var(--pagah-white);
+            border-right: 1px solid #EBEBEB;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s ease;
+            scrollbar-width: none;
+        }
+
+        .pb-side_menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pb-side_menu__list {
+            list-style: none;
+            padding: 8px 0;
+            flex: 1;
+        }
+
+        .pb-side_menu__item {
+            position: relative;
+        }
+
+        .pb-side_menu__link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 11px 20px;
+            color: var(--pagah-gray);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            transition: all 0.2s;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .pb-side_menu__link:hover {
+            color: var(--pagah-dark);
+            background: #F8F8F8;
+        }
+
+        .pb-side_menu__link.active {
+            color: var(--pagah-dark);
+            font-weight: 600;
+        }
+
+        .pb-side_menu__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .pb-side_menu__icon .material-symbols-rounded {
+            font-size: 22px;
+            color: inherit;
+        }
+
+        .pb-side_menu__label {
+            transition: opacity 0.2s;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Chevron para itens com submenu */
+        .has_submenu>.pb-side_menu__link::after {
+            content: 'expand_more';
+            font-family: 'Material Symbols Rounded';
+            font-size: 18px;
+            margin-left: auto;
+            transition: transform 0.3s;
+            color: var(--pagah-gray);
+        }
+
+        .has_submenu.open>.pb-side_menu__link::after {
+            transform: rotate(180deg);
+        }
+
+        /* Submenu */
+        .submenu {
+            list-style: none;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #FAFAFA;
+        }
+
+        .has_submenu.open>.submenu {
+            max-height: 500px;
+        }
+
+        .submenu__item {}
+
+        .submenu__link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 20px 9px 58px;
+            color: var(--pagah-gray);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .submenu__link:hover {
+            color: var(--pagah-dark);
+            background: #F0F0F0;
+        }
+
+        /* App download (rodape da sidebar) */
+        .apps {
+            margin-top: auto;
+            padding: 20px 0 24px;
+            text-align: center;
+        }
+
+        .apps small {
+            font-size: 10px;
+            display: block;
+            text-align: center;
+            margin-bottom: 8px;
+            color: var(--pagah-gray);
+        }
+
+        .apps .app-link {
+            display: inline-block;
+        }
+
+        .apps .app-link img {
+            width: 80%;
+            max-width: 80px;
+        }
+
+        /* ============================================
+           SIDEBAR COMPACTA (estado padrao: fechada)
+           Classe pb-menu--closed no <body> ativa este
+           estado. Ao passar o mouse, expande.
+           ============================================ */
+        .pb-menu--closed .pb-side_menu {
+            width: var(--sidebar-collapsed);
+        }
+
+        .pb-menu--closed .pb-side_menu__label,
+        .pb-menu--closed .has_submenu>.pb-side_menu__link::after,
+        .pb-menu--closed .submenu,
+        .pb-menu--closed .apps small {
+            display: none;
+        }
+
+        /* Hover: expande temporariamente */
+        .pb-menu--closed .pb-side_menu:hover {
+            width: var(--sidebar-width);
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .pb-menu--closed .pb-side_menu:hover .pb-side_menu__label,
+        .pb-menu--closed .pb-side_menu:hover .has_submenu>.pb-side_menu__link::after,
+        .pb-menu--closed .pb-side_menu:hover .apps small {
+            display: inline;
+        }
+
+        /* ============================================
+           CONTEUDO PRINCIPAL
+           Margem esquerda acompanha a sidebar.
+           ============================================ */
+        .pb-main {
+            margin-left: var(--sidebar-width);
+            padding: 24px 32px;
+            padding-top: calc(var(--header-height) + 24px);
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        .pb-menu--closed .pb-main {
+            margin-left: var(--sidebar-collapsed);
+        }
+
+        /* ============================================
+           COMPONENTES REUTILIZAVEIS (Tailwind tw-)
+           Use estes padroes no conteudo principal:
+
+           Card branco:
+             tw-bg-white tw-rounded-xl tw-shadow-sm tw-border tw-border-gray-100 tw-p-6
+
+           Card escuro de destaque:
+             tw-bg-[#1C1C1C] tw-rounded-2xl tw-p-6 tw-text-white
+
+           Header de tabela:
+             tw-bg-[#1C1C1C] tw-text-white
+
+           Badge de status:
+             Aprovado:    tw-bg-green-100 tw-text-green-700 tw-rounded-full tw-px-3 tw-py-1 tw-text-xs tw-font-medium
+             Cancelado:   tw-bg-red-100 tw-text-red-700 tw-rounded-full tw-px-3 tw-py-1 tw-text-xs tw-font-medium
+             Pendente:    tw-bg-yellow-100 tw-text-yellow-700 tw-rounded-full tw-px-3 tw-py-1 tw-text-xs tw-font-medium
+             Processando: tw-bg-blue-100 tw-text-blue-700 tw-rounded-full tw-px-3 tw-py-1 tw-text-xs tw-font-medium
+
+           Botao primario:
+             tw-bg-[#F1E52F] tw-text-[#1C1C1C] tw-font-semibold tw-px-6 tw-py-2.5 tw-rounded-lg hover:tw-brightness-95
+
+           Botao secundario:
+             tw-border tw-border-gray-300 tw-text-gray-600 tw-px-6 tw-py-2.5 tw-rounded-lg hover:tw-bg-gray-50
+           ============================================ */
+    </style>
+
+    <!-- ============================================
+         ESTILOS ESPECIFICOS DA PAGINA
+         ============================================ -->
+    <style>
+        /* Split view layout */
+        .perm-container {
+            display: flex;
+            gap: 24px;
+            height: calc(100vh - var(--header-height) - 48px);
+        }
+
+        /* Painel esquerdo: lista de grupos */
+        .perm-left {
+            width: 300px;
+            background: var(--pagah-white);
+            border-radius: 16px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .perm-left__header {
+            padding: 20px;
+            border-bottom: 1px solid #EBEBEB;
+        }
+
+        .perm-left__title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--pagah-dark);
+            margin-bottom: 16px;
+        }
+
+        .perm-left__list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* Painel direito: detalhes do grupo selecionado */
+        .perm-right {
+            flex: 1;
+            background: var(--pagah-white);
+            border-radius: 16px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="pb-body pb-pagah pb-menu--closed">
+
+    <!-- ============================================================
+         HEADER — Barra amarela fixa no topo (OBRIGATORIO)
+         NAO ALTERAR a estrutura, cores ou elementos do header.
+         ============================================================ -->
+    <header class="pb-header">
+        <div class="pb-header__left">
+            <a href="/home" class="pb-header__logo_link">
+                <!-- Ajuste o caminho relativo ao SVG conforme a localizacao do arquivo -->
+                <img src="../../assets/icon/svg/icon-pagah-yellow-rounded.svg" alt="Pagah" class="pb-header__logo_img">
+            </a>
+            <button class="pb-burger__btn" type="button"
+                onclick="document.body.classList.toggle('pb-menu--closed')">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <div class="pb-header__nav_right">
+            <button class="pb-header__icon" type="button" title="Notificacoes">
+                <span class="material-symbols-rounded">notifications_active</span>
+                <span class="notification-count">4</span>
+            </button>
+            <button class="pb-header__icon" type="button" title="Ajuda">
+                <span class="material-symbols-rounded">help</span>
+            </button>
+            <button class="pb-header__icon" type="button" title="Perfil">
+                <span class="material-symbols-rounded">person</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         SIDEBAR — Menu lateral BRANCO (OBRIGATORIO)
+         NAO ALTERAR: cor de fundo, itens do menu, icones ou ordem.
+         Todos os 11 itens devem estar presentes em TODAS as paginas.
+         ============================================================ -->
+    <aside class="pb-side_menu">
+        <ul class="pb-side_menu__list">
+
+            <!-- 1. Dashboard -->
+            <li class="pb-side_menu__item">
+                <a href="/home" class="pb-side_menu__link" title="Dashboard">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">home</span></span>
+                    <span class="pb-side_menu__label">Dashboard</span>
+                </a>
+            </li>
+
+            <!-- 2. Relatorios (com submenu) -->
+            <li class="pb-side_menu__item has_submenu">
+                <a class="pb-side_menu__link" title="Relatórios">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">monitoring</span></span>
+                    <span class="pb-side_menu__label">Relatórios</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu__item"><a href="/relatorios/v2" class="submenu__link">Vendas</a></li>
+                    <li class="submenu__item"><a href="/relatorios-abandonos/v2" class="submenu__link">Abandonos</a></li>
+                    <li class="submenu__item"><a href="/estoque/v2" class="submenu__link">Estoque</a></li>
+                    <li class="submenu__item"><a href="/relatorios/utms" class="submenu__link">Relatório Utms</a></li>
+                </ul>
+            </li>
+
+            <!-- 3. Produtos -->
+            <li class="pb-side_menu__item">
+                <a href="/produtos/lista" class="pb-side_menu__link" title="Produtos">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">box_add</span></span>
+                    <span class="pb-side_menu__label">Produtos</span>
+                </a>
+            </li>
+
+            <!-- 4. Afiliados (com submenu) -->
+            <li class="pb-side_menu__item has_submenu">
+                <a class="pb-side_menu__link" title="Afiliados">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">handshake</span></span>
+                    <span class="pb-side_menu__label">Afiliados</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu__item"><a href="/afiliados/listar" class="submenu__link">Gestão de Afiliados</a></li>
+                    <li class="submenu__item"><a href="/afiliados/gestao" class="submenu__link">Gestão de Produtos</a></li>
+                    <li class="submenu__item"><a href="/afiliados/relatorios" class="submenu__link">Relatórios</a></li>
+                </ul>
+            </li>
+
+            <!-- 5. Vendas -->
+            <li class="pb-side_menu__item">
+                <a href="/pedidos" class="pb-side_menu__link" title="Vendas">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">paid</span></span>
+                    <span class="pb-side_menu__label">Vendas</span>
+                </a>
+            </li>
+
+            <!-- 6. Vendas Marketplace -->
+            <li class="pb-side_menu__item">
+                <a href="/pedidos-marketplace" class="pb-side_menu__link" title="Vendas Marketplace">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">storefront</span></span>
+                    <span class="pb-side_menu__label">Vendas Marketplace</span>
+                </a>
+            </li>
+
+            <!-- 7. Suporte -->
+            <li class="pb-side_menu__item">
+                <a href="/suporte-index" class="pb-side_menu__link" title="Suporte">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">support_agent</span></span>
+                    <span class="pb-side_menu__label">Suporte</span>
+                </a>
+            </li>
+
+            <!-- 8. Conversao (com submenu) -->
+            <li class="pb-side_menu__item has_submenu">
+                <a class="pb-side_menu__link" title="Conversão">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">control_camera</span></span>
+                    <span class="pb-side_menu__label">Conversão</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu__item"><a href="/pixel_api" class="submenu__link">Pixel</a></li>
+                    <li class="submenu__item"><a href="/listas-sms-novas" class="submenu__link">Listas</a></li>
+                    <li class="submenu__item"><a href="/campanhas" class="submenu__link">ENVIO$</a></li>
+                    <li class="submenu__item"><a href="/funis" class="submenu__link">Funil de Eventos</a></li>
+                </ul>
+            </li>
+
+            <!-- 9. Ferramentas (com submenu) -->
+            <li class="pb-side_menu__item has_submenu">
+                <a class="pb-side_menu__link" title="Ferramentas">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">manufacturing</span></span>
+                    <span class="pb-side_menu__label">Ferramentas</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu__item"><a href="/webhooks-eventos-2" class="submenu__link">Webhooks</a></li>
+                    <li class="submenu__item"><a href="/integracoes" class="submenu__link">Integrações</a></li>
+                </ul>
+            </li>
+
+            <!-- 10. Saques -->
+            <li class="pb-side_menu__item">
+                <a href="/saque" class="pb-side_menu__link" title="Saques">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">receipt_long</span></span>
+                    <span class="pb-side_menu__label">Saques</span>
+                </a>
+            </li>
+
+            <!-- 11. Configuracoes (com submenu) — ATIVO -->
+            <li class="pb-side_menu__item has_submenu">
+                <a class="pb-side_menu__link active" title="Configurações">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">settings</span></span>
+                    <span class="pb-side_menu__label">Configurações</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu__item"><a href="/usuarios" class="submenu__link">Usuários</a></li>
+                    <li class="submenu__item"><a href="/notas" class="submenu__link">Notas</a></li>
+                </ul>
+            </li>
+
+        </ul>
+
+        <!-- App download (rodape fixo da sidebar) -->
+        <div class="apps">
+            <small>Baixe nosso App</small>
+            <a href="https://apps.apple.com/app/id6743241219" target="_blank" class="app-link">
+                <img src="https://app.pagah.com/images/appstore.png" alt="Baixe nosso App">
+            </a>
+        </div>
+    </aside>
+
+    <!-- ============================================================
+         CONTEUDO PRINCIPAL
+         ============================================================ -->
+    <main class="pb-main">
+
+        <div class="perm-container">
+
+            <!-- Painel esquerdo: lista de grupos -->
+            <div class="perm-left">
+                <div class="perm-left__header">
+                    <p class="perm-left__title">Grupos de Permissões</p>
+                    <button class="tw-bg-[#F1E52F] tw-text-[#1C1C1C] tw-font-semibold tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm tw-w-full hover:tw-brightness-95 tw-transition tw-flex tw-items-center tw-justify-center tw-gap-2">
+                        <span class="material-symbols-rounded" style="font-size:18px;">add</span>
+                        Novo Grupo
+                    </button>
+                </div>
+                <div class="perm-left__list" id="groupList">
+                    <!-- Lista de grupos sera carregada aqui -->
+                </div>
+            </div>
+
+            <!-- Painel direito: detalhes do grupo selecionado -->
+            <div class="perm-right" id="rightPanel">
+                <!-- Detalhes do grupo selecionado serao exibidos aqui -->
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ============================================================
+         SCRIPTS
+         Toggle de submenus. Manter em todas as paginas.
+         ============================================================ -->
+    <script>
+        // Toggle submenus ao clicar
+        document.querySelectorAll('.has_submenu > .pb-side_menu__link').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                this.parentElement.classList.toggle('open');
+            });
+        });
+    </script>
+
+</body>
+
+</html>
