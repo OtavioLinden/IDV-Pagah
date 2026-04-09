@@ -629,6 +629,41 @@
             color: var(--pagah-gray); font-size: 18px; transition: transform 0.2s;
         }
         .perm-item__expand.open { transform: rotate(180deg); }
+
+        /* ABA DE USUÁRIOS */
+        .users-search { position: relative; margin-bottom: 16px; }
+        .users-search__icon {
+            position: absolute; left: 12px; top: 50%;
+            transform: translateY(-50%); font-size: 20px; color: var(--pagah-gray);
+        }
+        .users-search__input {
+            width: 100%; padding: 10px 12px 10px 40px;
+            border: 1px solid var(--pagah-light-gray); border-radius: 8px;
+            font-size: 14px; font-family: 'Ubuntu', sans-serif;
+            color: var(--pagah-dark); outline: none; transition: border-color 0.2s;
+        }
+        .users-search__input:focus { border-color: var(--pagah-yellow); }
+
+        .users-section-label {
+            font-size: 11px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--pagah-gray);
+            padding: 8px 0 4px; margin-top: 8px;
+        }
+        .users-section-label:first-of-type { margin-top: 0; }
+
+        .user-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 0; border-bottom: 1px solid #F0F0F0;
+        }
+        .user-item:last-child { border-bottom: none; }
+
+        .user-item__avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; color: white; flex-shrink: 0;
+        }
+        .user-item__name { font-size: 14px; color: var(--pagah-dark); }
+        .user-item__email { font-size: 12px; color: var(--pagah-gray); }
     </style>
 </head>
 
@@ -1038,6 +1073,31 @@
             groupPermissions[g.id] = permsState;
         });
 
+        const allUsers = [
+            { id: 1, name: 'Otavio Linden', email: 'otavio@pagah.com', color: '#F1E52F', textColor: '#1C1C1C' },
+            { id: 2, name: 'Jeferson Silva', email: 'jeferson@pagah.com', color: '#1C1C1C', textColor: '#fff' },
+            { id: 3, name: 'Gabriel Rodrigues', email: 'gabriel@pagah.com', color: '#575756', textColor: '#fff' },
+            { id: 4, name: 'Luis Fernando', email: 'luis@pagah.com', color: '#3B82F6', textColor: '#fff' },
+            { id: 5, name: 'Julio Cesar', email: 'julio@pagah.com', color: '#8B5CF6', textColor: '#fff' },
+            { id: 6, name: 'Maria Santos', email: 'maria@pagah.com', color: '#22C55E', textColor: '#fff' },
+            { id: 7, name: 'Carlos Oliveira', email: 'carlos@pagah.com', color: '#EF4444', textColor: '#fff' },
+            { id: 8, name: 'Ana Paula Costa', email: 'ana@pagah.com', color: '#F97316', textColor: '#fff' },
+            { id: 9, name: 'Ricardo Mendes', email: 'ricardo@pagah.com', color: '#1C1C1C', textColor: '#fff' },
+            { id: 10, name: 'Fernanda Lima', email: 'fernanda@pagah.com', color: '#575756', textColor: '#fff' },
+            { id: 11, name: 'Pedro Henrique', email: 'pedro@pagah.com', color: '#3B82F6', textColor: '#fff' },
+            { id: 12, name: 'Camila Souza', email: 'camila@pagah.com', color: '#8B5CF6', textColor: '#fff' },
+        ];
+
+        const groupUsers = {
+            1: [1, 2, 3, 4, 5],
+            2: [2, 4, 5, 6, 7, 8, 9, 10],
+            3: [3],
+            4: [2],
+            5: [5],
+            6: [4],
+            7: [2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 3],
+        };
+
         function getLevelBadge(activePerms) {
             const pct = (activePerms / TOTAL_PERMISSIONS) * 100;
             if (pct >= 90) return { label: 'Total', css: 'badge-level--total' };
@@ -1216,7 +1276,72 @@
         }
 
         function renderUsersTab(container) {
-            container.innerHTML = '<p style="color:#999;">Lista de usuários (task futura)</p>';
+            const linkedIds = groupUsers[selectedGroupId] || [];
+            container.innerHTML = `
+                <div class="users-search">
+                    <span class="users-search__icon material-symbols-rounded">search</span>
+                    <input type="text" class="users-search__input" placeholder="Buscar usuário..." oninput="filterUsers(this.value)">
+                </div>
+                <div id="usersList">
+                    ${renderUsersList(linkedIds, '')}
+                </div>
+            `;
+        }
+
+        function renderUsersList(linkedIds, filter) {
+            const filterLower = filter.toLowerCase();
+            const linked = allUsers.filter(u => linkedIds.includes(u.id) && u.name.toLowerCase().includes(filterLower));
+            const available = allUsers.filter(u => !linkedIds.includes(u.id) && u.name.toLowerCase().includes(filterLower));
+            let html = '';
+            if (linked.length > 0) {
+                html += '<div class="users-section-label">Vinculados (' + linked.length + ')</div>';
+                html += linked.map(u => renderUserItem(u, true)).join('');
+            }
+            if (available.length > 0) {
+                html += '<div class="users-section-label">Disponíveis (' + available.length + ')</div>';
+                html += available.map(u => renderUserItem(u, false)).join('');
+            }
+            if (linked.length === 0 && available.length === 0) {
+                html += '<p style="color:#999;text-align:center;padding:20px;">Nenhum usuário encontrado</p>';
+            }
+            return html;
+        }
+
+        function renderUserItem(user, isLinked) {
+            const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            return `
+                <div class="user-item">
+                    <div class="user-item__avatar" style="background:${user.color};color:${user.textColor};">${initials}</div>
+                    <div style="flex:1;">
+                        <div class="user-item__name">${user.name}</div>
+                        <div class="user-item__email">${user.email}</div>
+                    </div>
+                    <label class="perm-toggle">
+                        <input type="checkbox" ${isLinked ? 'checked' : ''} onchange="toggleUser(${user.id}, this.checked)">
+                        <span class="perm-toggle__slider"></span>
+                    </label>
+                </div>
+            `;
+        }
+
+        function toggleUser(userId, linked) {
+            const ids = groupUsers[selectedGroupId];
+            if (linked && !ids.includes(userId)) {
+                ids.push(userId);
+            } else if (!linked) {
+                const idx = ids.indexOf(userId);
+                if (idx > -1) ids.splice(idx, 1);
+            }
+            const group = groups.find(g => g.id === selectedGroupId);
+            group.users = ids.length;
+            document.getElementById('tabUsersCount').textContent = ids.length;
+            renderGroups();
+            renderUsersTab(document.getElementById('tabContent'));
+        }
+
+        function filterUsers(query) {
+            const linkedIds = groupUsers[selectedGroupId] || [];
+            document.getElementById('usersList').innerHTML = renderUsersList(linkedIds, query);
         }
 
         // Init
