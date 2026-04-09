@@ -448,6 +448,51 @@
             flex-direction: column;
             overflow: hidden;
         }
+
+        /* CARDS DE GRUPO */
+        .group-card {
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: #F8F8F8;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .group-card:hover { background: #F0F0F0; }
+        .group-card.active { background: var(--pagah-yellow); }
+
+        .group-card__info { flex: 1; min-width: 0; }
+        .group-card__name {
+            font-size: 14px; font-weight: 600; color: var(--pagah-dark);
+            margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
+        }
+        .group-card__meta {
+            font-size: 11px; color: var(--pagah-gray);
+            display: flex; align-items: center; gap: 4px;
+        }
+        .group-card.active .group-card__meta { color: rgba(28, 28, 28, 0.7); }
+
+        .group-card__edit {
+            width: 32px; height: 32px; border-radius: 8px; border: none;
+            background: transparent; cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+            transition: background 0.2s; color: var(--pagah-gray); flex-shrink: 0;
+        }
+        .group-card__edit:hover { background: rgba(0, 0, 0, 0.08); }
+        .group-card.active .group-card__edit { color: var(--pagah-dark); }
+        .group-card.active .group-card__edit:hover { background: rgba(0, 0, 0, 0.1); }
+
+        /* Badges de nível */
+        .badge-level {
+            font-size: 10px; font-weight: 600; padding: 2px 8px;
+            border-radius: 20px; white-space: nowrap;
+        }
+        .badge-level--total { background: #DCFCE7; color: #166534; }
+        .badge-level--quase-total { background: #D1FAE5; color: #065F46; }
+        .badge-level--parcial { background: #FEF9C3; color: #854D0E; }
+        .badge-level--restrito { background: #FEE2E2; color: #991B1B; }
     </style>
 </head>
 
@@ -658,6 +703,69 @@
                 this.parentElement.classList.toggle('open');
             });
         });
+    </script>
+
+    <script>
+        // DADOS MOCKADOS
+        const TOTAL_PERMISSIONS = 90;
+
+        const groups = [
+            { id: 1, name: 'ADMIN', users: 5, activePerms: 87 },
+            { id: 2, name: 'Comercial', users: 8, activePerms: 62 },
+            { id: 3, name: 'Gabriel DEV', users: 1, activePerms: 85 },
+            { id: 4, name: 'Jeferson', users: 1, activePerms: 45 },
+            { id: 5, name: 'Julio', users: 1, activePerms: 22 },
+            { id: 6, name: 'Luis', users: 1, activePerms: 38 },
+            { id: 7, name: 'Suporte', users: 12, activePerms: 15 },
+        ];
+
+        function getLevelBadge(activePerms) {
+            const pct = (activePerms / TOTAL_PERMISSIONS) * 100;
+            if (pct >= 90) return { label: 'Total', css: 'badge-level--total' };
+            if (pct >= 70) return { label: 'Quase total', css: 'badge-level--quase-total' };
+            if (pct >= 30) return { label: 'Parcial', css: 'badge-level--parcial' };
+            return { label: 'Restrito', css: 'badge-level--restrito' };
+        }
+
+        let selectedGroupId = 1;
+
+        function renderGroups() {
+            const list = document.getElementById('groupList');
+            list.innerHTML = groups.map(g => {
+                const badge = getLevelBadge(g.activePerms);
+                const isActive = g.id === selectedGroupId;
+                return `
+                    <div class="group-card ${isActive ? 'active' : ''}" onclick="selectGroup(${g.id})">
+                        <div class="group-card__info">
+                            <div class="group-card__name">
+                                ${g.name}
+                                <span class="badge-level ${badge.css}">${badge.label}</span>
+                            </div>
+                            <div class="group-card__meta">
+                                <span class="material-symbols-rounded" style="font-size:14px;">group</span>
+                                ${g.users} usuário${g.users !== 1 ? 's' : ''}
+                            </div>
+                        </div>
+                        <button class="group-card__edit" onclick="event.stopPropagation();" title="Editar nome">
+                            <span class="material-symbols-rounded" style="font-size:18px;">edit</span>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectGroup(id) {
+            selectedGroupId = id;
+            renderGroups();
+            renderRightPanel();
+        }
+
+        function renderRightPanel() {
+            // Placeholder - will be implemented in Task 3
+        }
+
+        // Init
+        renderGroups();
     </script>
 
 </body>
