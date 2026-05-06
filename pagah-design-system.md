@@ -374,3 +374,313 @@ Erros que IAs ja cometeram e que NUNCA devem se repetir:
 | Icones solid/filled | Os icones da Pagah sao outline (contorno), nunca preenchidos | Material Symbols com `FILL: 0` (padrao) |
 | Sidebar sem funcao de toggle | A sidebar deve alternar entre compacta (68px, icones) e expandida (240px, icones + labels) | Implementar toggle via classe `pb-menu--closed` no body |
 | Inventar cores de marca (verde, laranja) | Verde e laranja sao cores funcionais (status), nunca de marca | Cores de marca: amarelo `#F1E52F` e cinza chumbo `#1C1C1C` apenas |
+
+---
+
+## 12. Escala de Espacamento & Grid
+
+A Pagah usa **grid de 8pt** — todo espacamento (padding, margin, gap) e multiplo de 8 (com 4 e 12 como excecoes pontuais para detalhes finos).
+
+### Tokens de espacamento
+
+| Token  | Valor  | Uso tipico                                           |
+|--------|--------|------------------------------------------------------|
+| `xs`   | `4px`  | Espaco entre icone e texto colado, separadores finos  |
+| `sm`   | `8px`  | Padding interno de chips/badges, gap pequeno          |
+| `md`   | `16px` | Padding default de campos de form, gap entre cards em grid denso |
+| `lg`   | `24px` | Padding interno padrao de cards, gap entre cards normais |
+| `xl`   | `32px` | Espaco entre secoes em uma mesma pagina               |
+| `2xl`  | `48px` | Espaco entre blocos grandes (hero -> conteudo)        |
+| `3xl`  | `64px` | Margem superior pos-header em paginas espacosas       |
+
+### Regras de uso
+- **Padding interno de card padrao:** `24px` (`lg`)
+- **Gap entre cards em grid:** `16px` (`md`) em layouts densos como tabelas/listas; `24px` em grids de KPIs/dashboards
+- **Espaco entre secoes:** `32px` (`xl`) por padrao
+- **Container max-width:** `1280px` para o conteudo principal; gutter lateral de `24px`
+- Nunca usar valores fora desses tokens (ex: `padding: 13px` ou `gap: 21px`). Isso quebra ritmo visual.
+
+---
+
+## 13. Escala Tipografica Formal
+
+Complementa a secao 3. Padroniza tamanhos para evitar que cada pagina invente seu proprio escalonamento.
+
+### Tamanhos (em px, com line-height sugerido)
+
+| Token    | Tamanho | Line-height | Peso     | Uso                                        |
+|----------|---------|-------------|----------|--------------------------------------------|
+| `meta`   | `12px`  | `1.4`       | 400      | Captions, labels mono, badges, datas       |
+| `small`  | `13px`  | `1.5`       | 400      | Texto auxiliar, helper text de form         |
+| `body`   | `14px`  | `1.55`      | 400      | Corpo de texto padrao, celulas de tabela   |
+| `lead`   | `16px`  | `1.5`       | 400      | Subtitulo de secao, paragrafo de destaque   |
+| `h3`     | `18px`  | `1.35`      | 600      | Titulo de card, sub-secao                  |
+| `h2`     | `22px`  | `1.3`       | 600/700  | Titulo de secao na pagina                  |
+| `h1`     | `28px`  | `1.2`       | 700      | Titulo principal da pagina                 |
+| `display`| `36px+` | `1.1`       | 700      | Numero KPI gigante em card escuro          |
+
+### Regras
+- **Numeros financeiros sempre tabulares:** `font-feature-settings: "tnum"` ou usar fonte mono (`Ubuntu Mono`, `JetBrains Mono`) para colunas de valores R$. Sem isso, "R$ 1.234,56" e "R$ 999,00" nao alinham por coluna.
+- **Titulos sempre na cor escura** (`#1C1C1C`), nunca cinza medio.
+- **Texto auxiliar** (helper, caption) na cor cinza medio (`#575756`).
+- **Nunca** usar peso 500 — pular de 400 para 600 (regular -> semibold) mantem hierarquia clara.
+
+---
+
+## 14. Tokens CSS Recomendados
+
+Para alinhar com o padrao de Tailwind (prefix `tw-`) do sistema real, definir variaveis CSS no `:root` e nunca usar HEX cru espalhado pelo CSS.
+
+```css
+:root {
+  /* Cores */
+  --pb-bg:        #F2F2F2;   /* background geral da pagina */
+  --pb-surface:   #FFFFFF;   /* cards, modais */
+  --pb-fg:        #1C1C1C;   /* texto principal */
+  --pb-muted:     #575756;   /* texto secundario, icones desativados */
+  --pb-border:    #DADADA;   /* bordas, separadores */
+  --pb-accent:    #F1E52F;   /* amarelo Pagah - usar no MAXIMO 2x por tela */
+  --pb-dark:      #1C1C1C;   /* fundo de card escuro de destaque, header de tabela */
+
+  /* Status (funcionais, NAO de marca) */
+  --pb-success:   #22C55E;
+  --pb-danger:    #EF4444;
+  --pb-warning:   #F97316;
+  --pb-info:      #3B82F6;
+  --pb-purple:    #8B5CF6;
+
+  /* Tipografia */
+  --pb-font-body: 'Ubuntu', system-ui, sans-serif;
+  --pb-font-num:  'Ubuntu Mono', ui-monospace, monospace;
+
+  /* Espacamento (8pt grid) */
+  --pb-gap-xs:  4px;
+  --pb-gap-sm:  8px;
+  --pb-gap-md:  16px;
+  --pb-gap-lg:  24px;
+  --pb-gap-xl:  32px;
+  --pb-gap-2xl: 48px;
+
+  /* Raio */
+  --pb-radius-sm:   8px;   /* botoes, campos de form */
+  --pb-radius-md:   12px;  /* cards padrao */
+  --pb-radius-lg:   16px;  /* cards de destaque */
+  --pb-radius-pill: 999px; /* badges */
+
+  /* Sombra */
+  --pb-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --pb-shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+}
+```
+
+**Regra:** Nunca usar `#XXXXXX` cru fora desse bloco `:root`. Sempre `var(--pb-fg)`, `var(--pb-bg)`, etc.
+
+---
+
+## 15. Vocabulario de Secoes (Section Catalog)
+
+Em vez de inventar layout do zero, toda nova pagina deve compor a partir destas secoes pre-definidas. Cada uma tem um nome e um proposito unico.
+
+### 15.1 Cabecalho de Pagina (`page-header`)
+Titulo da pagina + acoes principais (botao primario + filtros).
+- Esquerda: titulo H1 + breadcrumb opcional
+- Direita: botao primario amarelo + botoes secundarios outline (ex: "Exportar", "Permissoes")
+
+### 15.2 Card de Metrica / KPI (`kpi-card`)
+- Label pequena no topo (cinza)
+- Valor grande bold (use fonte tabular)
+- Variacao % com seta verde/vermelha
+- Icone decorativo no canto direito
+- Variantes: claro (fundo branco) ou destaque (fundo `#1C1C1C`)
+
+### 15.3 Card de Destaque Escuro (`hero-dark-card`)
+Fundo `#1C1C1C`, texto branco, badge "pagah" amarelo no canto. Reservado para o KPI **principal** da tela (ex: "Saldo Disponivel", "Vendas do Mes"). Usar **uma vez por pagina**, no maximo.
+
+### 15.4 Filtros Inline (`filter-bar`)
+Barra horizontal acima da tabela:
+- Campo de busca (com icone `search` a esquerda)
+- 1-3 selects (status, periodo, categoria)
+- Botao "Filtrar" outline OU aplicar onChange
+- Botao "Exportar" outline a direita
+
+### 15.5 Tabela de Dados (`data-table`)
+- Header: fundo `#1C1C1C`, texto branco
+- Linhas: brancas, hover `#F8F8F8`
+- Numericos em colunas direita-alinhadas + fonte tabular
+- Acoes por linha: icones outline (editar, ver, mais) com hover
+- Paginacao no rodape: 10/25/50/100 por pagina + setas
+
+### 15.6 Sub-Navegacao Lateral (`sub-nav`)
+Para telas com multi-step (Editar Produto, Suporte). Lista vertical de itens, ativo destacado com barra amarela a esquerda + texto bold.
+
+### 15.7 Acordeao de Secao (`collapsible-section`)
+Para listas longas tipo Permissoes ou Configuracoes: header com chevron + contador "(3 ativos)" + toggle global da secao.
+
+### 15.8 Banda de CTA (`cta-strip`)
+Final de pagina com uma acao decisiva centralizada. Usar so em fluxos que pedem acao (ex: "Solicitar Saque", "Adicionar Produto"). NAO em paginas de listagem.
+
+### 15.9 Estado Vazio (`empty-state`)
+- Ilustracao simples ou icone grande cinza
+- Titulo curto ("Nenhum saque ainda")
+- Descricao 1-2 linhas explicando
+- Botao primario para acao ("Solicitar primeiro saque")
+
+### 15.10 Modal de Confirmacao Dupla (`confirm-modal`)
+Para acoes irreversiveis (saque, exclusao, alteracao critica):
+- Titulo claro ("Confirmar saque de R$ 12.345,67?")
+- Resumo descritivo do que vai acontecer (chave PIX destino, valor liquido apos taxas)
+- Dois botoes: "Cancelar" outline + "Confirmar" amarelo
+- Fecha so com clique explicito (nao com clique fora)
+
+### Ritmo de pagina (quando em duvida)
+Para uma listagem (Vendas, Produtos, Saques):
+1. `page-header`
+2. `kpi-card` em grid de 3-4 (ou 1 `hero-dark-card` + 3 `kpi-card`)
+3. `filter-bar`
+4. `data-table`
+
+Para um detalhe/edicao:
+1. `page-header` (com breadcrumb)
+2. `sub-nav` lateral + formulario empilhado
+3. Botoes de acao no rodape
+
+---
+
+## 16. Estados Interativos & Movimento
+
+Todo elemento clicavel deve ter os 5 estados explicitos. Sem isso a interface parece morta.
+
+### Estados obrigatorios
+
+| Estado          | Visual                                                 |
+|-----------------|--------------------------------------------------------|
+| `default`       | Cor base do componente                                 |
+| `hover`         | Background +5% de cinza OU borda escurece sutilmente   |
+| `focus-visible` | Borda amarela `#F1E52F` 2px + outline-offset 2px (acessibilidade) |
+| `active`        | Background -5% (mais escuro), efeito de "pressionado"  |
+| `disabled`      | Opacidade 40%, cursor `not-allowed`, sem hover          |
+| `loading`       | Spinner pequeno + texto "Carregando..." OU skeleton    |
+
+### Duracao de transicoes
+- **Padrao:** `150ms ease-out` para hover, foco, mudanca de cor
+- **Modal/drawer:** `200-250ms ease-in-out` para abrir/fechar
+- **Pagina:** sem animacao de transicao entre rotas (instantaneo)
+
+### Foco e acessibilidade
+- **Sempre** mostrar outline em `:focus-visible` — usuarios de teclado dependem disso
+- Nunca usar `outline: none` sem substituir por outro indicador visivel
+- Botao primario amarelo no foco: borda escura `#1C1C1C` 2px (porque amarelo no amarelo nao aparece)
+
+---
+
+## 17. Reflow Mobile / Responsividade
+
+A Pagah e majoritariamente desktop, mas usuarios mobile existem (gerentes em campo, parceiros). Toda pagina precisa funcionar em mobile, mesmo sem visual perfeito.
+
+### Breakpoints
+
+| Nome    | Largura      | Comportamento                                  |
+|---------|--------------|------------------------------------------------|
+| `mobile`| `< 768px`    | Sidebar vira drawer (off-canvas, abre via hamburger). Grids de 3-4 colunas viram 1. Tabelas viram cards empilhados. |
+| `tablet`| `768-1023px` | Sidebar fica compacta (68px). Grids de 4 viram 2. Tabelas mantem layout com scroll horizontal se precisar. |
+| `desktop`| `>= 1024px` | Layout completo (header + sidebar + conteudo). |
+
+### Regras criticas
+
+- **Sidebar mobile:** vira off-canvas (drawer). Hamburger no header abre. Backdrop escuro 40% atras. Fecha com swipe ou tap fora.
+- **Header mobile:** mantem amarelo, mas reduz icones — esconde "ajuda" e "perfil" deixando so hamburger + notificacoes + avatar.
+- **Tabelas em mobile:** opcao A = scroll horizontal (mais facil); opcao B = cada linha vira um card empilhado com label+valor (melhor UX). Preferir B em telas com poucas colunas (<=5).
+- **Botoes em mobile:** tamanho minimo `44x44px` (alvo de toque).
+- **Modais em mobile:** ocupam 100% da largura com margem 16px. Botoes de acao empilhados em coluna, nao lado a lado.
+- **Filtros em mobile:** colapsar em um botao "Filtros" que abre drawer/modal com todos os campos.
+
+---
+
+## 18. Estados de Dados
+
+Toda lista, tabela ou cartao com dado dinamico precisa ter os 4 estados.
+
+| Estado     | O que mostrar                                                   |
+|------------|----------------------------------------------------------------|
+| `loading`  | Skeleton (placeholders cinza claro com shimmer) ou spinner central. Manter altura do container para nao "pular" o layout |
+| `empty`    | Ilustracao + titulo curto + acao sugerida (secao 15.9)         |
+| `error`    | Icone vermelho + mensagem clara ("Nao foi possivel carregar") + botao "Tentar novamente" |
+| `success`  | Os dados (estado normal)                                       |
+
+### Regras
+- **Nao deixar tela em branco** durante loading — sempre skeleton ou spinner
+- **Mensagens de erro em portugues, sem jargao** ("Nao foi possivel carregar suas vendas. Tente novamente em alguns instantes.")
+- **Empty state e oportunidade** — mostrar como dar o primeiro passo, nao so dizer "vazio"
+
+---
+
+## 19. Microcopy & Tom de Voz
+
+Como a Pagah escreve textos de interface.
+
+### Tom
+- **Direto, objetivo, sem rebuscar.** "Sacar" beats "Realizar saque". "Adicionar produto" beats "Cadastrar novo produto".
+- **Em portugues do Brasil**, sem anglicismos desnecessarios ("Painel" beats "Dashboard" no titulo da tela; mas "Checkout" pode ficar porque e termo do mercado).
+- **Conversacional quando ajuda.** Empty state: "Voce ainda nao tem saques. Que tal solicitar o primeiro?" beats "Nenhum saque encontrado".
+
+### Botoes — sempre dizer o que vai acontecer
+- Bom: "Sacar R$ 12.345,67", "Cancelar pedido", "Adicionar produto"
+- Ruim: "Confirmar", "OK", "Enviar"
+
+### Mensagens de erro — explicar + sugerir saida
+- Bom: "Saldo insuficiente para este saque. Saldo disponivel: R$ 1.234,56."
+- Ruim: "Erro 422", "Operacao invalida"
+
+### Mensagens de sucesso — confirmar e proximo passo
+- Bom: "Saque solicitado! Voce recebera em ate 1 dia util na chave PIX cadastrada."
+- Ruim: "Sucesso!"
+
+### Numeros e valores
+- Sempre `R$ X,XX` com simbolo + virgula decimal
+- Datas: `DD/MM/AAAA` ou `5 mai 2026`
+- Percentual: `12,3%` (virgula como decimal)
+
+---
+
+## 20. Checklist de Qualidade Visual (P0 / P1)
+
+Rode antes de considerar uma pagina pronta. **P0 = obrigatorio. P1 = altamente recomendado.**
+
+### P0 — obrigatorio (se quebrar, refazer)
+
+- [ ] Header amarelo `#F1E52F` fixo no topo, 56px, 100% largura
+- [ ] Sidebar **branca** `#FFFFFF` com TODOS os 11 itens
+- [ ] Background da pagina e `#F2F2F2`
+- [ ] Icones sao Material Symbols Rounded (nunca Font Awesome / Lucide)
+- [ ] Logo escrito em minusculas: "pagah"
+- [ ] Amarelo `#F1E52F` aparece no maximo **2x por tela** (botao primario + 1 destaque). Mais que isso polui.
+- [ ] Nenhum `#XXXXXX` cru no CSS fora do bloco `:root` de tokens
+- [ ] Toda info numerica financeira em fonte tabular alinhada a direita
+- [ ] Todo botao tem estados `hover` + `focus-visible` visiveis
+- [ ] Tela funciona em mobile (375px width minimo) sem scroll horizontal
+- [ ] Toda lista/tabela tem estado `empty` definido (nao deixar tela em branco)
+- [ ] Acoes irreversiveis (saque, exclusao) tem confirmacao dupla
+- [ ] Texto em portugues, sem typos, sem "Lorem ipsum"
+
+### P1 — recomendado
+
+- [ ] Espacamento segue grid 8pt (multiplos de 8, com 4/12 como excecoes pontuais)
+- [ ] Cards usam `--pb-radius-md` (12px) consistentemente
+- [ ] Tipografia segue escala definida (12/13/14/16/18/22/28)
+- [ ] Numero principal de KPI em fonte display tabular
+- [ ] Cor escura `#1C1C1C` so em: header de tabela + 1 card de destaque por tela + texto principal
+- [ ] Icones de acao em tabela tem tooltip ao hover
+- [ ] Estados de loading usam skeleton (nao spinner generico)
+- [ ] Botoes de acao primaria sempre dizem o que vai acontecer ("Sacar R$ X" beats "Confirmar")
+- [ ] Mensagens de erro explicam causa + sugerem saida
+- [ ] Modais de confirmacao mostram resumo do que vai acontecer (valor, destino, taxas)
+
+### Anti-slop check (olhar a pagina por 2 segundos)
+
+Se voce olhar e pensar:
+- "Parece qualquer dashboard generico de SaaS"
+- "Os cards de KPI sao todos iguais"
+- "O amarelo esta em 5 lugares diferentes"
+- "Nao da pra saber qual e a acao principal"
+
+...volte e corrija. Pagah tem identidade — ela precisa transparecer.
