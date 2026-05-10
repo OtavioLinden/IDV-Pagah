@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useMotionValueEvent, useScroll, useTransform } from "motion/react";
 import { useState } from "react";
 import { header } from "@/content/landing";
@@ -35,33 +36,24 @@ export default function V3Header() {
         <Link href="/" className="flex items-center gap-2.5 group">
           <motion.span
             layoutId="v3-logo-mark"
-            className="size-9 grid place-items-center rounded-[10px]"
-            style={{
-              background: "linear-gradient(135deg, #F1E52F 0%, #C9BF28 100%)",
-              color: "#0F0F10",
-              boxShadow:
-                "0 0 0 1px rgba(241,229,47,0.25), 0 6px 20px -6px rgba(241,229,47,0.5)",
-            }}
+            className="size-9 grid place-items-center rounded-[10px] overflow-hidden"
             whileHover={{ scale: 1.06, rotate: -3 }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}
             aria-hidden="true"
           >
-            <svg viewBox="0 0 24 24" fill="none" className="size-4">
-              <path
-                d="M5 4h9a5 5 0 0 1 0 10H5V4z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M5 14v6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
+            <Image
+              src="/brand/icon-yellow-rounded.svg"
+              alt="Pagah"
+              width={36}
+              height={36}
+              className="size-9"
+              priority
+            />
           </motion.span>
-          <span className="text-[17px] font-semibold tracking-[-0.02em] lowercase">
+          <span
+            className="text-[17px] font-semibold tracking-[-0.02em] lowercase"
+            style={{ color: "var(--accent)" }}
+          >
             pagah
           </span>
           <span

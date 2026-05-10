@@ -1,4 +1,5 @@
 import { Bricolage_Grotesque, Inter_Tight } from "next/font/google";
+import VersionSwitcher from "@/components/shared/VersionSwitcher";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -103,6 +104,7 @@ export default function V2Layout({ children }: { children: React.ReactNode }) {
         .v2-btn-ghost-on-contrast:hover { background: var(--text-on-contrast); color: var(--text-primary); }
       `}</style>
       <main className="v2-root min-h-screen antialiased">{children}</main>
+      <VersionSwitcher />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import VersionSwitcher from "@/components/shared/VersionSwitcher";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -46,6 +47,7 @@ export default function V1Layout({ children }: { children: React.ReactNode }) {
         .v1-shimmer-text { background: linear-gradient(90deg, var(--text-primary) 0%, var(--accent) 50%, var(--text-primary) 100%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: v1-shimmer 6s linear infinite; }
       `}</style>
       <main className="v1-root min-h-screen">{children}</main>
+      <VersionSwitcher />
     </div>
   );
 }

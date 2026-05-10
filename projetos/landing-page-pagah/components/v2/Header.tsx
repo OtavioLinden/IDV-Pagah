@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { header } from "@/content/landing";
 
 export default function V2Header() {
@@ -6,10 +7,20 @@ export default function V2Header() {
       <div className="mx-auto max-w-7xl px-6 md:px-10 h-20 flex items-center justify-between gap-8">
         <a
           href="#"
-          className="v2-display font-bold text-2xl tracking-[-0.05em] lowercase"
+          className="flex items-center gap-2.5"
           aria-label="Pagah"
         >
-          pagah<span style={{ color: "var(--accent)" }}>.</span>
+          <Image
+            src="/brand/icon-grey-rounded.svg"
+            alt="Pagah"
+            width={36}
+            height={36}
+            className="size-9"
+            priority
+          />
+          <span className="v2-display font-bold text-2xl tracking-[-0.05em] lowercase">
+            pagah<span style={{ color: "var(--accent)" }}>.</span>
+          </span>
         </a>
 
         <nav

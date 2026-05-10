@@ -1,4 +1,5 @@
 import { Ubuntu, Ubuntu_Mono } from "next/font/google";
+import VersionSwitcher from "@/components/shared/VersionSwitcher";
 
 const ubuntu = Ubuntu({
   subsets: ["latin"],
@@ -105,6 +106,7 @@ export default function V4Layout({ children }: { children: React.ReactNode }) {
       `}</style>
       <div className="v4-yellow-strip" aria-hidden="true" />
       <main className="v4-root min-h-screen">{children}</main>
+      <VersionSwitcher />
     </div>
   );
 }

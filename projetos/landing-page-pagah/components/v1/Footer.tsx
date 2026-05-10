@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { footer, meta } from "@/content/landing";
 
 export default function V1Footer() {
@@ -15,26 +16,17 @@ export default function V1Footer() {
         <div className="grid lg:grid-cols-[1.3fr_1fr_1fr] gap-12 mb-16">
           <div>
             <Link href="/" className="flex items-center gap-2.5 mb-5">
+              <Image
+                src="/brand/icon-yellow-rounded.svg"
+                alt="Pagah"
+                width={32}
+                height={32}
+                className="size-8"
+              />
               <span
-                className="size-8 rounded-lg grid place-items-center"
-                style={{ background: "var(--accent)", color: "#0A0A0A" }}
+                className="text-lg font-medium tracking-tight"
+                style={{ color: "var(--accent)" }}
               >
-                <svg viewBox="0 0 24 24" fill="none" className="size-4">
-                  <path
-                    d="M12 2L20 8V16L12 22L4 16V8L12 2Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M12 8V16M8 12H16"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-              <span className="text-lg font-medium tracking-tight">
                 {meta.brand}
               </span>
             </Link>

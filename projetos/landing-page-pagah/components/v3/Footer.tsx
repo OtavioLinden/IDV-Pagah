@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
 import { footer } from "@/content/landing";
 
@@ -20,33 +21,17 @@ export default function V3Footer() {
             className="v3-tile p-6 lg:col-span-1"
           >
             <div className="flex items-center gap-2.5 mb-4">
+              <Image
+                src="/brand/icon-yellow-rounded.svg"
+                alt="Pagah"
+                width={36}
+                height={36}
+                className="size-9"
+              />
               <span
-                className="size-9 grid place-items-center rounded-[10px]"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #F1E52F 0%, #C9BF28 100%)",
-                  color: "#0F0F10",
-                  boxShadow:
-                    "0 0 0 1px rgba(241,229,47,0.25), 0 6px 20px -6px rgba(241,229,47,0.5)",
-                }}
-                aria-hidden="true"
+                className="text-[18px] font-semibold tracking-[-0.02em] lowercase"
+                style={{ color: "var(--accent)" }}
               >
-                <svg viewBox="0 0 24 24" fill="none" className="size-4">
-                  <path
-                    d="M5 4h9a5 5 0 0 1 0 10H5V4z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M5 14v6"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-              <span className="text-[18px] font-semibold tracking-[-0.02em] lowercase">
                 pagah
               </span>
             </div>

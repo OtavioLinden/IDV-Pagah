@@ -1,4 +1,5 @@
 import { Onest, JetBrains_Mono } from "next/font/google";
+import VersionSwitcher from "@/components/shared/VersionSwitcher";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -127,6 +128,7 @@ export default function V3Layout({ children }: { children: React.ReactNode }) {
         }
       `}</style>
       <main className="v3-root min-h-screen">{children}</main>
+      <VersionSwitcher />
     </div>
   );
 }

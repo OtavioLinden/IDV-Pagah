@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { footer } from "@/content/landing";
 
 export default function V2Footer() {
@@ -10,6 +11,15 @@ export default function V2Footer() {
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         {/* Massive logo */}
         <div className="border-t-2 border-[var(--text-primary)] pt-10 mb-16">
+          <div className="flex items-center gap-4 mb-4">
+            <Image
+              src="/brand/icon-grey-rounded.svg"
+              alt="Pagah"
+              width={80}
+              height={80}
+              className="size-16 md:size-20"
+            />
+          </div>
           <p
             className="v2-display font-extrabold lowercase"
             style={{

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { versions } from "@/content/landing";
 
 const previews: Record<
@@ -144,12 +145,14 @@ export default function Home() {
       {/* Header */}
       <header className="px-8 md:px-16 pt-8 pb-12">
         <div className="flex items-center gap-3">
-          <div
-            className="size-10 rounded-xl grid place-items-center font-black"
-            style={{ background: "#F1E52F", color: "#1C1C1C" }}
-          >
-            <span className="text-lg">p</span>
-          </div>
+          <Image
+            src="/brand/icon-yellow-rounded.svg"
+            alt="Pagah"
+            width={40}
+            height={40}
+            className="size-10"
+            priority
+          />
           <span className="text-sm uppercase tracking-[0.25em] opacity-50">
             pagah landings · 4 propostas
           </span>

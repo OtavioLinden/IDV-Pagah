@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { footer, meta } from "@/content/landing";
 
 export default function V4Footer() {
@@ -24,36 +25,13 @@ export default function V4Footer() {
               className="flex items-center gap-2.5 mb-5"
               aria-label="Pagah"
             >
-              <span
-                className="size-9 rounded-lg grid place-items-center"
-                style={{
-                  background: "var(--accent)",
-                  color: "var(--text-primary)",
-                }}
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="size-[18px]"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M12 2L20 8V16L12 22L4 16V8L12 2Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M12 8V16M8 12H16"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-              <span className="text-[19px] font-bold tracking-tight">
-                {meta.brand}
-              </span>
+              <Image
+                src="/brand/logo-principal.png"
+                alt={meta.brand}
+                width={140}
+                height={40}
+                className="h-9 w-auto"
+              />
             </Link>
             <p
               className="text-[15px] leading-relaxed max-w-md mb-6"
