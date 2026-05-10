@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import VersionSwitcher from "@/components/shared/VersionSwitcher";
+import AmbientBackground from "@/components/v1/AmbientBackground";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -45,7 +46,7 @@ export default function V1Layout({ children }: { children: React.ReactNode }) {
       }
     >
       <style>{`
-        .v1-root { font-family: var(--font-v1-display), sans-serif; background: var(--bg-base); color: var(--text-primary); }
+        .v1-root { font-family: var(--font-v1-display), sans-serif; background: transparent; color: var(--text-primary); position: relative; z-index: 0; }
         .v1-mono { font-family: var(--font-v1-mono), monospace; font-feature-settings: "ss01", "cv11"; }
         /* Liquid-glass refraction: outer hairline + inner highlight + bottom inset shadow */
         .v1-glass {
@@ -82,6 +83,7 @@ export default function V1Layout({ children }: { children: React.ReactNode }) {
           .v1-glass-hover:hover { transform: none; }
         }
       `}</style>
+      <AmbientBackground />
       <main className="v1-root min-h-screen">{children}</main>
       <VersionSwitcher />
     </div>

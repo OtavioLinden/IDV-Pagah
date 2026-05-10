@@ -1,6 +1,7 @@
 import { Onest, JetBrains_Mono } from "next/font/google";
 import VersionSwitcher from "@/components/shared/VersionSwitcher";
 import V3MotionProvider from "@/components/v3/MotionProvider";
+import AmbientBackground from "@/components/v3/AmbientBackground";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -50,6 +51,14 @@ export default function V3Layout({ children }: { children: React.ReactNode }) {
           background: var(--bg-base);
           color: var(--text-primary);
           font-feature-settings: "cv11";
+          /* New stacking context so the ambient layer (fixed, z:0) sits above bg
+             but below content (which gets position:relative; z-index:1). */
+          position: relative;
+          isolation: isolate;
+        }
+        .v3-root > *:not(.v3-ambient) {
+          position: relative;
+          z-index: 1;
         }
         .v3-mono { font-family: var(--font-v3-mono), ui-monospace, monospace; }
         .v3-num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
@@ -189,7 +198,10 @@ export default function V3Layout({ children }: { children: React.ReactNode }) {
         }
       `}</style>
       <V3MotionProvider>
-        <main className="v3-root min-h-screen">{children}</main>
+        <main className="v3-root min-h-screen">
+          <AmbientBackground />
+          {children}
+        </main>
       </V3MotionProvider>
       <VersionSwitcher />
     </div>

@@ -54,3 +54,5 @@ image.png
 .tmp/
 .audits/
 .qa-screenshots/
+
+.vercel
