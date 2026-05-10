@@ -4,7 +4,8 @@
       "Bash(git clone:*)",
       "Bash(find C:/Users/Usuario/Documents/Claude/Pagah -name *.mp4 -exec ls -lh {})",
       "Bash(2)",
-      "Bash(find C:/Users/Usuario/Documents/Claude/Pagah -name *.ai -exec ls -lh {})"
+      "Bash(find C:/Users/Usuario/Documents/Claude/Pagah -name *.ai -exec ls -lh {})",
+      "Bash(gh repo:*)"
     ]
   }
 }

@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  /* Pagah brand */
+  --color-pagah-yellow: oklch(91% 0.16 100);
+  --color-pagah-yellow-dim: oklch(82% 0.14 100);
+  --color-pagah-charcoal: oklch(20% 0 0);
+  --color-pagah-graphite: oklch(36% 0 0);
+  --color-pagah-mist: oklch(95% 0 0);
+  --color-pagah-cloud: oklch(99% 0 0);
+
+  /* Functional */
+  --color-success: oklch(72% 0.18 145);
+  --color-error: oklch(64% 0.22 25);
+  --color-warning: oklch(75% 0.17 65);
+  --color-info: oklch(64% 0.15 250);
+
+  /* Animation easings */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Base reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-feature-settings: "ss01", "cv11";
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Tabular nums for KPIs */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Selection color */
+::selection {
+  background: var(--color-pagah-yellow);
+  color: var(--color-pagah-charcoal);
+}
