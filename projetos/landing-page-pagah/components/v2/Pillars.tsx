@@ -64,20 +64,20 @@ export default function V2Pillars() {
                   },
                 },
               }}
-              className={`grid lg:grid-cols-12 gap-8 lg:gap-16 items-start ${
-                i % 2 === 1 ? "lg:[direction:rtl]" : ""
-              }`}
-              dir="ltr"
+              className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start"
             >
               <div
                 className={`col-span-12 lg:col-span-5 ${
-                  i % 2 === 1 ? "lg:col-start-8" : ""
+                  i % 2 === 1 ? "lg:col-start-8 lg:row-start-1" : ""
                 }`}
-                dir="ltr"
               >
                 <PillarVisual index={i} />
               </div>
-              <div className="col-span-12 lg:col-span-7" dir="ltr">
+              <div
+                className={`col-span-12 lg:col-span-7 ${
+                  i % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""
+                }`}
+              >
                 <span
                   className="v2-num v2-tabular block mb-3 font-bold"
                   style={{

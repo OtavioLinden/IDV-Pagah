@@ -18,7 +18,7 @@ export default function V1Pillars() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.05]"
+            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.05] text-balance"
           >
             {pillars.title.split("máquina de lucro").map((part, i) =>
               i === 0 ? (

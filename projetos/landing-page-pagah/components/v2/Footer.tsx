@@ -14,7 +14,7 @@ export default function V2Footer() {
           <div className="flex items-center gap-4 mb-4">
             <Image
               src="/brand/icon-grey-rounded.svg"
-              alt="Pagah"
+              alt=""
               width={80}
               height={80}
               className="size-16 md:size-20"
@@ -45,7 +45,7 @@ export default function V2Footer() {
               <li>
                 <a
                   href={`mailto:${footer.contact.email}`}
-                  className="hover:underline"
+                  className="hover:underline focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
                 >
                   {footer.contact.email}
                 </a>
@@ -66,7 +66,7 @@ export default function V2Footer() {
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
                   >
                     {l.label}
                   </a>
@@ -84,7 +84,7 @@ export default function V2Footer() {
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
                   >
                     {l.label}
                   </a>

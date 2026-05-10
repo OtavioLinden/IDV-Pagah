@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { moduleX1 } from "@/content/landing";
 
 const TYPING_PHRASES = [
@@ -251,10 +251,12 @@ function ChatBubble({
 }
 
 function Typewriter() {
+  const reduce = useReducedMotion();
   const [idx, setIdx] = useState(0);
-  const [shown, setShown] = useState("");
+  const [shown, setShown] = useState(reduce ? TYPING_PHRASES[0] : "");
 
   useEffect(() => {
+    if (reduce) return;
     const phrase = TYPING_PHRASES[idx % TYPING_PHRASES.length];
     if (shown.length < phrase.length) {
       const t = setTimeout(() => setShown(phrase.slice(0, shown.length + 1)), 45);
@@ -265,7 +267,7 @@ function Typewriter() {
       setIdx((i) => (i + 1) % TYPING_PHRASES.length);
     }, 2000);
     return () => clearTimeout(wait);
-  }, [shown, idx]);
+  }, [shown, idx, reduce]);
 
   return (
     <div
@@ -279,7 +281,7 @@ function Typewriter() {
       <motion.span
         className="inline-block w-[1px] h-3.5 ml-0.5 align-middle"
         style={{ background: "var(--accent)" }}
-        animate={{ opacity: [0, 1, 0] }}
+        animate={reduce ? undefined : { opacity: [0, 1, 0] }}
         transition={{ duration: 0.8, repeat: Infinity, ease: "easeInOut" }}
       />
     </div>

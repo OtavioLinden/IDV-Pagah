@@ -147,6 +147,7 @@ export default function V4Hero() {
           >
             <a
               href="#cta-final"
+              aria-label={`${hero.primaryCta} — ir para o formulário de contato`}
               className="px-6 py-3.5 text-[15px] font-bold rounded-lg"
               style={{
                 background: "var(--accent)",

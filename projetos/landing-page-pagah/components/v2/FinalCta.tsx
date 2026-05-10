@@ -72,7 +72,7 @@ export default function V2FinalCta() {
           }}
           className="flex flex-wrap items-center gap-4 mb-10"
         >
-          <a href="#" className="v2-btn-on-contrast">
+          <a href="#contato" className="v2-btn-on-contrast">
             {finalCta.primary}
             <svg
               viewBox="0 0 24 24"
@@ -88,7 +88,7 @@ export default function V2FinalCta() {
               />
             </svg>
           </a>
-          <a href="#" className="v2-btn-ghost-on-contrast">
+          <a href="#contato" className="v2-btn-ghost-on-contrast">
             {finalCta.secondary}
           </a>
         </motion.div>

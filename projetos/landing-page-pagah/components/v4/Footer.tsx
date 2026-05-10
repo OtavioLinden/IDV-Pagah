@@ -115,6 +115,7 @@ export default function V4Footer() {
                 </span>
                 <a
                   href={`mailto:${footer.contact.email}`}
+                  aria-label={`Enviar e-mail para ${footer.contact.email}`}
                   style={{ color: "var(--text-primary)" }}
                 >
                   {footer.contact.email}
@@ -133,6 +134,9 @@ export default function V4Footer() {
                 </span>
                 <a
                   href={`https://wa.me/${footer.contact.whatsapp.replace(/\D/g, "")}`}
+                  aria-label={`Abrir WhatsApp ${footer.contact.whatsapp}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="v4-tabular"
                   style={{ color: "var(--text-primary)" }}
                 >
@@ -162,7 +166,10 @@ export default function V4Footer() {
           className="pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
           style={{ borderTop: "1px solid var(--border-card)" }}
         >
-          <p className="text-[12px]" style={{ color: "var(--text-tertiary)" }}>
+          <p
+            className="text-[12px] v4-tabular"
+            style={{ color: "var(--text-tertiary)" }}
+          >
             © 2026 Pagah · Todos os direitos reservados
           </p>
           <p

@@ -79,14 +79,8 @@ export default function V3Header() {
             <a
               key={m.label}
               href={m.href}
-              className="px-3 py-1.5 text-[13px] rounded-full transition-colors"
-              style={{ color: "var(--text-secondary)" }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = "var(--text-primary)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "var(--text-secondary)")
-              }
+              className="px-3 py-1.5 text-[13px] rounded-full text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
+              style={{ transition: "color 0.2s ease" }}
             >
               {m.label}
             </a>
@@ -96,8 +90,8 @@ export default function V3Header() {
         <div className="flex items-center gap-2">
           <a
             href="#cta-final"
-            className="hidden md:inline-block px-3 py-2 text-[13px] transition-colors"
-            style={{ color: "var(--text-secondary)" }}
+            className="hidden md:inline-block px-3 py-2 text-[13px] rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
+            style={{ transition: "color 0.2s ease" }}
           >
             {header.secondaryCta}
           </a>

@@ -1,5 +1,6 @@
 import { Onest, JetBrains_Mono } from "next/font/google";
 import VersionSwitcher from "@/components/shared/VersionSwitcher";
+import V3MotionProvider from "@/components/v3/MotionProvider";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -126,8 +127,34 @@ export default function V3Layout({ children }: { children: React.ReactNode }) {
             0 18px 50px -12px rgba(241,229,47,0.35),
             inset 0 1px 0 rgba(255,255,255,0.08);
         }
+
+        .v3-root :focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
+          border-radius: 6px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .v3-status-dot::after {
+            animation: none;
+          }
+          .v3-shimmer-bg {
+            animation: none;
+            background: linear-gradient(
+              105deg,
+              transparent 30%,
+              rgba(241,229,47,0.12) 50%,
+              transparent 70%
+            );
+          }
+          .v3-tile {
+            transition: none;
+          }
+        }
       `}</style>
-      <main className="v3-root min-h-screen">{children}</main>
+      <V3MotionProvider>
+        <main className="v3-root min-h-screen">{children}</main>
+      </V3MotionProvider>
       <VersionSwitcher />
     </div>
   );

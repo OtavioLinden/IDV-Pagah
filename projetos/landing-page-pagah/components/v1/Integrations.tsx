@@ -18,7 +18,7 @@ export default function V1Integrations() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] mb-5"
+            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] mb-5 text-balance"
           >
             {integrations.title}
           </motion.h2>
@@ -48,11 +48,11 @@ export default function V1Integrations() {
                   transition: { type: "spring", stiffness: 100, damping: 20 },
                 },
               }}
-              className="group rounded-xl p-5 v1-glass flex items-center gap-3 transition-all hover:bg-white/[0.04]"
+              className="group rounded-xl p-5 v1-glass flex items-center gap-3 transition-colors hover:bg-white/[0.04]"
               style={{ background: "rgba(255,255,255,0.02)" }}
             >
               <span
-                className="size-10 rounded-lg grid place-items-center text-base font-semibold tabular tracking-tight"
+                className="size-10 rounded-lg grid place-items-center text-base font-semibold tabular-nums tracking-tight"
                 style={{
                   background: `oklch(${85 + (name.length % 10)}% 0.16 ${(name.charCodeAt(0) * 7) % 360})`,
                   color: "#0A0A0A",

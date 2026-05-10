@@ -87,7 +87,7 @@ export default function V2Specialization() {
                     },
                   },
                 }}
-                className="bg-[var(--bg-base)] group cursor-default flex flex-col"
+                className="bg-[var(--bg-base)] group flex flex-col"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-[var(--bg-contrast)]">
                   {src ? (
@@ -160,7 +160,7 @@ export default function V2Specialization() {
                     },
                   },
                 }}
-                className="bg-[var(--bg-base)] p-8 flex flex-col justify-between min-h-[180px] group cursor-default"
+                className="bg-[var(--bg-base)] p-8 flex flex-col justify-between min-h-[180px] group"
               >
                 <span
                   className="v2-num font-extrabold v2-tabular text-[var(--text-tertiary)] block"

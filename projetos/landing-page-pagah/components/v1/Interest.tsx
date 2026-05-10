@@ -18,7 +18,7 @@ export default function V1Interest() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] mb-4"
+            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] mb-4 text-balance"
           >
             {interestComparison.title}
           </motion.h2>
@@ -114,12 +114,13 @@ export default function V1Interest() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <a
             href="#cta-final"
-            className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-medium rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] self-start"
+            className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-medium rounded-xl transition-[transform,box-shadow] hover:scale-[1.02] active:scale-[0.98] self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
             style={{
               background: "var(--accent)",
               color: "#0A0A0A",
               boxShadow:
                 "0 0 0 1px rgba(241,229,47,0.4), 0 12px 32px -8px rgba(241,229,47,0.45)",
+              touchAction: "manipulation",
             }}
           >
             {interestComparison.cta} →

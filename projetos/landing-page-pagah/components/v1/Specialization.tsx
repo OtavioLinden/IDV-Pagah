@@ -69,7 +69,7 @@ export default function V1Specialization() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] mb-5"
+            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] mb-5 text-balance"
           >
             Especialistas em quem vende{" "}
             <span style={{ color: "var(--accent)" }}>produto físico</span>.
@@ -102,7 +102,7 @@ export default function V1Specialization() {
                     transition: { type: "spring", stiffness: 120, damping: 18 },
                   },
                 }}
-                className="group relative rounded-2xl v1-glass overflow-hidden cursor-default transition-all hover:-translate-y-1 flex flex-col"
+                className="group relative rounded-2xl v1-glass overflow-hidden cursor-default transition-transform hover:-translate-y-1 flex flex-col"
                 style={{
                   background: "rgba(255,255,255,0.02)",
                 }}

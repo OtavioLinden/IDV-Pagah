@@ -15,7 +15,7 @@ export default function V1Pricing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02]"
+            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] text-balance"
           >
             Uma taxa que se paga{" "}
             <span style={{ color: "var(--accent)" }}>com lucro</span>.
@@ -53,7 +53,7 @@ export default function V1Pricing() {
               </span>
               <div className="flex items-baseline gap-3 mb-6 flex-wrap">
                 <span
-                  className="text-6xl md:text-8xl font-semibold tracking-[-0.05em] tabular leading-none"
+                  className="text-6xl md:text-8xl font-semibold tracking-[-0.05em] tabular-nums leading-none"
                   style={{ color: "var(--accent)" }}
                 >
                   {pricing.price.percent}
@@ -93,7 +93,7 @@ export default function V1Pricing() {
                     />
                     <span className="text-base font-medium">{row.method}</span>
                   </div>
-                  <span className="text-sm text-[var(--text-secondary)] tabular text-right">
+                  <span className="text-sm text-[var(--text-secondary)] tabular-nums text-right">
                     {row.deadline}
                   </span>
                 </li>

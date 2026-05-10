@@ -75,33 +75,69 @@ export default function V2Layout({ children }: { children: React.ReactNode }) {
           padding: 0.95rem 1.4rem; font-size: 14px; font-weight: 600;
           background: var(--text-primary); color: var(--text-on-contrast);
           border: 2px solid var(--text-primary);
-          transition: background-color 220ms ease, color 220ms ease, transform 220ms ease;
+          touch-action: manipulation;
+          transition: background-color 220ms ease, color 220ms ease;
         }
         .v2-btn-primary:hover { background: var(--accent); color: var(--text-primary); }
+        .v2-btn-primary:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 3px;
+        }
         .v2-btn-secondary {
           display: inline-flex; align-items: center; gap: 0.5rem;
           padding: 0.95rem 1.4rem; font-size: 14px; font-weight: 600;
           background: transparent; color: var(--text-primary);
           border: 2px solid var(--text-primary);
-          transition: background-color 220ms ease, color 220ms ease, transform 220ms ease;
+          touch-action: manipulation;
+          transition: background-color 220ms ease, color 220ms ease;
         }
         .v2-btn-secondary:hover { background: var(--text-primary); color: var(--text-on-contrast); }
+        .v2-btn-secondary:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 3px;
+        }
         .v2-btn-on-contrast {
           display: inline-flex; align-items: center; gap: 0.5rem;
           padding: 0.95rem 1.4rem; font-size: 14px; font-weight: 600;
           background: var(--accent); color: var(--text-primary);
           border: 2px solid var(--accent);
-          transition: background-color 220ms ease, color 220ms ease, transform 220ms ease;
+          touch-action: manipulation;
+          transition: background-color 220ms ease, color 220ms ease;
         }
         .v2-btn-on-contrast:hover { background: transparent; color: var(--accent); }
+        .v2-btn-on-contrast:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 3px;
+        }
         .v2-btn-ghost-on-contrast {
           display: inline-flex; align-items: center; gap: 0.5rem;
           padding: 0.95rem 1.4rem; font-size: 14px; font-weight: 600;
           background: transparent; color: var(--text-on-contrast);
           border: 2px solid var(--text-on-contrast);
+          touch-action: manipulation;
           transition: background-color 220ms ease, color 220ms ease;
         }
         .v2-btn-ghost-on-contrast:hover { background: var(--text-on-contrast); color: var(--text-primary); }
+        .v2-btn-ghost-on-contrast:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 3px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .v2-btn-primary,
+          .v2-btn-secondary,
+          .v2-btn-on-contrast,
+          .v2-btn-ghost-on-contrast {
+            transition: none;
+          }
+          .v2-root *,
+          .v2-root *::before,
+          .v2-root *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
       `}</style>
       <main className="v2-root min-h-screen antialiased">{children}</main>
       <VersionSwitcher />

@@ -157,10 +157,9 @@ export default function V4Specialization() {
                       <Image
                         src={photoSrc}
                         alt={n}
-                        width={400}
-                        height={400}
+                        fill
                         sizes="(min-width: 768px) 25vw, 50vw"
-                        className="absolute inset-0 size-full object-cover"
+                        className="object-cover"
                       />
                     </div>
                     <div style={{ padding: "18px 16px 22px" }}>

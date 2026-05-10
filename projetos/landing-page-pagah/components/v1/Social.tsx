@@ -25,7 +25,7 @@ export default function V1Social() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] mb-5"
+            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] mb-5 text-balance"
           >
             {social.title}
           </motion.h2>
@@ -59,7 +59,7 @@ export default function V1Social() {
                 “
               </span>
               <div
-                className="text-2xl font-semibold tabular tracking-[-0.02em] mb-1"
+                className="text-2xl font-semibold tabular-nums tracking-[-0.02em] mb-1"
                 style={{ color: "var(--accent)" }}
               >
                 {t.result}
@@ -118,7 +118,7 @@ export default function V1Social() {
               }}
             >
               <div
-                className="text-3xl md:text-4xl font-semibold tracking-[-0.03em] tabular mb-2"
+                className="text-3xl md:text-4xl font-semibold tracking-[-0.03em] tabular-nums mb-2"
                 style={{ color: "var(--accent)" }}
               >
                 {m.value}

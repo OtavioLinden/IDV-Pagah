@@ -6,20 +6,20 @@ export default function V2Header() {
     <header className="relative z-30 border-b border-[var(--border-subtle)] bg-[var(--bg-base)]">
       <div className="mx-auto max-w-7xl px-6 md:px-10 h-20 flex items-center justify-between gap-8">
         <a
-          href="#"
-          className="flex items-center gap-2.5"
-          aria-label="Pagah"
+          href="#topo"
+          className="flex items-center gap-2.5 focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-4"
+          aria-label="Pagah - voltar ao topo"
         >
           <Image
             src="/brand/icon-grey-rounded.svg"
-            alt="Pagah"
+            alt=""
             width={36}
             height={36}
             className="size-9"
             priority
           />
           <span className="v2-display font-bold text-2xl tracking-[-0.05em] lowercase">
-            pagah<span style={{ color: "var(--accent)" }}>.</span>
+            pagah<span style={{ color: "var(--accent)" }} aria-hidden="true">.</span>
           </span>
         </a>
 
@@ -31,7 +31,7 @@ export default function V2Header() {
             <a
               key={item.href}
               href={item.href}
-              className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-4"
             >
               {item.label}
             </a>
@@ -41,14 +41,17 @@ export default function V2Header() {
         <div className="flex items-center gap-3">
           <a
             href="#cta-final"
-            className="hidden md:inline-flex text-sm font-semibold px-4 py-2 border-2 border-[var(--text-primary)] text-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--text-on-contrast)] transition-colors"
+            className="hidden md:inline-flex text-sm font-semibold px-4 py-2 border-2 border-[var(--text-primary)] text-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--text-on-contrast)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-3"
+            style={{ touchAction: "manipulation" }}
           >
             {header.primaryCta}
           </a>
           <button
             type="button"
-            aria-label="Abrir menu"
-            className="lg:hidden p-2"
+            aria-label="Abrir menu de navegação"
+            aria-expanded="false"
+            className="lg:hidden p-2 focus-visible:outline-2 focus-visible:outline-[var(--text-primary)] focus-visible:outline-offset-2"
+            style={{ touchAction: "manipulation" }}
           >
             <svg
               viewBox="0 0 24 24"

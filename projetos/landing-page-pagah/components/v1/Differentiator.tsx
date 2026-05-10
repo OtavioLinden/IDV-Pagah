@@ -23,7 +23,7 @@ export default function V1Differentiator() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.035em] leading-[1.02] mb-5"
+            className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.035em] leading-[1.02] mb-5 text-balance"
           >
             O atendimento não é suporte.{" "}
             <span style={{ color: "var(--accent)" }}>É lucro.</span>
@@ -172,22 +172,37 @@ function CallCenterVisual() {
   );
 }
 
+// Deterministic seeds avoid SSR hydration mismatch (no Math.random in render)
+const WAVEFORM_HEIGHTS = [
+  62, 38, 74, 45, 86, 52, 30, 68, 41, 79, 55, 33, 71, 48, 82, 36, 65, 44, 76, 51,
+  29, 69, 42, 84,
+];
+const WAVEFORM_OPACITIES = [
+  0.85, 0.55, 0.92, 0.61, 0.78, 0.47, 0.88, 0.52, 0.95, 0.58, 0.72, 0.5, 0.83,
+  0.65, 0.9, 0.45, 0.74, 0.6, 0.81, 0.49, 0.87, 0.56, 0.93, 0.63,
+];
+
 function Waveform() {
   return (
-    <div className="flex items-center gap-1 h-5">
-      {Array.from({ length: 24 }).map((_, i) => (
+    <div className="flex items-center gap-1 h-5" aria-hidden="true">
+      {WAVEFORM_HEIGHTS.map((h, i) => (
         <span
           key={i}
           className="flex-1 rounded-full"
           style={{
             background: "var(--accent)",
-            height: `${20 + Math.sin(i * 0.6) * 30 + Math.random() * 30}%`,
-            opacity: 0.4 + Math.random() * 0.6,
+            height: `${h}%`,
+            opacity: WAVEFORM_OPACITIES[i],
             animation: `v1-wave 1.${i % 6}s ease-in-out infinite alternate`,
           }}
         />
       ))}
-      <style>{`@keyframes v1-wave { to { transform: scaleY(0.3); } }`}</style>
+      <style>{`
+        @keyframes v1-wave { to { transform: scaleY(0.3); } }
+        @media (prefers-reduced-motion: reduce) {
+          [class*="v1-wave"], .flex.items-center.gap-1.h-5 > span { animation: none !important; }
+        }
+      `}</style>
     </div>
   );
 }

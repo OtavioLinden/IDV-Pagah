@@ -50,7 +50,7 @@ export default function V1Hero() {
               damping: 20,
               delay: 0.05,
             }}
-            className="text-[44px] md:text-[64px] lg:text-[72px] leading-[0.98] tracking-[-0.035em] font-semibold mb-6"
+            className="text-[44px] md:text-[64px] lg:text-[72px] leading-[0.98] tracking-[-0.035em] font-semibold mb-6 text-balance"
           >
             Pare de perder vendas, carrinhos e{" "}
             <span className="v1-shimmer-text">juros do parcelamento</span>.
@@ -139,19 +139,21 @@ export default function V1Hero() {
           >
             <a
               href="#cta-final"
-              className="px-6 py-3.5 text-sm font-medium rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="px-6 py-3.5 text-sm font-medium rounded-xl transition-[transform,box-shadow] hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
               style={{
                 background: "var(--accent)",
                 color: "#0A0A0A",
                 boxShadow:
                   "0 0 0 1px rgba(241,229,47,0.4), 0 12px 32px -8px rgba(241,229,47,0.45)",
+                touchAction: "manipulation",
               }}
             >
               {hero.primaryCta}
             </a>
             <a
               href="#solucoes"
-              className="px-6 py-3.5 text-sm font-medium rounded-xl v1-glass hover:bg-white/[0.06] transition-colors"
+              className="px-6 py-3.5 text-sm font-medium rounded-xl v1-glass hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
+              style={{ touchAction: "manipulation" }}
             >
               {hero.secondaryCta} →
             </a>
@@ -262,7 +264,7 @@ function KpiCard({
         {label}
       </div>
       <div className="flex items-baseline justify-between gap-2">
-        <span className="text-xl font-semibold tracking-tight tabular">
+        <span className="text-xl font-semibold tracking-tight tabular-nums">
           {value}
         </span>
         <span

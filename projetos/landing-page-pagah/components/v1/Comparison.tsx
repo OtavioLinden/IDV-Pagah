@@ -15,7 +15,7 @@ export default function V1Comparison() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02]"
+            className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] text-balance"
           >
             <span style={{ color: "var(--accent)" }}>Pagah</span> vs.
             plataforma comum.

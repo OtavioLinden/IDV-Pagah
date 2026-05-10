@@ -64,6 +64,12 @@ export default function V4Layout({ children }: { children: React.ReactNode }) {
           font-feature-settings: "ss01";
           letter-spacing: -0.005em;
         }
+        .v4-root h1, .v4-root h2 {
+          text-wrap: balance;
+        }
+        .v4-root p {
+          text-wrap: pretty;
+        }
         .v4-mono {
           font-family: var(--font-v4-mono), monospace;
         }
@@ -93,6 +99,16 @@ export default function V4Layout({ children }: { children: React.ReactNode }) {
           background: var(--accent);
           z-index: 60;
         }
+        .v4-root a:focus-visible,
+        .v4-root button:focus-visible {
+          outline: 2px solid var(--text-primary);
+          outline-offset: 2px;
+          border-radius: 6px;
+        }
+        .v4-root a,
+        .v4-root button {
+          touch-action: manipulation;
+        }
         @keyframes v4-pulse-dot {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.6; transform: scale(0.85); }
@@ -102,6 +118,14 @@ export default function V4Layout({ children }: { children: React.ReactNode }) {
         }
         @media (prefers-reduced-motion: reduce) {
           .v4-pulse-dot { animation: none; }
+          .v4-root *,
+          .v4-root *::before,
+          .v4-root *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
         }
       `}</style>
       <div className="v4-yellow-strip" aria-hidden="true" />

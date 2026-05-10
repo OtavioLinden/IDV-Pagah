@@ -70,11 +70,12 @@ export default function V4Header() {
         <div className="flex items-center gap-2">
           <a
             href="#cta-final"
-            className="hidden md:inline-flex items-center px-4 py-2.5 text-[14px] font-medium rounded-lg transition-colors"
+            className="hidden md:inline-flex items-center px-4 py-2.5 text-[14px] font-medium rounded-lg"
             style={{
               color: "var(--text-primary)",
               border: "1px solid var(--border-subtle)",
               background: "var(--bg-card)",
+              transition: "color 200ms ease, border-color 200ms ease",
             }}
           >
             {header.secondaryCta}

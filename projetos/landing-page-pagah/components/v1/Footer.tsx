@@ -15,10 +15,14 @@ export default function V1Footer() {
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <div className="grid lg:grid-cols-[1.3fr_1fr_1fr] gap-12 mb-16">
           <div>
-            <Link href="/" className="flex items-center gap-2.5 mb-5">
+            <Link
+              href="/"
+              aria-label="Pagah - página inicial"
+              className="flex items-center gap-2.5 mb-5 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
+            >
               <Image
                 src="/brand/icon-yellow-rounded.svg"
-                alt="Pagah"
+                alt=""
                 width={32}
                 height={32}
                 className="size-8"
@@ -50,7 +54,7 @@ export default function V1Footer() {
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-sm transition-colors"
+                    className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-sm transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
                   >
                     {l.label}
                   </a>
@@ -70,7 +74,7 @@ export default function V1Footer() {
                 </span>
                 <a
                   href={`mailto:${footer.contact.email}`}
-                  className="hover:text-[var(--text-primary)] transition-colors"
+                  className="hover:text-[var(--text-primary)] transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
                 >
                   {footer.contact.email}
                 </a>
@@ -81,7 +85,9 @@ export default function V1Footer() {
                 </span>
                 <a
                   href={`https://wa.me/${footer.contact.whatsapp.replace(/\D/g, "")}`}
-                  className="hover:text-[var(--text-primary)] transition-colors"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="hover:text-[var(--text-primary)] transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
                 >
                   {footer.contact.whatsapp}
                 </a>
