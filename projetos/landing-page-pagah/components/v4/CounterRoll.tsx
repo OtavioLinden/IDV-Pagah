@@ -61,11 +61,47 @@ export default function CounterRoll({
 }: Props) {
   const parsed = useMemo(() => parseValue(value), [value]);
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inViewObserved = useInView(ref, { once: true, margin: "-60px" });
   const reducedMotion = useReducedMotion();
+  const [fallbackTriggered, setFallbackTriggered] = useState(false);
   const [display, setDisplay] = useState<string>(
     parsed ? `${parsed.prefix}${formatNumber(0, parsed.decimals)}${parsed.suffix}` : value,
   );
+
+  // Fallback: IntersectionObserver via motion/react can miss the element when it
+  // mounts already in (or near) the viewport — particularly for hero KPIs above
+  // the fold. Use a native IntersectionObserver + a hard mount fallback so the
+  // animation reliably plays.
+  useEffect(() => {
+    if (!ref.current) return;
+    const el = ref.current;
+
+    // Native IntersectionObserver fallback
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setFallbackTriggered(true);
+            io.disconnect();
+            break;
+          }
+        }
+      },
+      { rootMargin: "0px", threshold: 0 },
+    );
+    io.observe(el);
+
+    // Hard mount fallback: after 1.2s, force-trigger so values never stay at 0
+    // even if observer + scroll never fire (e.g. headless screenshot capture).
+    const t = window.setTimeout(() => setFallbackTriggered(true), 1200);
+
+    return () => {
+      io.disconnect();
+      window.clearTimeout(t);
+    };
+  }, []);
+
+  const inView = inViewObserved || fallbackTriggered;
 
   useEffect(() => {
     if (!parsed) return;
