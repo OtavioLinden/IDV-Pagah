@@ -1,17 +1,86 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+
 /**
  * AmbientBackground — Living Tech ambient layer for V3.
  *
- * Three additive layers, all GPU-accelerated (transform/opacity only):
- *   1. Pulsing dot grid (56px lattice, opacity oscillation 6s)
- *   2. Two yellow ambient blobs drifting on long loops (50–70s)
- *   3. Slow vertical scan line (110s) — radar/scanner vibe
+ * Layers (all GPU-friendly: transform/opacity, plus a single SVG dashoffset):
+ *   1. Pulsing dot grid (56px lattice, opacity oscillation)
+ *   2. Mouse-reactive yellow spotlight — illuminates dots in a ~320px radius
+ *      via a radial-gradient overlay with `mix-blend-mode: screen` over the dots.
+ *      Position is lerped (~0.10) toward the cursor for smooth lag.
+ *      Disabled on touch / reduced-motion.
+ *   3. Two yellow ambient blobs drifting on long loops (62-74s)
+ *   4. SVG connection lines (4 polylines) with stroke-dasharray draw/erase loops,
+ *      placed away from the hero band, faint yellow strokes.
+ *   5. Slow vertical scan line (radar/scanner vibe).
  *
- * Sits at z-index: -1 behind the main content, pointer-events: none.
- * Honors prefers-reduced-motion (animations disabled, static state preserved).
+ * Sits behind main content, pointer-events: none, aria-hidden.
+ * Respects prefers-reduced-motion.
  */
 export default function AmbientBackground() {
+  const spotlightRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const targetRef = useRef({ x: 0, y: 0 });
+  const currentRef = useRef({ x: 0, y: 0 });
+  const activeRef = useRef(false);
+  const [enableSpotlight, setEnableSpotlight] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const isTouch =
+      window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+    if (reduceMotion || isTouch) {
+      setEnableSpotlight(false);
+      return;
+    }
+
+    setEnableSpotlight(true);
+
+    // Init at center so the first reveal isn't a jump from 0,0
+    const initX = window.innerWidth / 2;
+    const initY = window.innerHeight / 2;
+    targetRef.current = { x: initX, y: initY };
+    currentRef.current = { x: initX, y: initY };
+
+    const onPointerMove = (e: PointerEvent) => {
+      targetRef.current.x = e.clientX;
+      targetRef.current.y = e.clientY;
+      activeRef.current = true;
+    };
+
+    const tick = () => {
+      const cur = currentRef.current;
+      const tgt = targetRef.current;
+      // lerp ~0.10 for smooth lag
+      cur.x += (tgt.x - cur.x) * 0.1;
+      cur.y += (tgt.y - cur.y) * 0.1;
+
+      const el = spotlightRef.current;
+      if (el) {
+        el.style.transform = `translate3d(${cur.x - 320}px, ${cur.y - 320}px, 0)`;
+        if (activeRef.current && el.style.opacity !== "1") {
+          el.style.opacity = "1";
+        }
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    rafRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
   return (
     <div className="v3-ambient" aria-hidden="true">
       <style>{`
@@ -31,7 +100,7 @@ export default function AmbientBackground() {
           background-image:
             radial-gradient(
               circle at 1px 1px,
-              rgba(255, 255, 255, 0.07) 1px,
+              rgba(255, 255, 255, 0.08) 1px,
               transparent 1.4px
             );
           background-size: 56px 56px;
@@ -43,6 +112,47 @@ export default function AmbientBackground() {
         @keyframes v3-amb-pulse {
           0%, 100% { opacity: 0.65; }
           50%      { opacity: 1; }
+        }
+
+        /* ---------- Layer 1b — Mouse-reactive spotlight ----------
+           A 640x640 yellow radial gradient that sits on top of the dot grid.
+           mix-blend-mode: screen makes only the lit dots glow yellow.
+           Position is updated via transform from the rAF lerp loop. */
+        .v3-ambient__spotlight {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 640px;
+          height: 640px;
+          pointer-events: none;
+          background: radial-gradient(
+            circle at 50% 50%,
+            oklch(0.92 0.20 96 / 0.55) 0%,
+            oklch(0.92 0.20 96 / 0.32) 22%,
+            oklch(0.92 0.20 96 / 0.14) 42%,
+            oklch(0.92 0.20 96 / 0.04) 65%,
+            transparent 78%
+          );
+          mix-blend-mode: screen;
+          opacity: 0;
+          transition: opacity 600ms ease;
+          will-change: transform, opacity;
+          transform: translate3d(-9999px, -9999px, 0);
+          /* Mask through the dot grid lattice so only dots light up */
+          -webkit-mask-image: radial-gradient(
+            circle at 1px 1px,
+            #000 1px,
+            transparent 1.6px
+          );
+          mask-image: radial-gradient(
+            circle at 1px 1px,
+            #000 1px,
+            transparent 1.6px
+          );
+          -webkit-mask-size: 56px 56px;
+          mask-size: 56px 56px;
+          -webkit-mask-position: 0 0;
+          mask-position: 0 0;
         }
 
         /* ---------- Layer 2 — Yellow ambient drift blobs ---------- */
@@ -98,7 +208,60 @@ export default function AmbientBackground() {
           100% { transform: translate3d(0, 0, 0) scale(1); }
         }
 
-        /* ---------- Layer 3 — Slow scan line ---------- */
+        /* ---------- Layer 3 — Connection lines (neural net) ---------- */
+        .v3-ambient__lines {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0.85;
+        }
+        .v3-ambient__lines polyline {
+          fill: none;
+          stroke: oklch(0.92 0.20 96 / 0.55);
+          stroke-width: 1.1;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          filter: drop-shadow(0 0 3px oklch(0.92 0.20 96 / 0.35));
+        }
+        .v3-ambient__line--1 {
+          stroke-dasharray: 360 1200;
+          animation: v3-amb-line 14s ease-in-out infinite;
+        }
+        .v3-ambient__line--2 {
+          stroke-dasharray: 280 1100;
+          animation: v3-amb-line 17s ease-in-out infinite;
+          animation-delay: -4s;
+        }
+        .v3-ambient__line--3 {
+          stroke-dasharray: 320 1300;
+          animation: v3-amb-line 19s ease-in-out infinite;
+          animation-delay: -9s;
+        }
+        .v3-ambient__line--4 {
+          stroke-dasharray: 240 1000;
+          animation: v3-amb-line 16s ease-in-out infinite;
+          animation-delay: -2s;
+        }
+        @keyframes v3-amb-line {
+          0%   { stroke-dashoffset: 1560; opacity: 0; }
+          15%  { opacity: 1; }
+          70%  { opacity: 1; }
+          100% { stroke-dashoffset: -1560; opacity: 0; }
+        }
+
+        /* Connection node dots — small yellow blips at line endpoints */
+        .v3-ambient__lines circle {
+          fill: oklch(0.92 0.20 96 / 0.7);
+          filter: drop-shadow(0 0 4px oklch(0.92 0.20 96 / 0.6));
+          animation: v3-amb-node 4s ease-in-out infinite;
+        }
+        @keyframes v3-amb-node {
+          0%, 100% { opacity: 0.35; }
+          50%      { opacity: 0.9; }
+        }
+
+        /* ---------- Layer 4 — Slow scan line ---------- */
         .v3-ambient__scan {
           position: absolute;
           left: 0;
@@ -128,18 +291,67 @@ export default function AmbientBackground() {
         @media (prefers-reduced-motion: reduce) {
           .v3-ambient__dots,
           .v3-ambient__blob,
-          .v3-ambient__scan {
+          .v3-ambient__scan,
+          .v3-ambient__lines polyline,
+          .v3-ambient__lines circle {
             animation: none;
           }
-          .v3-ambient__scan {
-            display: none;
-          }
+          .v3-ambient__scan { display: none; }
+          .v3-ambient__lines polyline { stroke-dasharray: none; opacity: 0.4; }
+          .v3-ambient__spotlight { display: none; }
         }
       `}</style>
 
       <div className="v3-ambient__dots" />
+
+      {enableSpotlight && (
+        <div ref={spotlightRef} className="v3-ambient__spotlight" />
+      )}
+
       <div className="v3-ambient__blob v3-ambient__blob--a" />
       <div className="v3-ambient__blob v3-ambient__blob--b" />
+
+      {/* Connection lines — placed in upper-right, mid-left, and bottom band,
+          avoiding the hero center column. */}
+      <svg
+        className="v3-ambient__lines"
+        viewBox="0 0 1600 1000"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Top-right diagonal cluster */}
+        <polyline
+          className="v3-ambient__line--1"
+          points="1180,80 1320,180 1420,140 1520,260"
+        />
+        <circle cx="1180" cy="80" r="2.5" />
+        <circle cx="1520" cy="260" r="2.5" />
+
+        {/* Left side vertical-ish path */}
+        <polyline
+          className="v3-ambient__line--2"
+          points="80,420 180,520 120,640 220,760"
+        />
+        <circle cx="80" cy="420" r="2.5" />
+        <circle cx="220" cy="760" r="2.5" />
+
+        {/* Bottom band horizontal weave */}
+        <polyline
+          className="v3-ambient__line--3"
+          points="220,880 480,820 720,900 980,840 1240,920"
+        />
+        <circle cx="220" cy="880" r="2.5" />
+        <circle cx="1240" cy="920" r="2.5" />
+
+        {/* Right-mid short hop */}
+        <polyline
+          className="v3-ambient__line--4"
+          points="1380,520 1480,580 1420,680 1540,740"
+        />
+        <circle cx="1380" cy="520" r="2.5" />
+        <circle cx="1540" cy="740" r="2.5" />
+      </svg>
+
       <div className="v3-ambient__scan" />
     </div>
   );

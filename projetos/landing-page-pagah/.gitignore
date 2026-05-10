@@ -54,5 +54,8 @@ image.png
 .tmp/
 .audits/
 .qa-screenshots/
+.playwright-mcp/
+v*-beam-*.png
+v*-ambient-*.png
 
 .vercel

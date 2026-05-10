@@ -1,16 +1,19 @@
 "use client";
 
 /**
- * V4 Heritage Ambient Background
+ * V4 Heritage Ambient Background — Editorial Light Beam edition
  *
- * Three-layer aditive ambient that respects the Pagah brand surface (#F2F2F2):
- *  1. Paper grain (static SVG noise, very low opacity, multiply blend)
- *  2. Two yellow ambient blobs drifting on long loops (60-90s, GPU-only transform)
- *  3. Soft paper vignette for depth at the edges (static)
+ * Magazine-grade ambient that respects the Pagah surface (#F2F2F2):
+ *  1. Paper grain (static SVG noise, multiply blend)
+ *  2. Two yellow ambient blobs drifting on long loops (78s/92s, GPU-only)
+ *  3. Two desynchronized editorial light beams crossing the viewport
+ *     in slow diagonal sweeps (Bloomberg/FT/Apple Newsroom vibe)
+ *  4. Soft paper vignette for depth at the edges (static)
  *
  * - pointer-events: none, position: fixed, z-index: -1 (below the 6px yellow strip)
- * - aria-hidden
- * - Honors prefers-reduced-motion: reduce
+ * - aria-hidden, contain: strict
+ * - Honors prefers-reduced-motion: reduce (beams freeze as static gradient)
+ * - GPU-only (transform/opacity); never animates layout properties.
  */
 export default function AmbientBackground() {
   return (
@@ -36,11 +39,11 @@ export default function AmbientBackground() {
           will-change: auto;
         }
 
-        /* Layer 2 — drifting ambient blobs (yellow) */
+        /* Layer 2 — drifting ambient blobs (yellow) — slightly stronger */
         .v4-ambient__blob {
           position: absolute;
           border-radius: 50%;
-          filter: blur(160px);
+          filter: blur(200px);
           mix-blend-mode: multiply;
           will-change: transform;
           transform: translate3d(0, 0, 0);
@@ -52,8 +55,8 @@ export default function AmbientBackground() {
           left: -10vw;
           background: radial-gradient(
             circle,
-            rgba(241, 229, 47, 0.10) 0%,
-            rgba(241, 229, 47, 0.05) 45%,
+            rgba(241, 229, 47, 0.14) 0%,
+            rgba(241, 229, 47, 0.07) 45%,
             rgba(241, 229, 47, 0) 70%
           );
           animation: v4-ambient-drift-a 78s cubic-bezier(0.45, 0, 0.55, 1) infinite;
@@ -65,8 +68,8 @@ export default function AmbientBackground() {
           right: -8vw;
           background: radial-gradient(
             circle,
-            rgba(241, 229, 47, 0.08) 0%,
-            rgba(241, 229, 47, 0.04) 45%,
+            rgba(241, 229, 47, 0.12) 0%,
+            rgba(241, 229, 47, 0.06) 45%,
             rgba(241, 229, 47, 0) 70%
           );
           animation: v4-ambient-drift-b 92s cubic-bezier(0.45, 0, 0.55, 1) infinite;
@@ -88,6 +91,64 @@ export default function AmbientBackground() {
           100% { transform: translate3d(0%, 0%, 0) scale(1); }
         }
 
+        /* Layer 2.5 — editorial light beams (slow diagonal sweeps) */
+        .v4-ambient__beam {
+          position: absolute;
+          top: -40vh;
+          left: -60vw;
+          width: 50vw;
+          height: 180vh;
+          mix-blend-mode: multiply;
+          will-change: transform, opacity;
+          transform: translate3d(-100vw, 0, 0) rotate(18deg);
+          pointer-events: none;
+        }
+        .v4-ambient__beam--a {
+          background: linear-gradient(
+            90deg,
+            rgba(241, 229, 47, 0) 0%,
+            rgba(241, 229, 47, 0.14) 25%,
+            rgba(241, 229, 47, 0.26) 50%,
+            rgba(241, 229, 47, 0.14) 75%,
+            rgba(241, 229, 47, 0) 100%
+          );
+          filter: blur(48px);
+          animation: v4-ambient-beam-a 62s linear infinite;
+        }
+        .v4-ambient__beam--b {
+          width: 38vw;
+          background: linear-gradient(
+            90deg,
+            rgba(241, 229, 47, 0) 0%,
+            rgba(241, 229, 47, 0.10) 30%,
+            rgba(241, 229, 47, 0.20) 50%,
+            rgba(241, 229, 47, 0.10) 70%,
+            rgba(241, 229, 47, 0) 100%
+          );
+          filter: blur(42px);
+          animation: v4-ambient-beam-b 78s linear infinite;
+          animation-delay: -34s;
+        }
+
+        /* Beam A — sweeps left → right at +18deg, then long pause off-screen.
+           Active sweep: 0%→55% (≈34s). Pause: 55%→100% (≈28s off-screen right). */
+        @keyframes v4-ambient-beam-a {
+          0%   { transform: translate3d(-100vw, 0, 0) rotate(18deg); opacity: 0; }
+          5%   { opacity: 1; }
+          50%  { transform: translate3d(180vw, 0, 0) rotate(18deg); opacity: 1; }
+          55%  { transform: translate3d(180vw, 0, 0) rotate(18deg); opacity: 0; }
+          100% { transform: translate3d(-100vw, 0, 0) rotate(18deg); opacity: 0; }
+        }
+
+        /* Beam B — slightly different angle (+22deg), desynced, slower. */
+        @keyframes v4-ambient-beam-b {
+          0%   { transform: translate3d(-100vw, 0, 0) rotate(22deg); opacity: 0; }
+          6%   { opacity: 1; }
+          48%  { transform: translate3d(180vw, 0, 0) rotate(22deg); opacity: 1; }
+          54%  { transform: translate3d(180vw, 0, 0) rotate(22deg); opacity: 0; }
+          100% { transform: translate3d(-100vw, 0, 0) rotate(22deg); opacity: 0; }
+        }
+
         /* Layer 3 — paper vignette (static) */
         .v4-ambient__vignette {
           position: absolute;
@@ -103,14 +164,27 @@ export default function AmbientBackground() {
 
         @media (prefers-reduced-motion: reduce) {
           .v4-ambient__blob--a,
-          .v4-ambient__blob--b {
+          .v4-ambient__blob--b,
+          .v4-ambient__beam--a,
+          .v4-ambient__beam--b {
             animation: none;
+          }
+          /* Static fallback: park beams across the page as a soft diagonal wash */
+          .v4-ambient__beam--a {
+            transform: translate3d(20vw, 0, 0) rotate(18deg);
+            opacity: 0.7;
+          }
+          .v4-ambient__beam--b {
+            transform: translate3d(50vw, 0, 0) rotate(22deg);
+            opacity: 0.5;
           }
         }
       `}</style>
       <div className="v4-ambient__grain" />
       <div className="v4-ambient__blob v4-ambient__blob--a" />
       <div className="v4-ambient__blob v4-ambient__blob--b" />
+      <div className="v4-ambient__beam v4-ambient__beam--a" />
+      <div className="v4-ambient__beam v4-ambient__beam--b" />
       <div className="v4-ambient__vignette" />
     </div>
   );
