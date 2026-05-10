@@ -49,7 +49,7 @@ export default function V3Layout({ children }: { children: React.ReactNode }) {
           font-family: var(--font-v3-display), system-ui, sans-serif;
           background: var(--bg-base);
           color: var(--text-primary);
-          font-feature-settings: "ss01", "cv11";
+          font-feature-settings: "cv11";
         }
         .v3-mono { font-family: var(--font-v3-mono), ui-monospace, monospace; }
         .v3-num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
@@ -179,8 +179,12 @@ export default function V3Layout({ children }: { children: React.ReactNode }) {
               transparent 70%
             );
           }
-          .v3-tile {
+          .v3-tile,
+          .v3-magnet > * {
             transition: none;
+          }
+          .v3-magnet:hover > * {
+            transform: none;
           }
         }
       `}</style>

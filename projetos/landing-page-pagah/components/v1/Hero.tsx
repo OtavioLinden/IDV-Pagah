@@ -135,7 +135,7 @@ export default function V1Hero() {
           >
             <a
               href="#cta-final"
-              className="px-6 py-3.5 text-sm font-medium rounded-xl transition-[transform,box-shadow] hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
+              className="px-6 py-3.5 text-sm font-medium rounded-xl transition-[transform,box-shadow] hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-base)]"
               style={{
                 background: "var(--accent)",
                 color: "#0A0A0A",
@@ -148,7 +148,7 @@ export default function V1Hero() {
             </a>
             <a
               href="#solucoes"
-              className="px-6 py-3.5 text-sm font-medium rounded-xl v1-glass hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
+              className="px-6 py-3.5 text-sm font-medium rounded-xl v1-glass hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-base)]"
               style={{ touchAction: "manipulation" }}
             >
               {hero.secondaryCta} →

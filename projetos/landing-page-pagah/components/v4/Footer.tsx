@@ -31,6 +31,7 @@ export default function V4Footer() {
                 width={140}
                 height={40}
                 className="h-9 w-auto"
+                style={{ width: "auto" }}
               />
             </Link>
             <p

@@ -79,7 +79,7 @@ export default function V3Header() {
             <a
               key={m.label}
               href={m.href}
-              className="px-3 py-1.5 text-[13px] rounded-full text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
+              className="px-3 py-1.5 text-[13px] rounded-full whitespace-nowrap text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
               style={{ transition: "color 0.2s ease" }}
             >
               {m.label}
@@ -100,7 +100,7 @@ export default function V3Header() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}
-            className="px-4 py-2.5 text-[13px] font-semibold rounded-xl"
+            className="px-4 py-2.5 text-[13px] font-semibold rounded-xl whitespace-nowrap"
             style={{
               background: "linear-gradient(135deg, #F1E52F 0%, #C9BF28 100%)",
               color: "#0F0F10",

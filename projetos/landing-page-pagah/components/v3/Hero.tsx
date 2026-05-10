@@ -6,7 +6,7 @@ import { hero } from "@/content/landing";
 
 export default function V3Hero() {
   return (
-    <section className="relative pt-36 md:pt-44 pb-20 md:pb-28 overflow-hidden">
+    <section className="relative pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden">
       {/* Subtle grid background */}
       <div
         aria-hidden="true"
@@ -181,7 +181,7 @@ const DashboardBento = memo(function DashboardBento() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.2 }}
-      className="grid grid-cols-6 grid-rows-[auto_auto_auto] gap-3 self-stretch"
+      className="grid grid-cols-2 sm:grid-cols-6 grid-rows-[auto_auto_auto] gap-3 self-stretch"
     >
       {/* KPI primary tile (amber) — 4 cols */}
       <KpiAmberTile />
@@ -219,7 +219,7 @@ const DashboardBento = memo(function DashboardBento() {
 function KpiAmberTile() {
   return (
     <motion.div
-      className="col-span-4 row-span-1 v3-tile-amber p-5 relative overflow-hidden"
+      className="col-span-2 sm:col-span-4 row-span-1 v3-tile-amber p-5 relative overflow-hidden"
       animate={{ y: [0, -3, 0] }}
       transition={{
         duration: 5.4,
@@ -241,7 +241,7 @@ function KpiAmberTile() {
         </span>
       </div>
       <div className="mt-3 flex items-end gap-2">
-        <span className="text-[58px] md:text-[64px] font-bold tracking-[-0.05em] leading-none v3-num">
+        <span className="text-[44px] sm:text-[58px] md:text-[64px] font-bold tracking-[-0.05em] leading-none v3-num">
           +40%
         </span>
         <motion.span
@@ -313,7 +313,7 @@ function SparklineTile() {
   const path =
     "M0,40 L12,38 L24,30 L36,32 L48,22 L60,26 L72,18 L84,14 L96,8 L108,12 L120,4";
   return (
-    <div className="col-span-3 row-span-1 v3-tile p-5 relative overflow-hidden">
+    <div className="col-span-2 sm:col-span-3 row-span-1 v3-tile p-5 relative overflow-hidden">
       <div className="flex items-center justify-between">
         <span className="v3-mono text-[10px] tracking-[0.18em] uppercase text-[var(--text-secondary)]">
           Upsell · 30d
@@ -362,7 +362,7 @@ function SparklineTile() {
 
 function ShimmerTile() {
   return (
-    <div className="col-span-3 row-span-1 v3-tile p-5 relative overflow-hidden">
+    <div className="col-span-2 sm:col-span-3 row-span-1 v3-tile p-5 relative overflow-hidden">
       <div className="absolute inset-0 v3-shimmer-bg pointer-events-none" />
       <div className="relative">
         <span className="v3-mono text-[10px] tracking-[0.18em] uppercase text-[var(--text-secondary)]">
