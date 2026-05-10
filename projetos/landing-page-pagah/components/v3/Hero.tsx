@@ -322,12 +322,7 @@ function SparklineTile() {
           animate={{ pathLength: 1 }}
           transition={{ duration: 1.4, ease: "easeOut", delay: 0.4 }}
         />
-        <motion.circle
-          r="2.6"
-          fill="#F1E52F"
-          animate={{ cx: [0, 120], cy: [40, 4] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", repeatType: "reverse" }}
-        />
+        <circle r="2.6" fill="#F1E52F" cx="120" cy="4" />
       </svg>
     </div>
   );
