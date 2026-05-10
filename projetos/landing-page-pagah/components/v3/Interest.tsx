@@ -96,7 +96,12 @@ export default function V3Interest() {
                 filter: "blur(40px)",
               }}
               animate={{ opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 5.7,
+                repeat: Infinity,
+                ease: [0.65, 0, 0.35, 1],
+                delay: 0.4,
+              }}
             />
             <div className="relative">
               <div className="flex items-center justify-between mb-6">

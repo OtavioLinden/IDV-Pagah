@@ -44,23 +44,23 @@ export default function V4ThreePoints() {
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <motion.h2
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          transition={{ type: "spring", stiffness: 80, damping: 18 }}
           className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.1] mb-4 max-w-3xl"
         >
           {threePoints.title}
         </motion.h2>
         <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{
             type: "spring",
-            stiffness: 100,
-            damping: 20,
-            delay: 0.05,
+            stiffness: 80,
+            damping: 18,
+            delay: 0.04,
           }}
           className="text-[15px] mb-14 max-w-2xl"
           style={{ color: "var(--text-secondary)" }}
@@ -73,14 +73,14 @@ export default function V4ThreePoints() {
           {threePoints.cards.map((c, i) => (
             <motion.article
               key={c.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{
                 type: "spring",
-                stiffness: 100,
-                damping: 20,
-                delay: i * 0.07,
+                stiffness: 80,
+                damping: 18,
+                delay: i * 0.04,
               }}
               whileHover={{ y: -2 }}
               className="v4-card flex flex-col"
@@ -124,14 +124,14 @@ export default function V4ThreePoints() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{
             type: "spring",
-            stiffness: 100,
-            damping: 20,
-            delay: 0.2,
+            stiffness: 80,
+            damping: 18,
+            delay: 0.16,
           }}
           className="mt-12 max-w-3xl"
         >

@@ -16,10 +16,10 @@ export default function V2Pillars() {
         </div>
 
         <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="v2-display font-extrabold mb-24 max-w-5xl"
           style={{
             fontSize: "clamp(44px, 6.5vw, 100px)",
@@ -43,7 +43,9 @@ export default function V2Pillars() {
           viewport={{ once: true, margin: "-50px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: {
+              transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+            },
           }}
           className="space-y-24 md:space-y-32"
         >
@@ -58,14 +60,14 @@ export default function V2Pillars() {
                     : "juros"
               }
               variants={{
-                hidden: { opacity: 0, y: 24 },
+                hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
                 visible: {
                   opacity: 1,
                   y: 0,
+                  filter: "blur(0px)",
                   transition: {
-                    type: "spring",
-                    stiffness: 100,
-                    damping: 20,
+                    duration: 0.5,
+                    ease: [0.22, 1, 0.36, 1],
                   },
                 },
               }}
@@ -143,7 +145,7 @@ function PillarVisual({ index }: { index: number }) {
   if (index === 0) {
     // Checkout: stylized payment card
     return (
-      <div className="relative aspect-[4/5] border-2 border-[var(--text-primary)] bg-[var(--bg-elevated)] p-8 flex flex-col">
+      <div className="v2-card-lift relative aspect-[4/5] border-2 border-[var(--text-primary)] bg-[var(--bg-elevated)] p-8 flex flex-col">
         <span className="v2-kicker text-[var(--text-tertiary)] mb-2">
           Checkout · Pagah
         </span>
@@ -172,7 +174,7 @@ function PillarVisual({ index }: { index: number }) {
     // Call Center: phone wave illustration
     return (
       <div
-        className="relative aspect-[4/5] p-8 flex flex-col"
+        className="v2-card-lift v2-card-lift-on-contrast relative aspect-[4/5] p-8 flex flex-col"
         style={{
           background: "var(--bg-contrast)",
           color: "var(--text-on-contrast)",
@@ -228,7 +230,7 @@ function PillarVisual({ index }: { index: number }) {
   }
   // Juros: stacked coins / chart
   return (
-    <div className="relative aspect-[4/5] border-2 border-[var(--text-primary)] bg-[var(--bg-elevated)] p-8 flex flex-col">
+    <div className="v2-card-lift relative aspect-[4/5] border-2 border-[var(--text-primary)] bg-[var(--bg-elevated)] p-8 flex flex-col">
       <span className="v2-kicker text-[var(--text-tertiary)] mb-2">
         Juros · Repasse
       </span>

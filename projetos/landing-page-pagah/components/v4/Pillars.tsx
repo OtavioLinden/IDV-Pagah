@@ -22,10 +22,10 @@ export default function V4Pillars() {
             Três engrenagens, um único motor
           </span>
           <motion.h2
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            transition={{ type: "spring", stiffness: 80, damping: 18 }}
             className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.08]"
           >
             {pillars.title}
@@ -38,16 +38,16 @@ export default function V4Pillars() {
             return (
               <motion.article
                 key={col.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{
                   type: "spring",
-                  stiffness: 100,
-                  damping: 20,
-                  delay: i * 0.08,
+                  stiffness: 80,
+                  damping: 18,
+                  delay: i * 0.05,
                 }}
-                whileHover={{ y: -3 }}
+                whileHover={{ y: -2 }}
                 className={isHighlight ? "v4-card-dark" : "v4-card"}
                 style={{
                   padding: "32px",

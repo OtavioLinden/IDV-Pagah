@@ -14,10 +14,10 @@ export default function V1ModuleX1() {
             Módulo X1 · WhatsApp
           </span>
           <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.05] mb-5 text-balance"
           >
             Vende pelo WhatsApp?{" "}
@@ -33,14 +33,13 @@ export default function V1ModuleX1() {
             {moduleX1.cards.map((c, i) => (
               <motion.article
                 key={c.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0, y: 12, filter: "blur(3px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, margin: "-60px" }}
                 transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 20,
-                  delay: i * 0.06,
+                  duration: 0.36,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: i * 0.04,
                 }}
                 className="rounded-xl p-5 v1-glass v1-glass-hover"
               >
@@ -78,10 +77,10 @@ export default function V1ModuleX1() {
 function X1Mockup() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ type: "spring", stiffness: 80, damping: 18 }}
+      initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
       className="relative"
     >
       <div

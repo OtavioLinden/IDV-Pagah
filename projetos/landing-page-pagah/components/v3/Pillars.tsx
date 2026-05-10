@@ -99,7 +99,8 @@ const PillarCard = memo(function PillarCard({
           transition: { type: "spring", stiffness: 100, damping: 20 },
         },
       }}
-      whileHover={{ y: -3 }}
+      layout
+      whileHover={{ scale: 1.01, y: -3 }}
       transition={{ type: "spring", stiffness: 200, damping: 18 }}
       className={`v3-tile p-6 ${col} relative overflow-hidden flex flex-col`}
       style={
@@ -120,9 +121,14 @@ const PillarCard = memo(function PillarCard({
           }}
           animate={{ rotate: [0, 4, -4, 0] }}
           transition={{
-            duration: 6,
+            duration: big ? 7.3 : accent ? 5.6 : 8.8,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: big
+              ? [0.45, 0, 0.55, 1]
+              : accent
+                ? [0.16, 1, 0.3, 1]
+                : [0.65, 0, 0.35, 1],
+            delay: big ? 0 : accent ? 0.6 : 1.1,
           }}
         >
           {icon}
@@ -167,7 +173,12 @@ const PillarCard = memo(function PillarCard({
             filter: "blur(20px)",
           }}
           animate={{ opacity: [0.4, 0.9, 0.4] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          transition={{
+            duration: 6.4,
+            repeat: Infinity,
+            ease: [0.37, 0, 0.63, 1],
+            delay: 0.95,
+          }}
         />
       )}
     </motion.article>

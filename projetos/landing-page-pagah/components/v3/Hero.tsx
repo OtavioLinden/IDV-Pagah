@@ -28,7 +28,12 @@ export default function V3Hero() {
           filter: "blur(80px)",
         }}
         animate={{ opacity: [0.6, 0.95, 0.6] }}
-        transition={{ duration: 6, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+        transition={{
+          duration: 9.2,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: [0.42, 0, 0.58, 1],
+        }}
       />
 
       <div className="relative mx-auto max-w-7xl px-6 md:px-10">
@@ -191,9 +196,20 @@ const DashboardBento = memo(function DashboardBento() {
       <ShimmerTile />
 
       {/* Floating mini KPI — 2 cols */}
-      <MiniKpiTile label="Pix recuperado" value="R$ 92k" />
+      <MiniKpiTile
+        label="Pix recuperado"
+        value="R$ 92k"
+        duration={3.8}
+        ease={[0.16, 1, 0.3, 1]}
+      />
       {/* Mini KPI 2 cols */}
-      <MiniKpiTile label="Aprovação cartão" value="87,3%" delay={0.3} />
+      <MiniKpiTile
+        label="Aprovação cartão"
+        value="87,3%"
+        delay={0.55}
+        duration={4.7}
+        ease={[0.65, 0, 0.35, 1]}
+      />
       {/* Approval typewriter tile — 2 cols */}
       <ApprovalTile />
     </motion.div>
@@ -205,7 +221,13 @@ function KpiAmberTile() {
     <motion.div
       className="col-span-4 row-span-1 v3-tile-amber p-5 relative overflow-hidden"
       animate={{ y: [0, -3, 0] }}
-      transition={{ duration: 4.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+      transition={{
+        duration: 5.4,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: [0.16, 1, 0.3, 1],
+        delay: 0.2,
+      }}
     >
       <div className="flex items-center justify-between">
         <span className="v3-mono text-[10px] tracking-[0.18em] uppercase opacity-70">
@@ -225,7 +247,12 @@ function KpiAmberTile() {
         <motion.span
           className="mb-2 text-[12px] font-medium"
           animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          transition={{
+            duration: 2.9,
+            repeat: Infinity,
+            ease: [0.45, 0, 0.55, 1],
+            delay: 0.6,
+          }}
         >
           ↑ vs. base
         </motion.span>
@@ -268,7 +295,12 @@ function PulseTile() {
         <motion.span
           className="text-[40px] font-bold tracking-[-0.04em] leading-none v3-num block"
           animate={{ opacity: [0.85, 1, 0.85] }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+          transition={{
+            duration: 1.9,
+            repeat: Infinity,
+            ease: [0.65, 0, 0.35, 1],
+            delay: 0.45,
+          }}
         >
           24
         </motion.span>
@@ -353,24 +385,30 @@ function ShimmerTile() {
   );
 }
 
-function MiniKpiTile({
+const MiniKpiTile = memo(function MiniKpiTile({
   label,
   value,
   delay = 0,
+  duration = 3.3,
+  ease = [0.45, 0, 0.55, 1] as [number, number, number, number],
 }: {
   label: string;
   value: string;
   delay?: number;
+  duration?: number;
+  ease?: [number, number, number, number];
 }) {
   return (
     <motion.div
+      layout
+      whileHover={{ scale: 1.01, y: -2 }}
       className="col-span-2 v3-tile p-4"
       animate={{ y: [0, -2, 0] }}
       transition={{
-        duration: 3.6,
+        duration,
         repeat: Infinity,
         repeatType: "reverse",
-        ease: "easeInOut",
+        ease,
         delay,
       }}
     >
@@ -382,7 +420,7 @@ function MiniKpiTile({
       </div>
     </motion.div>
   );
-}
+});
 
 function ApprovalTile() {
   const phrases = ["aprovado", "recuperado", "vendido", "convertido"];

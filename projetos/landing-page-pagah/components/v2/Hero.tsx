@@ -23,10 +23,12 @@ export default function V2Hero() {
 
         {/* Asymmetric headline */}
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-end">
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          {/* Editorial mask reveal — three lines rise on staggered delays.
+           * Each .v2-text-mask hides overflow; the inner span starts at 105%
+           * and rises via keyframe (slow ease-out, 460ms). Choreographed,
+           * not synced — feels like a magazine pagination unfurl.
+           */}
+          <h1
             className="v2-display col-span-12 lg:col-span-9 font-extrabold"
             style={{
               fontSize: "clamp(56px, 9vw, 140px)",
@@ -34,30 +36,38 @@ export default function V2Hero() {
               lineHeight: 0.92,
             }}
           >
-            <span style={{ fontWeight: 300 }} className="italic">
-              Pare
-            </span>{" "}
-            de perder vendas, carrinhos e{" "}
-            <span
-              className="italic"
-              style={{
-                fontWeight: 400,
-                background: `linear-gradient(180deg, transparent 60%, var(--accent) 60%, var(--accent) 92%, transparent 92%)`,
-              }}
-            >
-              juros
+            <span className="v2-text-mask" style={{ "--v2-mask-delay": "60ms" } as React.CSSProperties}>
+              <span>
+                <span style={{ fontWeight: 300 }} className="italic">
+                  Pare
+                </span>{" "}
+                de perder vendas,{" "}
+              </span>
             </span>
-            .
-          </motion.h1>
+            <span className="v2-text-mask" style={{ "--v2-mask-delay": "180ms" } as React.CSSProperties}>
+              <span>
+                carrinhos e{" "}
+                <span
+                  className="italic"
+                  style={{
+                    fontWeight: 400,
+                    background: `linear-gradient(180deg, transparent 60%, var(--accent) 60%, var(--accent) 92%, transparent 92%)`,
+                  }}
+                >
+                  juros
+                </span>
+                .
+              </span>
+            </span>
+          </h1>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
-              type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.1,
+              duration: 0.45,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.32,
             }}
             className="col-span-12 lg:col-span-3 lg:pb-6"
           >
@@ -77,13 +87,12 @@ export default function V2Hero() {
         {/* Lede + bullets + dashboard */}
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 mt-16 md:mt-24">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
-              type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.15,
+              duration: 0.45,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.42,
             }}
             className="col-span-12 lg:col-span-7"
           >
@@ -100,7 +109,9 @@ export default function V2Hero() {
               variants={{
                 hidden: {},
                 visible: {
-                  transition: { staggerChildren: 0.05, delayChildren: 0.25 },
+                  // Choreographed: a beat between blocks (delayChildren),
+                  // then quick stagger so bullets feel like pagination.
+                  transition: { staggerChildren: 0.06, delayChildren: 0.55 },
                 },
               }}
               className="grid sm:grid-cols-2 gap-y-3 gap-x-6 mb-10 max-w-xl"
@@ -109,14 +120,14 @@ export default function V2Hero() {
                 <motion.li
                   key={b}
                   variants={{
-                    hidden: { opacity: 0, x: -8 },
+                    hidden: { opacity: 0, y: 8, filter: "blur(3px)" },
                     visible: {
                       opacity: 1,
-                      x: 0,
+                      y: 0,
+                      filter: "blur(0px)",
                       transition: {
-                        type: "spring",
-                        stiffness: 100,
-                        damping: 20,
+                        duration: 0.4,
+                        ease: [0.22, 1, 0.36, 1],
                       },
                     },
                   }}
@@ -142,13 +153,12 @@ export default function V2Hero() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 24, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
-              type: "spring",
-              stiffness: 80,
-              damping: 18,
-              delay: 0.3,
+              duration: 0.55,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.6,
             }}
             className="col-span-12 lg:col-span-5"
           >
@@ -182,7 +192,7 @@ function Arrow() {
 function DashboardMock() {
   return (
     <div className="relative">
-      <div className="bg-[var(--bg-elevated)] border-2 border-[var(--text-primary)] p-6">
+      <div className="v2-card-lift bg-[var(--bg-elevated)] border-2 border-[var(--text-primary)] p-6">
         <div className="flex items-baseline justify-between mb-6 pb-4 border-b border-[var(--border-subtle)]">
           <span className="v2-kicker text-[var(--text-tertiary)]">
             Painel · ao vivo

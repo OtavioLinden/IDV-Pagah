@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "motion/react";
 import { hero } from "@/content/landing";
+import CounterRoll from "@/components/v4/CounterRoll";
 
 export default function V4Hero() {
   return (
@@ -9,9 +10,9 @@ export default function V4Hero() {
         {/* Left: copy */}
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            initial={{ opacity: 0, y: 6, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ type: "spring", stiffness: 80, damping: 18 }}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-7"
             style={{
               background: "var(--bg-card)",
@@ -33,13 +34,13 @@ export default function V4Hero() {
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
               type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.05,
+              stiffness: 80,
+              damping: 18,
+              delay: 0.04,
             }}
             className="text-[40px] md:text-[52px] lg:text-[56px] leading-[1.05] tracking-[-0.025em] font-bold mb-6"
           >
@@ -51,13 +52,13 @@ export default function V4Hero() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
               type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.1,
+              stiffness: 80,
+              damping: 18,
+              delay: 0.08,
             }}
             className="text-[17px] md:text-[18px] leading-relaxed max-w-xl mb-4"
             style={{ color: "var(--text-secondary)" }}
@@ -66,13 +67,13 @@ export default function V4Hero() {
           </motion.p>
 
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
               type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.15,
+              stiffness: 80,
+              damping: 18,
+              delay: 0.12,
             }}
             className="text-[14px] leading-relaxed max-w-xl mb-8"
             style={{ color: "var(--text-tertiary)" }}
@@ -86,7 +87,7 @@ export default function V4Hero() {
             variants={{
               hidden: {},
               visible: {
-                transition: { staggerChildren: 0.05, delayChildren: 0.2 },
+                transition: { staggerChildren: 0.04, delayChildren: 0.16 },
               },
             }}
             className="grid sm:grid-cols-2 gap-x-6 gap-y-3 mb-10 max-w-xl"
@@ -101,8 +102,8 @@ export default function V4Hero() {
                     x: 0,
                     transition: {
                       type: "spring",
-                      stiffness: 100,
-                      damping: 20,
+                      stiffness: 80,
+                      damping: 18,
                     },
                   },
                 }}
@@ -135,13 +136,13 @@ export default function V4Hero() {
           </motion.ul>
 
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
               type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.5,
+              stiffness: 80,
+              damping: 18,
+              delay: 0.36,
             }}
             className="flex flex-wrap gap-3"
           >
@@ -199,9 +200,9 @@ export default function V4Hero() {
 function HeroDashboard() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.3 }}
+      initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.2 }}
       className="relative"
     >
       {/* Main dark KPI card (Pagah real-style hero metric) */}
@@ -246,13 +247,13 @@ function HeroDashboard() {
         </div>
         <div className="flex items-baseline gap-3 mb-6">
           <motion.span
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 6, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
               type: "spring",
               stiffness: 80,
               damping: 18,
-              delay: 0.6,
+              delay: 0.42,
             }}
             className="v4-tabular"
             style={{
@@ -263,7 +264,7 @@ function HeroDashboard() {
               color: "var(--accent)",
             }}
           >
-            +40%
+            <CounterRoll value="+40%" duration={1100} delay={420} />
           </motion.span>
           <span
             className="text-[12px]"
@@ -278,33 +279,33 @@ function HeroDashboard() {
 
       {/* 4 small light cards beneath */}
       <div className="grid grid-cols-2 gap-3 mt-3">
-        <MiniKpi label="Upsell" value="R$ 646 mil" trend="+38%" delay={0.7} />
+        <MiniKpi label="Upsell" value="R$ 646 mil" trend="+38%" delay={0.5} />
         <MiniKpi
           label="Pedidos recuperados"
           value="188"
           trend="+27%"
-          delay={0.78}
+          delay={0.54}
         />
         <MiniKpi
           label="Aprovação cartão"
           value="87,3%"
           trend="+12 pp"
-          delay={0.86}
+          delay={0.58}
           accent
         />
         <MiniKpi
           label="Pix recuperado"
           value="R$ 92k"
           trend="+44%"
-          delay={0.94}
+          delay={0.62}
         />
       </div>
 
       {/* Floating tag */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1, type: "spring", stiffness: 200, damping: 15 }}
+        initial={{ opacity: 0, scale: 0.92, filter: "blur(4px)" }}
+        animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+        transition={{ delay: 0.78, type: "spring", stiffness: 80, damping: 18 }}
         className="absolute -bottom-3 -left-3 px-3 py-2 rounded-lg flex items-center gap-2"
         style={{
           background: "var(--bg-card)",
@@ -341,9 +342,9 @@ function MiniKpi({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 100, damping: 20, delay }}
+      initial={{ opacity: 0, y: 6, filter: "blur(4px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ type: "spring", stiffness: 80, damping: 18, delay }}
       className="rounded-xl p-4"
       style={{
         background: "var(--bg-card)",
@@ -373,7 +374,7 @@ function MiniKpi({
             letterSpacing: "-0.01em",
           }}
         >
-          {value}
+          <CounterRoll value={value} duration={900} delay={delay * 1000} />
         </span>
         <span
           className="v4-mono v4-tabular"
@@ -389,6 +390,13 @@ function MiniKpi({
 function MockChart() {
   const points = [22, 28, 25, 35, 32, 42, 48, 45, 52, 58, 62, 70];
   const max = 80;
+  const linePath = `M0 ${60 - (points[0] / max) * 60} ${points
+    .map(
+      (p, i) =>
+        `L ${(i / (points.length - 1)) * 220} ${60 - (p / max) * 60}`,
+    )
+    .join(" ")}`;
+  const fillPath = `${linePath} L 220 60 L 0 60 Z`;
   return (
     <svg
       viewBox="0 0 220 60"
@@ -402,26 +410,22 @@ function MockChart() {
           <stop offset="100%" stopColor="#F1E52F" stopOpacity="0" />
         </linearGradient>
       </defs>
-      <path
-        d={`M0 ${60 - (points[0] / max) * 60} ${points
-          .map(
-            (p, i) =>
-              `L ${(i / (points.length - 1)) * 220} ${60 - (p / max) * 60}`,
-          )
-          .join(" ")} L 220 60 L 0 60 Z`}
+      <motion.path
+        d={fillPath}
         fill="url(#v4-hero-chart)"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
       />
-      <path
-        d={`M0 ${60 - (points[0] / max) * 60} ${points
-          .map(
-            (p, i) =>
-              `L ${(i / (points.length - 1)) * 220} ${60 - (p / max) * 60}`,
-          )
-          .join(" ")}`}
+      <motion.path
+        d={linePath}
         stroke="#F1E52F"
         strokeWidth="2"
         fill="none"
         strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.1, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
       />
     </svg>
   );

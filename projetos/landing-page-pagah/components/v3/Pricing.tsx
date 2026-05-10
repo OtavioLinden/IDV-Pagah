@@ -57,7 +57,12 @@ export default function V3Pricing() {
                 filter: "blur(60px)",
               }}
               animate={{ opacity: [0.55, 1, 0.55] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 8.1,
+                repeat: Infinity,
+                ease: [0.42, 0, 0.58, 1],
+                delay: 0.85,
+              }}
             />
             <div className="relative">
               <div className="flex items-center gap-2.5 mb-6">

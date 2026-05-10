@@ -14,10 +14,10 @@ export default function V1Pillars() {
             Pilares · 3 sistemas
           </span>
           <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.05] text-balance"
           >
             {pillars.title.split("máquina de lucro").map((part, i) =>
@@ -39,18 +39,15 @@ export default function V1Pillars() {
           {pillars.columns.map((col, i) => (
             <motion.article
               key={col.title}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-60px" }}
               transition={{
-                type: "spring",
-                stiffness: 100,
-                damping: 20,
-                delay: i * 0.1,
+                duration: 0.45,
+                ease: [0.16, 1, 0.3, 1],
+                delay: i * 0.06,
               }}
-              className={`rounded-2xl v1-glass p-7 md:p-8 relative overflow-hidden ${
-                i === 1 ? "" : "v1-glass-hover"
-              }`}
+              className={`rounded-2xl v1-glass v1-glass-hover p-7 md:p-8 relative overflow-hidden`}
               style={
                 i === 1
                   ? {

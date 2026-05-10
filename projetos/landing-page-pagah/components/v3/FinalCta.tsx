@@ -33,7 +33,12 @@ export default function V3FinalCta() {
                 filter: "blur(40px)",
               }}
               animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 7.4,
+                repeat: Infinity,
+                ease: [0.65, 0, 0.35, 1],
+                delay: 0.25,
+              }}
             />
             <div className="relative">
               <div

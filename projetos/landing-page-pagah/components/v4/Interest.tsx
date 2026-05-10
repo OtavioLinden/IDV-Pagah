@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "motion/react";
 import { interestComparison } from "@/content/landing";
+import CounterRoll from "@/components/v4/CounterRoll";
 
 export default function V4Interest() {
   return (
@@ -22,10 +23,10 @@ export default function V4Interest() {
             Juros do parcelamento
           </span>
           <motion.h2
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            transition={{ type: "spring", stiffness: 80, damping: 18 }}
             className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.08] mb-4"
           >
             {interestComparison.title}
@@ -41,10 +42,10 @@ export default function V4Interest() {
         <div className="grid md:grid-cols-2 gap-5 mb-10">
           {/* Common platforms - white card */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            transition={{ type: "spring", stiffness: 80, damping: 18 }}
             className="v4-card relative"
             style={{ padding: "32px" }}
           >
@@ -130,16 +131,16 @@ export default function V4Interest() {
 
           {/* Pagah - dark card with big yellow KPI */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{
               type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.07,
+              stiffness: 80,
+              damping: 18,
+              delay: 0.05,
             }}
-            whileHover={{ y: -3 }}
+            whileHover={{ y: -2 }}
             className="v4-card-dark relative overflow-hidden"
             style={{ padding: "32px" }}
           >
@@ -178,7 +179,7 @@ export default function V4Interest() {
                     lineHeight: 1,
                   }}
                 >
-                  +R$ 38k
+                  <CounterRoll value="+R$ 38k" duration={1100} delay={200} />
                 </span>
                 <span
                   className="text-[13px]"

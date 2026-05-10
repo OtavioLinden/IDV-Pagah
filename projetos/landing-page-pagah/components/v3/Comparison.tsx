@@ -103,7 +103,12 @@ export default function V3Comparison() {
                 filter: "blur(50px)",
               }}
               animate={{ opacity: [0.5, 0.95, 0.5] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 6.3,
+                repeat: Infinity,
+                ease: [0.42, 0, 0.58, 1],
+                delay: 0.5,
+              }}
             />
             <div className="relative">
               <div className="mb-5 flex items-center justify-between">

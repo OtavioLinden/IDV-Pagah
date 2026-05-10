@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "motion/react";
 import { fraud } from "@/content/landing";
 
@@ -73,7 +74,12 @@ function ApprovalRateTile() {
           filter: "blur(40px)",
         }}
         animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        transition={{
+          duration: 6.8,
+          repeat: Infinity,
+          ease: [0.33, 1, 0.68, 1],
+          delay: 0.6,
+        }}
       />
       <div className="relative">
         <div className="flex items-center justify-between">
@@ -161,7 +167,12 @@ function ApprovalGauge() {
       <motion.span
         className="absolute inset-0 grid place-items-center"
         animate={{ scale: [1, 1.05, 1] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        transition={{
+          duration: 2.4,
+          repeat: Infinity,
+          ease: [0.16, 1, 0.3, 1],
+          delay: 0.35,
+        }}
       >
         <span
           className="size-2 rounded-full"
@@ -172,9 +183,16 @@ function ApprovalGauge() {
   );
 }
 
-function FeatureTile({ index, text }: { index: number; text: string }) {
+const FeatureTile = memo(function FeatureTile({
+  index,
+  text,
+}: {
+  index: number;
+  text: string;
+}) {
   return (
     <motion.div
+      layout
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -184,7 +202,7 @@ function FeatureTile({ index, text }: { index: number; text: string }) {
         damping: 20,
         delay: index * 0.04,
       }}
-      whileHover={{ y: -2 }}
+      whileHover={{ scale: 1.01, y: -2 }}
       className="col-span-1 md:col-span-3 lg:col-span-1 v3-tile p-4 flex flex-col justify-between min-h-[120px]"
     >
       <span className="v3-mono text-[10px] tracking-[0.18em] uppercase text-[var(--text-tertiary)]">
@@ -193,7 +211,7 @@ function FeatureTile({ index, text }: { index: number; text: string }) {
       <span className="text-[14px] font-medium tracking-[-0.01em]">{text}</span>
     </motion.div>
   );
-}
+});
 
 function QuoteTile({ quote }: { quote: string }) {
   return (

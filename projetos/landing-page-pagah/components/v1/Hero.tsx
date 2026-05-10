@@ -29,26 +29,25 @@ export default function V1Hero() {
         {/* Left: copy */}
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full v1-glass v1-mono text-[11px] tracking-[0.15em] uppercase mb-6"
           >
             <span
-              className="size-1.5 rounded-full animate-pulse"
+              className="size-1.5 rounded-full animate-pulse motion-reduce:animate-none"
               style={{ background: "var(--accent)" }}
             />
             Checkout · Call Center · Juros do Parcelamento
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
-              type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.05,
+              duration: 0.42,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.04,
             }}
             className="text-[44px] md:text-[64px] lg:text-[72px] leading-[0.98] tracking-[-0.035em] font-semibold mb-6 text-balance"
           >
@@ -57,13 +56,12 @@ export default function V1Hero() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
-              type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.1,
+              duration: 0.36,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.08,
             }}
             className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-xl mb-4"
           >
@@ -71,13 +69,12 @@ export default function V1Hero() {
           </motion.p>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
-              type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.15,
+              duration: 0.32,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.12,
             }}
             className="text-sm text-[var(--text-tertiary)] leading-relaxed max-w-xl mb-8"
           >
@@ -89,7 +86,7 @@ export default function V1Hero() {
             animate="visible"
             variants={{
               hidden: {},
-              visible: { transition: { staggerChildren: 0.06, delayChildren: 0.2 } },
+              visible: { transition: { staggerChildren: 0.04, delayChildren: 0.16 } },
             }}
             className="grid sm:grid-cols-2 gap-x-6 gap-y-3 mb-10 max-w-xl"
           >
@@ -97,11 +94,11 @@ export default function V1Hero() {
               <motion.li
                 key={b}
                 variants={{
-                  hidden: { opacity: 0, x: -8 },
+                  hidden: { opacity: 0, x: -6 },
                   visible: {
                     opacity: 1,
                     x: 0,
-                    transition: { type: "spring", stiffness: 100, damping: 20 },
+                    transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] },
                   },
                 }}
                 className="flex items-start gap-2.5 text-sm text-[var(--text-secondary)]"
@@ -127,13 +124,12 @@ export default function V1Hero() {
           </motion.ul>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
-              type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.55,
+              duration: 0.36,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.32,
             }}
             className="flex flex-wrap gap-3"
           >
@@ -170,9 +166,9 @@ export default function V1Hero() {
 function DashboardMock() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, rotateX: 8 }}
-      animate={{ opacity: 1, y: 0, rotateX: 0 }}
-      transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.3 }}
+      initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
       className="relative perspective-[1500px] mt-4 lg:mt-0"
     >
       <div
@@ -237,9 +233,9 @@ function DashboardMock() {
 
       {/* Floating tag */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.8, type: "spring", stiffness: 200, damping: 15 }}
+        initial={{ opacity: 0, scale: 0.92, filter: "blur(4px)" }}
+        animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+        transition={{ delay: 0.6, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className="absolute -bottom-4 -left-4 lg:-left-6 px-3 py-2 rounded-lg v1-glass v1-mono text-[11px] tracking-wider"
         style={{ background: "rgba(10,10,10,0.8)" }}
       >
@@ -260,7 +256,7 @@ function KpiCard({
 }) {
   return (
     <div
-      className="rounded-lg p-3.5 transition-[background,border-color] duration-300 hover:bg-[oklch(1_0.014_95/0.04)]"
+      className="group/kpi rounded-lg p-3.5 transition-[background,border-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[oklch(1_0.014_95/0.045)] hover:border-[oklch(1_0.014_95/0.10)] hover:-translate-y-px motion-reduce:hover:translate-y-0"
       style={{
         background: "oklch(1 0.012 95 / 0.022)",
         border: "1px solid oklch(1 0.012 95 / 0.05)",

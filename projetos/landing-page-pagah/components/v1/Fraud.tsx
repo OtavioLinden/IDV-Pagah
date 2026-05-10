@@ -12,10 +12,10 @@ export default function V1Fraud() {
               Antifraude · Aprovação
             </span>
             <motion.h2
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 100, damping: 20 }}
+              initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.05] text-balance"
             >
               Mais aprovação. Menos venda legítima desperdiçada.
@@ -29,10 +29,10 @@ export default function V1Fraud() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "-60px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.05 } },
+            visible: { transition: { staggerChildren: 0.04 } },
           }}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-12"
         >
@@ -40,11 +40,12 @@ export default function V1Fraud() {
             <motion.article
               key={c}
               variants={{
-                hidden: { opacity: 0, y: 16 },
+                hidden: { opacity: 0, y: 10, filter: "blur(3px)" },
                 visible: {
                   opacity: 1,
                   y: 0,
-                  transition: { type: "spring", stiffness: 100, damping: 20 },
+                  filter: "blur(0px)",
+                  transition: { duration: 0.34, ease: [0.16, 1, 0.3, 1] },
                 },
               }}
               className="rounded-xl p-5 v1-glass v1-glass-hover flex items-center gap-3"

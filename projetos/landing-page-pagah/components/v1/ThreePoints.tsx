@@ -7,10 +7,10 @@ export default function V1ThreePoints() {
     <section className="relative py-24 md:py-32 border-t border-[var(--border-subtle)]">
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.05] mb-12 max-w-3xl text-balance"
         >
           {threePoints.title.split("3 lugares").map((part, i) =>
@@ -28,10 +28,10 @@ export default function V1ThreePoints() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "-60px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.06 } },
           }}
           className="grid md:grid-cols-3 gap-4 md:gap-5"
         >
@@ -39,11 +39,12 @@ export default function V1ThreePoints() {
             <motion.article
               key={c.title}
               variants={{
-                hidden: { opacity: 0, y: 24 },
+                hidden: { opacity: 0, y: 14, filter: "blur(4px)" },
                 visible: {
                   opacity: 1,
                   y: 0,
-                  transition: { type: "spring", stiffness: 100, damping: 20 },
+                  filter: "blur(0px)",
+                  transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
                 },
               }}
               className="group relative rounded-2xl p-7 md:p-8 v1-glass v1-glass-hover overflow-hidden"
@@ -72,10 +73,10 @@ export default function V1ThreePoints() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.3 }}
+          initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
           className="mt-14 max-w-2xl"
         >
           <span

@@ -161,7 +161,12 @@ const CallCenterBento = memo(function CallCenterBento() {
         {/* Floating KPI — bottom-left */}
         <motion.div
           animate={{ y: [0, -4, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          transition={{
+            duration: 3.7,
+            repeat: Infinity,
+            ease: [0.45, 0, 0.55, 1],
+            delay: 0.15,
+          }}
           className="absolute bottom-4 left-4 px-3.5 py-2.5 rounded-xl backdrop-blur-md"
           style={{
             background: "rgba(15,15,16,0.6)",
@@ -179,7 +184,12 @@ const CallCenterBento = memo(function CallCenterBento() {
         {/* Floating waveform — bottom-right */}
         <motion.div
           animate={{ y: [0, -3, 0] }}
-          transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+          transition={{
+            duration: 4.6,
+            repeat: Infinity,
+            ease: [0.16, 1, 0.3, 1],
+            delay: 0.7,
+          }}
           className="absolute bottom-4 right-4 flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur-md"
           style={{
             background: "rgba(15,15,16,0.6)",
@@ -195,9 +205,17 @@ const CallCenterBento = memo(function CallCenterBento() {
 
       {/* Recovered tile */}
       <motion.div
+        layout
+        whileHover={{ scale: 1.01, y: -2 }}
         className="col-span-3 v3-tile p-5"
         animate={{ y: [0, -2, 0] }}
-        transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+        transition={{
+          duration: 5.1,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: [0.37, 0, 0.63, 1],
+          delay: 0.9,
+        }}
       >
         <div className="v3-mono text-[10px] tracking-[0.16em] uppercase text-[var(--text-tertiary)]">
           Pedidos recuperados · hoje

@@ -22,10 +22,10 @@ export default function V2ThreePoints() {
         </div>
 
         <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="v2-display font-extrabold mb-20 max-w-5xl"
           style={{
             fontSize: "clamp(48px, 7vw, 110px)",
@@ -43,7 +43,9 @@ export default function V2ThreePoints() {
           viewport={{ once: true, margin: "-50px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: {
+              transition: { staggerChildren: 0.1, delayChildren: 0.15 },
+            },
           }}
           className="space-y-0"
         >
@@ -51,14 +53,14 @@ export default function V2ThreePoints() {
             <motion.article
               key={card.title}
               variants={{
-                hidden: { opacity: 0, y: 24 },
+                hidden: { opacity: 0, y: 18, filter: "blur(4px)" },
                 visible: {
                   opacity: 1,
                   y: 0,
+                  filter: "blur(0px)",
                   transition: {
-                    type: "spring",
-                    stiffness: 100,
-                    damping: 20,
+                    duration: 0.45,
+                    ease: [0.22, 1, 0.36, 1],
                   },
                 },
               }}

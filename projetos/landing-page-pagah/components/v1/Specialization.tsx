@@ -65,10 +65,10 @@ export default function V1Specialization() {
             Especialização
           </span>
           <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="text-3xl md:text-5xl font-semibold tracking-[-0.03em] leading-[1.02] mb-5 text-balance"
           >
             Especialistas em quem vende{" "}
@@ -95,11 +95,12 @@ export default function V1Specialization() {
               <motion.li
                 key={n}
                 variants={{
-                  hidden: { opacity: 0, scale: 0.95 },
+                  hidden: { opacity: 0, scale: 0.96, filter: "blur(3px)" },
                   visible: {
                     opacity: 1,
                     scale: 1,
-                    transition: { type: "spring", stiffness: 120, damping: 18 },
+                    filter: "blur(0px)",
+                    transition: { duration: 0.36, ease: [0.16, 1, 0.3, 1] },
                   },
                 }}
                 className="group relative rounded-2xl v1-glass v1-glass-hover overflow-hidden cursor-default flex flex-col"
@@ -120,7 +121,7 @@ export default function V1Specialization() {
                       alt={n}
                       width={400}
                       height={400}
-                      className="object-cover w-full h-32 transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover w-full h-32 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                     />
                     <div
                       className="absolute inset-0 pointer-events-none"

@@ -18,10 +18,10 @@ export default function V2Differentiator() {
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-16">
           <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="v2-display font-extrabold col-span-12 lg:col-span-9"
             style={{
               fontSize: "clamp(54px, 8vw, 130px)",
@@ -47,14 +47,13 @@ export default function V2Differentiator() {
             .
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{
-              type: "spring",
-              stiffness: 100,
-              damping: 20,
-              delay: 0.1,
+              duration: 0.45,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.18,
             }}
             className="col-span-12 lg:col-span-3 text-lg text-[var(--text-secondary)] leading-snug lg:pb-4"
           >
@@ -63,10 +62,10 @@ export default function V2Differentiator() {
         </div>
 
         <motion.figure
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 24, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="relative mb-20 md:mb-28"
         >
           <div className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--bg-contrast)]">
@@ -140,10 +139,10 @@ export default function V2Differentiator() {
 
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 24, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             className="col-span-12 lg:col-span-5"
           >
             <CallCenterArtwork />
@@ -166,7 +165,9 @@ export default function V2Differentiator() {
               viewport={{ once: true, margin: "-50px" }}
               variants={{
                 hidden: {},
-                visible: { transition: { staggerChildren: 0.05 } },
+                visible: {
+                  transition: { staggerChildren: 0.06, delayChildren: 0.1 },
+                },
               }}
               className="grid grid-cols-1 md:grid-cols-2 gap-x-6"
             >
@@ -174,14 +175,14 @@ export default function V2Differentiator() {
                 <motion.li
                   key={c}
                   variants={{
-                    hidden: { opacity: 0, x: -8 },
+                    hidden: { opacity: 0, y: 8, filter: "blur(3px)" },
                     visible: {
                       opacity: 1,
-                      x: 0,
+                      y: 0,
+                      filter: "blur(0px)",
                       transition: {
-                        type: "spring",
-                        stiffness: 100,
-                        damping: 20,
+                        duration: 0.4,
+                        ease: [0.22, 1, 0.36, 1],
                       },
                     },
                   }}
@@ -222,7 +223,7 @@ export default function V2Differentiator() {
 function CallCenterArtwork() {
   return (
     <div
-      className="relative aspect-[4/5] flex flex-col p-8"
+      className="v2-card-lift v2-card-lift-on-contrast relative aspect-[4/5] flex flex-col p-8"
       style={{
         background: "var(--bg-contrast)",
         color: "var(--text-on-contrast)",
