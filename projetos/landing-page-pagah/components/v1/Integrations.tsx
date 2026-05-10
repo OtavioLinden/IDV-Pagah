@@ -48,14 +48,17 @@ export default function V1Integrations() {
                   transition: { type: "spring", stiffness: 100, damping: 20 },
                 },
               }}
-              className="group rounded-xl p-5 v1-glass flex items-center gap-3 transition-colors hover:bg-white/[0.04]"
-              style={{ background: "rgba(255,255,255,0.02)" }}
+              className="group rounded-xl p-5 v1-glass v1-glass-hover flex items-center gap-3"
             >
               <span
-                className="size-10 rounded-lg grid place-items-center text-base font-semibold tabular-nums tracking-tight"
+                className="size-10 rounded-lg grid place-items-center text-[13px] v1-mono font-semibold uppercase tracking-tight"
                 style={{
-                  background: `oklch(${85 + (name.length % 10)}% 0.16 ${(name.charCodeAt(0) * 7) % 360})`,
-                  color: "#0A0A0A",
+                  background:
+                    "linear-gradient(135deg, oklch(0.913 0.166 100 / 0.18) 0%, oklch(0.913 0.166 100 / 0.04) 100%)",
+                  color: "var(--accent)",
+                  border: "1px solid oklch(0.913 0.166 100 / 0.22)",
+                  boxShadow:
+                    "inset 0 1px 0 oklch(1 0.012 95 / 0.08)",
                 }}
               >
                 {name.slice(0, 2)}

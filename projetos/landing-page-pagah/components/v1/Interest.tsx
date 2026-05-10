@@ -34,7 +34,10 @@ export default function V1Interest() {
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
             className="rounded-2xl p-7 md:p-8 v1-glass relative overflow-hidden"
-            style={{ background: "rgba(255,255,255,0.015)" }}
+            style={{
+              background: "oklch(1 0.012 95 / 0.012)",
+              borderColor: "oklch(1 0.012 95 / 0.06)",
+            }}
           >
             <div className="flex items-center justify-between mb-6">
               <span className="text-[var(--text-tertiary)] text-sm uppercase tracking-[0.18em] v1-mono">
@@ -66,8 +69,10 @@ export default function V1Interest() {
             className="rounded-2xl p-7 md:p-8 v1-glass relative overflow-hidden"
             style={{
               background:
-                "linear-gradient(135deg, rgba(241,229,47,0.12) 0%, rgba(241,229,47,0.02) 100%)",
-              borderColor: "rgba(241,229,47,0.3)",
+                "linear-gradient(135deg, oklch(0.913 0.166 100 / 0.13) 0%, oklch(0.913 0.166 100 / 0.025) 100%)",
+              borderColor: "oklch(0.913 0.166 100 / 0.32)",
+              boxShadow:
+                "inset 0 1px 0 oklch(1 0.012 95 / 0.10), 0 24px 56px -20px oklch(0.913 0.166 100 / 0.22)",
             }}
           >
             <div

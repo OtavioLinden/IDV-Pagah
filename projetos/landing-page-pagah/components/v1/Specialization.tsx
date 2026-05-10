@@ -102,10 +102,7 @@ export default function V1Specialization() {
                     transition: { type: "spring", stiffness: 120, damping: 18 },
                   },
                 }}
-                className="group relative rounded-2xl v1-glass overflow-hidden cursor-default transition-transform hover:-translate-y-1 flex flex-col"
-                style={{
-                  background: "rgba(255,255,255,0.02)",
-                }}
+                className="group relative rounded-2xl v1-glass v1-glass-hover overflow-hidden cursor-default flex flex-col"
               >
                 <div
                   className="absolute -top-12 -right-12 size-32 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-10"

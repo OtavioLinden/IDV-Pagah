@@ -42,11 +42,30 @@ export default function V3ThreePoints() {
             hidden: {},
             visible: { transition: { staggerChildren: 0.08 } },
           }}
-          className="grid lg:grid-cols-3 gap-4"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-4 auto-rows-[minmax(180px,auto)]"
         >
-          <PointCard index="01" {...threePoints.cards[0]} variant="cart" />
-          <PointCard index="02" {...threePoints.cards[1]} variant="upsell" />
-          <PointCard index="03" {...threePoints.cards[2]} variant="interest" />
+          {/* Asymmetric: lead is wider+taller (warm tint), supporting tiles step down. */}
+          <PointCard
+            index="01"
+            {...threePoints.cards[0]}
+            variant="cart"
+            col="lg:col-span-5 lg:row-span-2 min-h-[380px]"
+            tone="warm"
+          />
+          <PointCard
+            index="02"
+            {...threePoints.cards[1]}
+            variant="upsell"
+            col="lg:col-span-7 lg:row-span-1"
+            tone="accent"
+          />
+          <PointCard
+            index="03"
+            {...threePoints.cards[2]}
+            variant="interest"
+            col="lg:col-span-7 lg:row-span-1"
+            tone="default"
+          />
         </motion.div>
 
         <motion.p
@@ -69,14 +88,28 @@ function PointCard({
   title,
   text,
   variant,
+  col,
+  tone,
 }: {
   index: string;
   title: string;
   text: string;
   variant: "cart" | "upsell" | "interest";
+  col: string;
+  tone: "warm" | "accent" | "default";
 }) {
+  const toneClass =
+    tone === "warm" ? "v3-tile-warm" : "";
+  const toneStyle: React.CSSProperties | undefined =
+    tone === "accent"
+      ? {
+          background:
+            "linear-gradient(140deg, oklch(0.92 0.18 96 / 0.05) 0%, var(--bg-tile) 55%)",
+        }
+      : undefined;
   return (
     <motion.article
+      layout
       variants={{
         hidden: { opacity: 0, y: 24 },
         visible: {
@@ -87,7 +120,8 @@ function PointCard({
       }}
       whileHover={{ y: -3 }}
       transition={{ type: "spring", stiffness: 200, damping: 18 }}
-      className="v3-tile p-6 grid grid-rows-[auto_1fr_auto] gap-5 min-h-[340px] relative overflow-hidden"
+      style={toneStyle}
+      className={`v3-tile v3-magnet ${toneClass} ${col} p-6 grid grid-rows-[auto_1fr_auto] gap-5 relative overflow-hidden`}
     >
       <div className="flex items-center justify-between">
         <span className="v3-mono text-[10px] tracking-[0.2em] uppercase text-[var(--text-tertiary)]">

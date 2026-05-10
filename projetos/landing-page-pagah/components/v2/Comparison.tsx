@@ -58,8 +58,8 @@ export default function V2Comparison() {
               Comum
             </div>
             <div
-              className="px-4 md:px-5 py-6 v2-kicker text-center border-l border-[var(--border-on-contrast)]"
-              style={{ color: "var(--accent)" }}
+              className="px-4 md:px-5 py-6 v2-kicker text-center border-l border-[var(--border-on-contrast)] relative"
+              style={{ color: "var(--text-primary)", background: "var(--accent)" }}
             >
               Pagah
             </div>
@@ -123,11 +123,7 @@ function Row({
         <span>{row.common}</span>
       </div>
       <div
-        className="px-4 md:px-5 py-5 md:py-6 border-l border-[var(--border-medium)] text-center text-xs md:text-sm flex items-center justify-center gap-2 font-semibold"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent, rgba(241,229,47,0.18))",
-        }}
+        className="px-4 md:px-5 py-5 md:py-6 border-l border-[var(--border-medium)] text-center text-xs md:text-sm flex items-center justify-center gap-2 font-semibold relative"
       >
         <svg
           viewBox="0 0 24 24"

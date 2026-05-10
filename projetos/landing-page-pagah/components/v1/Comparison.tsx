@@ -28,7 +28,6 @@ export default function V1Comparison() {
           viewport={{ once: true }}
           transition={{ type: "spring", stiffness: 100, damping: 20 }}
           className="rounded-2xl v1-glass overflow-hidden"
-          style={{ background: "rgba(255,255,255,0.02)" }}
         >
           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-0 text-sm">
             {/* Header */}

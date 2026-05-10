@@ -3,7 +3,7 @@ import VersionSwitcher from "@/components/shared/VersionSwitcher";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["400", "500", "700", "800"],
+  weight: ["300", "400", "500", "700", "800"],
   variable: "--font-v2-display",
   display: "swap",
 });
@@ -27,18 +27,21 @@ export default function V2Layout({ children }: { children: React.ReactNode }) {
       className={`${bricolage.variable} ${interTight.variable}`}
       style={
         {
-          "--bg-base": "#FAFAFA",
-          "--bg-elevated": "#FFFFFF",
-          "--bg-contrast": "#0A0A0A",
-          "--text-primary": "#0A0A0A",
-          "--text-secondary": "rgba(10,10,10,0.6)",
-          "--text-tertiary": "rgba(10,10,10,0.4)",
-          "--text-on-contrast": "#FAFAFA",
-          "--text-on-contrast-secondary": "rgba(250,250,250,0.55)",
+          // OKLCH neutrals tinted toward brand hue (h=100, yellow #F1E52F).
+          // Chroma stays in 0.005-0.008 so neutrals read truly neutral
+          // but breathe with the brand instead of being clinical.
+          "--bg-base": "oklch(98.2% 0.005 100)",
+          "--bg-elevated": "oklch(99.4% 0.003 100)",
+          "--bg-contrast": "oklch(15.5% 0.006 100)",
+          "--text-primary": "oklch(17% 0.008 100)",
+          "--text-secondary": "oklch(17% 0.008 100 / 0.62)",
+          "--text-tertiary": "oklch(17% 0.008 100 / 0.42)",
+          "--text-on-contrast": "oklch(98.2% 0.005 100)",
+          "--text-on-contrast-secondary": "oklch(98.2% 0.005 100 / 0.58)",
           "--accent": "#F1E52F",
-          "--border-subtle": "rgba(10,10,10,0.08)",
-          "--border-medium": "rgba(10,10,10,0.15)",
-          "--border-on-contrast": "rgba(250,250,250,0.12)",
+          "--border-subtle": "oklch(17% 0.008 100 / 0.08)",
+          "--border-medium": "oklch(17% 0.008 100 / 0.16)",
+          "--border-on-contrast": "oklch(98.2% 0.005 100 / 0.14)",
         } as React.CSSProperties
       }
     >

@@ -129,15 +129,18 @@ export default function V4ModuleX1() {
             style={{
               background: "var(--accent)",
               color: "var(--text-primary)",
-              boxShadow: "0 4px 14px -4px rgba(241,229,47,0.5)",
-              transition: "transform 220ms cubic-bezier(0.16,1,0.3,1)",
+              boxShadow: "var(--shadow-accent)",
+              transition:
+                "transform 220ms cubic-bezier(0.16,1,0.3,1), box-shadow 220ms cubic-bezier(0.16,1,0.3,1)",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.transform = "translateY(-1px)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.transform = "translateY(0)")
-            }
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-1px)";
+              e.currentTarget.style.boxShadow = "var(--shadow-accent-hover)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "var(--shadow-accent)";
+            }}
           >
             {moduleX1.cta} →
           </a>

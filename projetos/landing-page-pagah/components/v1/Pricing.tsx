@@ -75,7 +75,6 @@ export default function V1Pricing() {
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
             className="rounded-3xl p-8 md:p-10 v1-glass"
-            style={{ background: "rgba(255,255,255,0.02)" }}
           >
             <span className="v1-mono text-xs tracking-[0.2em] uppercase opacity-50 mb-6 block">
               Prazo de saque

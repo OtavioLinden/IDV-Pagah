@@ -27,8 +27,13 @@ export default function V2Pillars() {
             lineHeight: 0.96,
           }}
         >
-          Não é só checkout. É uma{" "}
-          <span className="italic font-medium">máquina de lucro</span>{" "}
+          <span style={{ fontWeight: 300 }} className="italic">
+            Não é só
+          </span>{" "}
+          checkout. É uma{" "}
+          <span className="italic" style={{ fontWeight: 400 }}>
+            máquina de lucro
+          </span>{" "}
           pós-clique.
         </motion.h2>
 

@@ -47,8 +47,7 @@ export default function V1Fraud() {
                   transition: { type: "spring", stiffness: 100, damping: 20 },
                 },
               }}
-              className="rounded-xl p-5 v1-glass flex items-center gap-3"
-              style={{ background: "rgba(255,255,255,0.02)" }}
+              className="rounded-xl p-5 v1-glass v1-glass-hover flex items-center gap-3"
             >
               <span
                 className="size-9 shrink-0 rounded-lg grid place-items-center text-xs v1-mono"
@@ -64,12 +63,18 @@ export default function V1Fraud() {
           ))}
         </motion.div>
 
-        <p
-          className="text-2xl md:text-3xl tracking-[-0.025em] font-medium leading-tight max-w-3xl border-l-2 pl-6"
-          style={{ borderColor: "var(--accent)" }}
-        >
-          “{fraud.quote}”
-        </p>
+        <figure className="max-w-3xl">
+          <span
+            aria-hidden="true"
+            className="block text-7xl leading-none mb-2 font-semibold"
+            style={{ color: "var(--accent)", opacity: 0.85 }}
+          >
+            “
+          </span>
+          <blockquote className="text-2xl md:text-3xl tracking-[-0.025em] font-medium leading-tight">
+            {fraud.quote}
+          </blockquote>
+        </figure>
       </div>
     </section>
   );

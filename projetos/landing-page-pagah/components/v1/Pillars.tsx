@@ -48,17 +48,20 @@ export default function V1Pillars() {
                 damping: 20,
                 delay: i * 0.1,
               }}
-              className="rounded-2xl v1-glass p-7 md:p-8 relative overflow-hidden"
-              style={{
-                background:
-                  i === 1
-                    ? "linear-gradient(180deg, rgba(241,229,47,0.06) 0%, rgba(255,255,255,0.02) 60%)"
-                    : "rgba(255,255,255,0.02)",
-                borderColor:
-                  i === 1
-                    ? "rgba(241,229,47,0.2)"
-                    : "rgba(255,255,255,0.1)",
-              }}
+              className={`rounded-2xl v1-glass p-7 md:p-8 relative overflow-hidden ${
+                i === 1 ? "" : "v1-glass-hover"
+              }`}
+              style={
+                i === 1
+                  ? {
+                      background:
+                        "linear-gradient(180deg, oklch(0.913 0.166 100 / 0.06) 0%, oklch(1 0.012 95 / 0.022) 60%)",
+                      borderColor: "oklch(0.913 0.166 100 / 0.22)",
+                      boxShadow:
+                        "inset 0 1px 0 oklch(1 0.012 95 / 0.10), inset 0 -1px 0 oklch(0 0 0 / 0.25), 0 24px 56px -20px oklch(0.913 0.166 100 / 0.18)",
+                    }
+                  : undefined
+              }
             >
               <div className="flex items-center gap-3 mb-5">
                 <span

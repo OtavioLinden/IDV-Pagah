@@ -34,10 +34,14 @@ export default function V2Hero() {
               lineHeight: 0.92,
             }}
           >
-            Pare de perder vendas, carrinhos e{" "}
+            <span style={{ fontWeight: 300 }} className="italic">
+              Pare
+            </span>{" "}
+            de perder vendas, carrinhos e{" "}
             <span
-              className="italic font-medium"
+              className="italic"
               style={{
+                fontWeight: 400,
                 background: `linear-gradient(180deg, transparent 60%, var(--accent) 60%, var(--accent) 92%, transparent 92%)`,
               }}
             >
@@ -256,7 +260,7 @@ function MockChart() {
               `L ${(i / (points.length - 1)) * 220} ${56 - (p / max) * 56}`,
           )
           .join(" ")}`}
-        stroke="#0A0A0A"
+        stroke="currentColor"
         strokeWidth="2"
         fill="none"
       />
@@ -266,7 +270,7 @@ function MockChart() {
           cx={(i / (points.length - 1)) * 220}
           cy={56 - (p / max) * 56}
           r="2"
-          fill="#0A0A0A"
+          fill="currentColor"
         />
       ))}
     </svg>

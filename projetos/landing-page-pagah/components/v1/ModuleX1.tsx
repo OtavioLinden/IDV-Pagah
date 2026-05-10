@@ -42,8 +42,7 @@ export default function V1ModuleX1() {
                   damping: 20,
                   delay: i * 0.06,
                 }}
-                className="rounded-xl p-5 v1-glass"
-                style={{ background: "rgba(255,255,255,0.02)" }}
+                className="rounded-xl p-5 v1-glass v1-glass-hover"
               >
                 <div
                   className="v1-mono text-[10px] tracking-[0.2em] mb-3"

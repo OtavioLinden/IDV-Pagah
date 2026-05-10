@@ -46,8 +46,7 @@ export default function V1ThreePoints() {
                   transition: { type: "spring", stiffness: 100, damping: 20 },
                 },
               }}
-              className="group relative rounded-2xl p-7 md:p-8 v1-glass overflow-hidden"
-              style={{ background: "rgba(255,255,255,0.02)" }}
+              className="group relative rounded-2xl p-7 md:p-8 v1-glass v1-glass-hover overflow-hidden"
             >
               <div
                 className="absolute -top-20 -right-20 size-48 rounded-full pointer-events-none transition-opacity opacity-0 group-hover:opacity-100"
@@ -72,16 +71,23 @@ export default function V1ThreePoints() {
           ))}
         </motion.div>
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.3 }}
-          className="mt-12 text-base md:text-lg text-[var(--text-secondary)] max-w-2xl border-l-2 pl-5 italic"
-          style={{ borderColor: "var(--accent)" }}
+          className="mt-14 max-w-2xl"
         >
-          {threePoints.cta}
-        </motion.p>
+          <span
+            className="v1-mono text-[10px] tracking-[0.2em] uppercase block mb-3"
+            style={{ color: "var(--accent)" }}
+          >
+            ◇ A consequência
+          </span>
+          <p className="text-base md:text-lg text-[var(--text-secondary)] leading-relaxed">
+            {threePoints.cta}
+          </p>
+        </motion.div>
       </div>
     </section>
   );

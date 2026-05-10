@@ -22,7 +22,7 @@ export default function V4FinalCta() {
             borderRadius: "24px",
             padding: "56px 40px",
             boxShadow:
-              "0 24px 48px -16px rgba(28,28,28,0.3), 0 4px 12px rgba(28,28,28,0.1)",
+              "0 28px 56px -18px oklch(0.18 0.02 99 / 0.34), 0 6px 18px oklch(0.18 0.02 99 / 0.12)",
           }}
         >
           {/* Yellow accent corner */}
@@ -80,19 +80,18 @@ export default function V4FinalCta() {
                 style={{
                   background: "var(--accent)",
                   color: "var(--text-primary)",
-                  boxShadow: "0 6px 22px -4px rgba(241,229,47,0.5)",
+                  boxShadow: "var(--shadow-accent)",
                   transition:
                     "transform 220ms cubic-bezier(0.16,1,0.3,1), box-shadow 220ms cubic-bezier(0.16,1,0.3,1)",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-2px)";
                   e.currentTarget.style.boxShadow =
-                    "0 10px 28px -4px rgba(241,229,47,0.6)";
+                    "var(--shadow-accent-hover)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 6px 22px -4px rgba(241,229,47,0.5)";
+                  e.currentTarget.style.boxShadow = "var(--shadow-accent)";
                 }}
               >
                 {finalCta.primary}

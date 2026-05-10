@@ -48,8 +48,7 @@ export default function V1Social() {
                 damping: 20,
                 delay: i * 0.08,
               }}
-              className="rounded-2xl p-7 v1-glass relative"
-              style={{ background: "rgba(255,255,255,0.02)" }}
+              className="rounded-2xl p-7 v1-glass v1-glass-hover relative"
             >
               <span
                 className="absolute top-6 right-6 text-5xl leading-none opacity-20"

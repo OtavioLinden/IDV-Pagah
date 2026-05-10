@@ -48,8 +48,7 @@ export default function V1Differentiator() {
                   damping: 20,
                   delay: i * 0.04,
                 }}
-                className="flex items-center gap-3 text-sm rounded-lg px-3.5 py-3 v1-glass"
-                style={{ background: "rgba(255,255,255,0.02)" }}
+                className="flex items-center gap-3 text-sm rounded-lg px-3.5 py-3 v1-glass v1-glass-hover"
               >
                 <span
                   className="size-1.5 rounded-full shrink-0"
@@ -60,12 +59,21 @@ export default function V1Differentiator() {
             ))}
           </ul>
 
-          <p
-            className="mt-10 text-xl md:text-2xl tracking-[-0.02em] font-medium leading-tight max-w-md"
-            style={{ color: "var(--accent)" }}
-          >
-            “{differentiator.quote}”
-          </p>
+          <figure className="mt-12 max-w-md">
+            <span
+              aria-hidden="true"
+              className="v1-mono text-[10px] tracking-[0.22em] uppercase block mb-2 opacity-60"
+              style={{ color: "var(--accent)" }}
+            >
+              ◇ Em uma frase
+            </span>
+            <blockquote
+              className="text-xl md:text-2xl tracking-[-0.02em] font-medium leading-tight"
+              style={{ color: "var(--accent)" }}
+            >
+              {differentiator.quote}
+            </blockquote>
+          </figure>
         </div>
 
         {/* Right: call center mock visual */}

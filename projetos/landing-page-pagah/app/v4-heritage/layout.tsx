@@ -16,9 +16,9 @@ const ubuntuMono = Ubuntu_Mono({
 });
 
 export const metadata = {
-  title: "Pagah · Heritage Refined — Checkout, Call Center e Juros",
+  title: "Pagah · Heritage Refined · Checkout, Call Center e Juros",
   description:
-    "Identidade Pagah elevada — checkout, call center e participação nos juros do parcelamento para quem vende produto físico em escala.",
+    "Identidade Pagah elevada: checkout, call center e participação nos juros do parcelamento para quem vende produto físico em escala.",
 };
 
 export default function V4Layout({ children }: { children: React.ReactNode }) {
@@ -27,32 +27,39 @@ export default function V4Layout({ children }: { children: React.ReactNode }) {
       className={`${ubuntu.variable} ${ubuntuMono.variable}`}
       style={
         {
+          // Pagah official brand surfaces (preserved exact)
           "--bg-base": "#F2F2F2",
           "--bg-card": "#FFFFFF",
           "--bg-card-dark": "#1C1C1C",
           "--bg-card-dark-elevated": "#252525",
-          "--text-primary": "#1C1C1C",
-          "--text-secondary": "#575756",
-          "--text-tertiary": "rgba(28,28,28,0.5)",
-          "--text-on-dark": "#FFFFFF",
-          "--text-on-dark-secondary": "rgba(255,255,255,0.65)",
           "--accent": "#F1E52F",
-          "--accent-soft": "rgba(241,229,47,0.12)",
-          "--border-subtle": "#DADADA",
-          "--border-card": "rgba(218,218,218,0.6)",
-          "--border-on-dark": "rgba(255,255,255,0.08)",
-          "--success": "#16A34A",
-          "--success-soft": "rgba(22,163,74,0.12)",
-          "--error": "#DC2626",
-          "--error-soft": "rgba(220,38,38,0.1)",
-          "--warning": "#F59E0B",
-          "--processing": "#2563EB",
+          // Tinted neutrals in OKLCH (chroma 0.005-0.012 toward yellow hue 99)
+          "--text-primary": "oklch(0.235 0.006 99)",
+          "--text-secondary": "oklch(0.45 0.005 99)",
+          "--text-tertiary": "oklch(0.235 0.006 99 / 0.5)",
+          "--text-on-dark": "oklch(0.985 0.004 99)",
+          "--text-on-dark-secondary": "oklch(0.985 0.004 99 / 0.65)",
+          "--accent-soft": "oklch(0.92 0.18 102 / 0.12)",
+          "--border-subtle": "oklch(0.86 0.004 99)",
+          "--border-card": "oklch(0.86 0.004 99 / 0.6)",
+          "--border-on-dark": "oklch(0.985 0.004 99 / 0.08)",
+          "--success": "oklch(0.62 0.16 145)",
+          "--success-soft": "oklch(0.62 0.16 145 / 0.12)",
+          "--error": "oklch(0.58 0.21 27)",
+          "--error-soft": "oklch(0.58 0.21 27 / 0.1)",
+          "--warning": "oklch(0.74 0.16 70)",
+          "--processing": "oklch(0.55 0.21 260)",
+          // Shadows tinted toward Pagah yellow (subtle warmth, not generic neutral)
           "--shadow-card":
-            "0 1px 2px rgba(28,28,28,0.04), 0 4px 16px -4px rgba(28,28,28,0.06)",
+            "0 1px 2px oklch(0.3 0.04 99 / 0.05), 0 4px 16px -4px oklch(0.3 0.04 99 / 0.07)",
           "--shadow-card-hover":
-            "0 2px 4px rgba(28,28,28,0.05), 0 12px 32px -8px rgba(28,28,28,0.1)",
+            "0 2px 4px oklch(0.3 0.04 99 / 0.06), 0 14px 36px -10px oklch(0.3 0.04 99 / 0.12)",
           "--shadow-dark":
-            "0 4px 24px -6px rgba(28,28,28,0.18), 0 1px 2px rgba(28,28,28,0.06)",
+            "0 6px 28px -8px oklch(0.18 0.02 99 / 0.22), 0 1px 2px oklch(0.18 0.02 99 / 0.08)",
+          "--shadow-accent":
+            "0 4px 14px -4px oklch(0.92 0.18 102 / 0.5)",
+          "--shadow-accent-hover":
+            "0 10px 28px -6px oklch(0.92 0.18 102 / 0.6)",
         } as React.CSSProperties
       }
     >
@@ -79,6 +86,11 @@ export default function V4Layout({ children }: { children: React.ReactNode }) {
           box-shadow: var(--shadow-card);
           padding: 28px;
           border: 1px solid var(--border-card);
+          transition: box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1),
+                      transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .v4-card:hover {
+          box-shadow: var(--shadow-card-hover);
         }
         .v4-card-dark {
           background: var(--bg-card-dark);
@@ -86,6 +98,45 @@ export default function V4Layout({ children }: { children: React.ReactNode }) {
           border-radius: 16px;
           box-shadow: var(--shadow-dark);
           padding: 28px;
+          position: relative;
+          isolation: isolate;
+        }
+        /* Premium 1px inner highlight + accent gradient wash on dark cards */
+        .v4-card-dark::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          padding: 1px;
+          background: linear-gradient(
+            180deg,
+            oklch(0.985 0.004 99 / 0.08) 0%,
+            oklch(0.985 0.004 99 / 0) 38%
+          );
+          -webkit-mask:
+            linear-gradient(#000 0 0) content-box,
+            linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          pointer-events: none;
+          z-index: 1;
+        }
+        .v4-card-dark::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          background: radial-gradient(
+            120% 80% at 100% 0%,
+            oklch(0.92 0.18 102 / 0.06) 0%,
+            transparent 55%
+          );
+          pointer-events: none;
+          z-index: 0;
+        }
+        .v4-card-dark > * {
+          position: relative;
+          z-index: 2;
         }
         .v4-tabular {
           font-variant-numeric: tabular-nums;
@@ -111,13 +162,44 @@ export default function V4Layout({ children }: { children: React.ReactNode }) {
         }
         @keyframes v4-pulse-dot {
           0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(0.85); }
+          50% { opacity: 0.55; transform: scale(0.78); }
+        }
+        @keyframes v4-pulse-ring {
+          0% {
+            opacity: 0.55;
+            transform: translate(-50%, -50%) scale(1);
+          }
+          70% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(2.6);
+          }
+          100% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(2.6);
+          }
         }
         .v4-pulse-dot {
-          animation: v4-pulse-dot 2.4s ease-in-out infinite;
+          animation: v4-pulse-dot 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+          position: relative;
+        }
+        .v4-pulse-dot::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100%;
+          height: 100%;
+          border-radius: 9999px;
+          background: inherit;
+          opacity: 0.4;
+          transform: translate(-50%, -50%) scale(1);
+          animation: v4-pulse-ring 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+          pointer-events: none;
         }
         @media (prefers-reduced-motion: reduce) {
-          .v4-pulse-dot { animation: none; }
+          .v4-pulse-dot,
+          .v4-pulse-dot::after { animation: none; }
+          .v4-pulse-dot::after { display: none; }
           .v4-root *,
           .v4-root *::before,
           .v4-root *::after {

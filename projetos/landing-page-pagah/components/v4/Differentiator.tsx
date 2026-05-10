@@ -76,13 +76,32 @@ export default function V4Differentiator() {
           </ul>
 
           <blockquote
-            className="border-l-2 pl-5 py-1 text-[18px] font-medium leading-relaxed"
+            className="relative text-[18px] font-medium leading-relaxed"
             style={{
-              borderColor: "var(--accent)",
               color: "var(--text-primary)",
+              padding: "20px 22px",
+              background: "var(--accent-soft)",
+              borderRadius: "12px",
             }}
           >
-            “{differentiator.quote}”
+            <span
+              aria-hidden="true"
+              className="absolute v4-mono"
+              style={{
+                top: "-6px",
+                left: "16px",
+                fontSize: "44px",
+                fontWeight: 700,
+                lineHeight: 1,
+                color: "var(--accent)",
+                letterSpacing: "-0.04em",
+              }}
+            >
+              “
+            </span>
+            <span style={{ display: "block", paddingLeft: "20px" }}>
+              {differentiator.quote}
+            </span>
           </blockquote>
         </div>
 

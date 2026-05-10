@@ -147,24 +147,23 @@ export default function V4Hero() {
           >
             <a
               href="#cta-final"
-              aria-label={`${hero.primaryCta} — ir para o formulário de contato`}
+              aria-label={`${hero.primaryCta}: ir para o formulário de contato`}
               className="px-6 py-3.5 text-[15px] font-bold rounded-lg"
               style={{
                 background: "var(--accent)",
                 color: "var(--text-primary)",
                 transition:
                   "transform 220ms cubic-bezier(0.16,1,0.3,1), box-shadow 220ms cubic-bezier(0.16,1,0.3,1)",
-                boxShadow: "0 4px 14px -4px rgba(241,229,47,0.5)",
+                boxShadow: "var(--shadow-accent)",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-2px)";
                 e.currentTarget.style.boxShadow =
-                  "0 8px 22px -4px rgba(241,229,47,0.6)";
+                  "var(--shadow-accent-hover)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 4px 14px -4px rgba(241,229,47,0.5)";
+                e.currentTarget.style.boxShadow = "var(--shadow-accent)";
               }}
             >
               {hero.primaryCta}

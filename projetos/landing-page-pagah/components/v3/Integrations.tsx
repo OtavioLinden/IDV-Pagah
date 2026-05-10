@@ -4,20 +4,21 @@ import { motion } from "motion/react";
 import { integrations } from "@/content/landing";
 
 const HIGHLIGHT = new Set(["Notazz", "Utmify", "Bling", "ActiveCampaign"]);
-// Asymmetric layout: 4 highlighted bigger, others smaller
+// Truly asymmetric: highlights claim 4 cols (sometimes 2 rows), filler tiles take 2-3.
+// Pattern hand-tuned for visual rhythm — not a uniform grid.
 const TILE_SIZES = [
+  "md:col-span-4 md:row-span-2", // Notazz — wide+tall hero
+  "md:col-span-3",
   "md:col-span-2",
+  "md:col-span-3",                // Utmify
   "md:col-span-2",
-  "md:col-span-2",
-  "md:col-span-2",
-  "md:col-span-2",
-  "md:col-span-2",
-  "md:col-span-2",
-  "md:col-span-2",
+  "md:col-span-3",
+  "md:col-span-3",                // Bling
   "md:col-span-2",
   "md:col-span-2",
   "md:col-span-3",
-  "md:col-span-3",
+  "md:col-span-4",                // ActiveCampaign — wide
+  "md:col-span-2",
 ];
 
 export default function V3Integrations() {
@@ -60,6 +61,7 @@ export default function V3Integrations() {
             return (
               <motion.div
                 key={tool}
+                layout
                 variants={{
                   hidden: { opacity: 0, y: 12 },
                   visible: {
@@ -68,9 +70,9 @@ export default function V3Integrations() {
                     transition: { type: "spring", stiffness: 100, damping: 20 },
                   },
                 }}
-                whileHover={{ y: -2, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 200, damping: 18 }}
-                className={`v3-tile px-4 py-3 flex items-center justify-center gap-3 col-span-1 ${TILE_SIZES[i] ?? "md:col-span-3"} relative overflow-hidden ${
+                whileHover={{ y: -2, scale: 1.015 }}
+                transition={{ type: "spring", stiffness: 220, damping: 16 }}
+                className={`v3-tile v3-magnet px-4 py-3 flex items-center justify-center gap-3 col-span-1 ${TILE_SIZES[i] ?? "md:col-span-3"} relative overflow-hidden ${
                   isHighlight ? "v3-glow-ring" : ""
                 }`}
                 style={

@@ -28,14 +28,17 @@ export default function V3Layout({ children }: { children: React.ReactNode }) {
       className={`${onest.variable} ${jetbrains.variable}`}
       style={
         {
-          "--bg-base": "#0F0F10",
-          "--bg-tile": "#1A1A1C",
-          "--bg-tile-elevated": "#1F1F22",
-          "--border-subtle": "rgba(255,255,255,0.05)",
-          "--border-glow": "rgba(241,229,47,0.2)",
-          "--text-primary": "#F5F5F5",
-          "--text-secondary": "rgba(245,245,245,0.6)",
-          "--text-tertiary": "rgba(245,245,245,0.4)",
+          // OKLCH neutrals tinted toward brand hue (~96deg, very low chroma)
+          "--bg-base": "oklch(0.16 0.006 96)",
+          "--bg-tile": "oklch(0.205 0.008 96)",
+          "--bg-tile-elevated": "oklch(0.235 0.01 96)",
+          "--bg-tile-warm": "oklch(0.225 0.014 96)",
+          "--border-subtle": "oklch(1 0 0 / 0.055)",
+          "--border-inner-hi": "oklch(1 0 0 / 0.065)",
+          "--border-glow": "oklch(0.92 0.18 96 / 0.22)",
+          "--text-primary": "oklch(0.965 0.005 96)",
+          "--text-secondary": "oklch(0.965 0.005 96 / 0.62)",
+          "--text-tertiary": "oklch(0.965 0.005 96 / 0.42)",
           "--accent": "#F1E52F",
           "--accent-soft": "#C9BF28",
         } as React.CSSProperties
@@ -52,27 +55,56 @@ export default function V3Layout({ children }: { children: React.ReactNode }) {
         .v3-num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 
         .v3-tile {
+          position: relative;
           background: var(--bg-tile);
           border: 1px solid var(--border-subtle);
           border-radius: 18px;
-          transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                      background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          /* Liquid glass refraction: inner 1px top highlight + faint bottom shade */
+          box-shadow:
+            inset 0 1px 0 0 var(--border-inner-hi),
+            inset 0 -1px 0 0 oklch(0 0 0 / 0.25);
+          transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                      transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                      background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                      box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
           will-change: transform;
         }
         .v3-tile:hover {
           border-color: var(--border-glow);
           background: var(--bg-tile-elevated);
+          box-shadow:
+            inset 0 1px 0 0 oklch(1 0 0 / 0.1),
+            inset 0 -1px 0 0 oklch(0 0 0 / 0.3),
+            0 14px 40px -22px oklch(0.92 0.18 96 / 0.45);
+        }
+        /* Warm tint variant — for personality differentiation */
+        .v3-tile-warm {
+          background: var(--bg-tile-warm);
         }
         .v3-tile-elevated {
           background: var(--bg-tile-elevated);
           border: 1px solid var(--border-subtle);
           border-radius: 18px;
+          box-shadow:
+            inset 0 1px 0 0 var(--border-inner-hi),
+            inset 0 -1px 0 0 oklch(0 0 0 / 0.25);
         }
         .v3-tile-amber {
           background: linear-gradient(135deg, #F1E52F 0%, #C9BF28 100%);
           color: #0F0F10;
           border-radius: 18px;
+          box-shadow:
+            inset 0 1px 0 0 oklch(1 0 0 / 0.32),
+            inset 0 -1px 0 0 oklch(0 0 0 / 0.18);
+        }
+
+        /* Magnetic micro-physics — applied via :hover on the inner content */
+        .v3-magnet > * {
+          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform;
+        }
+        .v3-magnet:hover > * {
+          transform: translateY(-1px);
         }
 
         .v3-status-dot {

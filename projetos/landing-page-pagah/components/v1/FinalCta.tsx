@@ -33,7 +33,7 @@ export default function V1FinalCta() {
           className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-[-0.04em] leading-[0.98] mb-6 text-balance"
         >
           Pronto pra parar de deixar{" "}
-          <span className="v1-shimmer-text">dinheiro na mesa</span>?
+          <span className="v1-accent-underscore">dinheiro na mesa</span>?
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 16 }}

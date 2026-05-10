@@ -44,11 +44,20 @@ export default function V3Social() {
             hidden: {},
             visible: { transition: { staggerChildren: 0.08 } },
           }}
-          className="grid lg:grid-cols-3 gap-4 mb-4"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-4 auto-rows-[minmax(120px,auto)]"
         >
-          {social.testimonials.map((t, i) => (
+          {social.testimonials.map((t, i) => {
+            // Asymmetric: middle is hero (wider), flanks are slim.
+            const colClass =
+              i === 1
+                ? "lg:col-span-6 lg:row-span-1"
+                : i === 0
+                  ? "lg:col-span-6 lg:row-span-1 v3-tile-warm"
+                  : "lg:col-span-12 lg:row-span-1";
+            return (
             <motion.article
               key={t.name}
+              layout
               variants={{
                 hidden: { opacity: 0, y: 24 },
                 visible: {
@@ -59,14 +68,14 @@ export default function V3Social() {
               }}
               whileHover={{ y: -3 }}
               transition={{ type: "spring", stiffness: 200, damping: 18 }}
-              className={`v3-tile p-6 flex flex-col gap-5 relative overflow-hidden ${
+              className={`v3-tile v3-magnet ${colClass} p-6 flex flex-col gap-5 relative overflow-hidden ${
                 i === 1 ? "v3-glow-ring" : ""
               }`}
               style={
                 i === 1
                   ? {
                       background:
-                        "linear-gradient(140deg, rgba(241,229,47,0.05) 0%, var(--bg-tile) 60%)",
+                        "linear-gradient(140deg, oklch(0.92 0.18 96 / 0.06) 0%, var(--bg-tile) 60%)",
                     }
                   : undefined
               }
@@ -134,7 +143,8 @@ export default function V3Social() {
                 </span>
               </div>
             </motion.article>
-          ))}
+            );
+          })}
         </motion.div>
 
         {/* Metrics bento */}
@@ -146,11 +156,16 @@ export default function V3Social() {
             hidden: {},
             visible: { transition: { staggerChildren: 0.06 } },
           }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-3"
+          className="grid grid-cols-2 md:grid-cols-12 gap-3"
         >
-          {social.metrics.map((m, i) => (
+          {social.metrics.map((m, i) => {
+            // Asymmetric: first metric is hero-wide; others step down.
+            const metricCols = ["md:col-span-5", "md:col-span-3", "md:col-span-2", "md:col-span-2"];
+            const isHero = i === 0;
+            return (
             <motion.div
               key={m.label}
+              layout
               variants={{
                 hidden: { opacity: 0, y: 12 },
                 visible: {
@@ -160,18 +175,18 @@ export default function V3Social() {
                 },
               }}
               whileHover={{ y: -2 }}
-              animate={{ y: [0, -2, 0] }}
+              animate={{ y: [0, i % 2 === 0 ? -3 : -1.5, 0] }}
               transition={{
                 type: "spring",
                 stiffness: 200,
                 damping: 18,
-                duration: 4,
+                duration: 3.6 + i * 0.3,
                 repeat: Infinity,
                 repeatType: "reverse",
                 ease: "easeInOut",
-                delay: i * 0.4,
+                delay: i * 0.45,
               }}
-              className="v3-tile p-5"
+              className={`v3-tile v3-magnet ${metricCols[i] ?? "md:col-span-3"} ${isHero ? "v3-tile-warm" : ""} p-5`}
             >
               <div className="v3-mono text-[10px] tracking-[0.18em] uppercase text-[var(--text-tertiary)]">
                 {String(i + 1).padStart(2, "0")}
@@ -179,11 +194,12 @@ export default function V3Social() {
               <div className="mt-2 text-[26px] md:text-[30px] font-bold tracking-[-0.035em] v3-num leading-tight">
                 {m.value}
               </div>
-              <div className="mt-1 text-[12px] text-[var(--text-secondary)] leading-snug">
+              <div className={`mt-1 ${isHero ? "text-[13px]" : "text-[12px]"} text-[var(--text-secondary)] leading-snug`}>
                 {m.label}
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </motion.div>
       </div>
     </section>

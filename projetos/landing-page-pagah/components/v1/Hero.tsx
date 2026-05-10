@@ -53,7 +53,7 @@ export default function V1Hero() {
             className="text-[44px] md:text-[64px] lg:text-[72px] leading-[0.98] tracking-[-0.035em] font-semibold mb-6 text-balance"
           >
             Pare de perder vendas, carrinhos e{" "}
-            <span className="v1-shimmer-text">juros do parcelamento</span>.
+            <span className="v1-accent-underscore">juros do parcelamento</span>.
           </motion.h1>
 
           <motion.p
@@ -259,7 +259,15 @@ function KpiCard({
   trend: string;
 }) {
   return (
-    <div className="rounded-lg p-3.5 bg-white/[0.02] border border-white/5">
+    <div
+      className="rounded-lg p-3.5 transition-[background,border-color] duration-300 hover:bg-[oklch(1_0.014_95/0.04)]"
+      style={{
+        background: "oklch(1 0.012 95 / 0.022)",
+        border: "1px solid oklch(1 0.012 95 / 0.05)",
+        boxShadow:
+          "inset 0 1px 0 oklch(1 0.012 95 / 0.04), inset 0 -1px 0 oklch(0 0 0 / 0.2)",
+      }}
+    >
       <div className="text-[10px] uppercase tracking-[0.12em] opacity-50 mb-1">
         {label}
       </div>
@@ -268,7 +276,7 @@ function KpiCard({
           {value}
         </span>
         <span
-          className="v1-mono text-[10px] tabular"
+          className="v1-mono text-[10px] tabular-nums"
           style={{ color: "var(--accent)" }}
         >
           {trend}

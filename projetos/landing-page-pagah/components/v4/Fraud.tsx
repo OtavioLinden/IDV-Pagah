@@ -78,13 +78,32 @@ export default function V4Fraud() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          className="border-l-2 pl-5 py-1 text-[20px] md:text-[22px] font-medium leading-relaxed max-w-3xl"
+          className="relative text-[20px] md:text-[22px] font-medium leading-relaxed max-w-3xl"
           style={{
-            borderColor: "var(--accent)",
             color: "var(--text-primary)",
+            padding: "24px 28px",
+            background: "var(--accent-soft)",
+            borderRadius: "14px",
           }}
         >
-          “{fraud.quote}”
+          <span
+            aria-hidden="true"
+            className="absolute v4-mono"
+            style={{
+              top: "-8px",
+              left: "20px",
+              fontSize: "56px",
+              fontWeight: 700,
+              lineHeight: 1,
+              color: "var(--accent)",
+              letterSpacing: "-0.04em",
+            }}
+          >
+            “
+          </span>
+          <span style={{ display: "block", paddingLeft: "24px" }}>
+            {fraud.quote}
+          </span>
         </motion.blockquote>
       </div>
     </section>

@@ -30,7 +30,10 @@ export default function V2Differentiator() {
             }}
           >
             O atendimento{" "}
-            <span className="italic font-medium text-[var(--text-tertiary)]">
+            <span
+              className="italic text-[var(--text-tertiary)]"
+              style={{ fontWeight: 300 }}
+            >
               não é
             </span>{" "}
             suporte. É{" "}

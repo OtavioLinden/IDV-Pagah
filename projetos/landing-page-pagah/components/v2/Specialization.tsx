@@ -36,8 +36,14 @@ export default function V2Specialization() {
               lineHeight: 0.94,
             }}
           >
-            Especialistas em quem vende{" "}
-            <span className="italic font-medium">produto físico</span>.
+            <span style={{ fontWeight: 300 }} className="italic">
+              Especialistas
+            </span>{" "}
+            em quem vende{" "}
+            <span className="italic" style={{ fontWeight: 400 }}>
+              produto físico
+            </span>
+            .
           </motion.h2>
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -145,6 +151,9 @@ export default function V2Specialization() {
         >
           {specialization.niches.slice(4).map((n, i) => {
             const idx = i + 4;
+            // Break identical-card grid: 2nd cell of secondary row becomes
+            // a contrast block — editorial mosaic instead of generic 4-up.
+            const isContrast = i === 1;
             return (
               <motion.li
                 key={n}
@@ -160,21 +169,38 @@ export default function V2Specialization() {
                     },
                   },
                 }}
-                className="bg-[var(--bg-base)] p-8 flex flex-col justify-between min-h-[180px] group"
+                className="p-8 flex flex-col justify-between min-h-[180px] group"
+                style={{
+                  background: isContrast
+                    ? "var(--bg-contrast)"
+                    : "var(--bg-base)",
+                  color: isContrast
+                    ? "var(--text-on-contrast)"
+                    : "var(--text-primary)",
+                }}
               >
                 <span
-                  className="v2-num font-extrabold v2-tabular text-[var(--text-tertiary)] block"
+                  className="v2-num v2-tabular block"
                   style={{
-                    fontSize: "clamp(28px, 3vw, 44px)",
+                    fontWeight: isContrast ? 800 : 400,
+                    fontSize: isContrast
+                      ? "clamp(56px, 6.5vw, 96px)"
+                      : "clamp(28px, 3vw, 44px)",
                     lineHeight: 0.85,
+                    color: isContrast
+                      ? "var(--accent)"
+                      : "var(--text-tertiary)",
                   }}
                 >
                   {String(idx + 1).padStart(2, "0")}
                 </span>
                 <h3
-                  className="v2-display font-bold mt-6"
+                  className="v2-display mt-6"
                   style={{
-                    fontSize: "clamp(22px, 2.4vw, 32px)",
+                    fontWeight: isContrast ? 800 : 700,
+                    fontSize: isContrast
+                      ? "clamp(28px, 3vw, 40px)"
+                      : "clamp(22px, 2.4vw, 32px)",
                     letterSpacing: "-0.035em",
                     lineHeight: 1,
                   }}
