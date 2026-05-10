@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "motion/react";
 
 /**
@@ -59,7 +59,7 @@ export default function CounterRoll({
   className,
   style,
 }: Props) {
-  const parsed = parseValue(value);
+  const parsed = useMemo(() => parseValue(value), [value]);
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const reducedMotion = useReducedMotion();
