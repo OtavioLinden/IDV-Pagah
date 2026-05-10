@@ -1,6 +1,18 @@
 "use client";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { social } from "@/content/landing";
+
+const avatarMap: Record<string, string> = {
+  Rafael: "/images/people/rafael.png",
+  Camila: "/images/people/camila.png",
+  Diego: "/images/people/diego.png",
+};
+
+function getAvatarSrc(name: string): string | undefined {
+  const firstName = name.split(" ")[0];
+  return avatarMap[firstName];
+}
 
 export default function V4Social() {
   return (
@@ -129,20 +141,36 @@ export default function V4Social() {
                 className="flex items-center gap-3 pt-5"
                 style={{ borderTop: "1px solid var(--border-card)" }}
               >
-                <span
-                  className="size-10 rounded-full grid place-items-center font-bold"
-                  style={{
-                    background: "var(--bg-card-dark)",
-                    color: "var(--accent)",
-                    fontSize: "13px",
-                  }}
-                  aria-hidden="true"
-                >
-                  {t.name
-                    .split(" ")
-                    .map((p) => p[0])
-                    .join("")}
-                </span>
+                {getAvatarSrc(t.name) ? (
+                  <span
+                    className="relative size-10 rounded-full overflow-hidden shrink-0"
+                    style={{ background: "var(--bg-base)" }}
+                    aria-hidden="true"
+                  >
+                    <Image
+                      src={getAvatarSrc(t.name) as string}
+                      alt=""
+                      fill
+                      sizes="40px"
+                      className="object-cover"
+                    />
+                  </span>
+                ) : (
+                  <span
+                    className="size-10 rounded-full grid place-items-center font-bold shrink-0"
+                    style={{
+                      background: "var(--bg-card-dark)",
+                      color: "var(--accent)",
+                      fontSize: "13px",
+                    }}
+                    aria-hidden="true"
+                  >
+                    {t.name
+                      .split(" ")
+                      .map((p) => p[0])
+                      .join("")}
+                  </span>
+                )}
                 <div>
                   <div
                     className="text-[14px] font-bold"

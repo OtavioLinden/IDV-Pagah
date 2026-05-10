@@ -1,7 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
 import { specialization } from "@/content/landing";
+
+const NICHE_IMAGES: Record<string, string> = {
+  Encapsulados: "/images/products/encapsulados.png",
+  Suplementos: "/images/products/suplementos.png",
+  Cosméticos: "/images/products/cosmeticos.png",
+  Gotas: "/images/products/gotas.png",
+};
 
 // Asymmetric grid layout: each tile gets a deliberate size
 const TILE_SIZES = [
@@ -59,58 +67,109 @@ export default function V3Specialization() {
           }}
           className="grid grid-cols-2 md:grid-cols-6 gap-3 auto-rows-[minmax(120px,auto)]"
         >
-          {specialization.niches.map((niche, i) => (
-            <motion.div
-              key={niche}
-              variants={{
-                hidden: { opacity: 0, y: 16, scale: 0.96 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  transition: { type: "spring", stiffness: 100, damping: 20 },
-                },
-              }}
-              whileHover={{ y: -3, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 200, damping: 18 }}
-              className={`v3-tile p-5 relative overflow-hidden flex flex-col justify-between ${TILE_SIZES[i] ?? "md:col-span-2"} ${
-                i === 0 ? "v3-glow-ring" : ""
-              }`}
-              style={
-                i === 0
-                  ? {
-                      background:
-                        "linear-gradient(140deg, rgba(241,229,47,0.06) 0%, var(--bg-tile) 60%)",
-                    }
-                  : undefined
-              }
-            >
-              {i === 0 && (
-                <motion.div
-                  aria-hidden="true"
-                  className="absolute -top-12 -right-12 size-40 rounded-full pointer-events-none"
-                  style={{
-                    background:
-                      "radial-gradient(circle, rgba(241,229,47,0.18) 0%, transparent 60%)",
-                    filter: "blur(20px)",
-                  }}
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                />
-              )}
-              <div className="flex items-center justify-between relative">
-                <span className="v3-mono text-[10px] tracking-[0.18em] uppercase text-[var(--text-tertiary)]">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <NicheGlyph index={i} />
-              </div>
-              <span
-                className={`relative font-semibold tracking-[-0.02em] ${i === 0 ? "text-[24px] md:text-[28px]" : "text-[16px] md:text-[18px]"}`}
+          {specialization.niches.map((niche, i) => {
+            const photoSrc = NICHE_IMAGES[niche];
+            const isPhoto = Boolean(photoSrc);
+            const isAmber = i === 0;
+            return (
+              <motion.div
+                key={niche}
+                variants={{
+                  hidden: { opacity: 0, y: 16, scale: 0.96 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    transition: { type: "spring", stiffness: 100, damping: 20 },
+                  },
+                }}
+                whileHover={{ y: -3, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 200, damping: 18 }}
+                className={`v3-tile relative overflow-hidden flex flex-col justify-between ${TILE_SIZES[i] ?? "md:col-span-2"} ${
+                  isAmber ? "v3-glow-ring" : ""
+                } ${isPhoto ? "p-0" : "p-5"}`}
+                style={
+                  isAmber && !isPhoto
+                    ? {
+                        background:
+                          "linear-gradient(140deg, rgba(241,229,47,0.06) 0%, var(--bg-tile) 60%)",
+                      }
+                    : undefined
+                }
               >
-                {niche}
-              </span>
-            </motion.div>
-          ))}
+                {isPhoto ? (
+                  <>
+                    <div className="absolute inset-0">
+                      <Image
+                        src={photoSrc}
+                        alt={`Nicho ${niche}: produto físico premium`}
+                        fill
+                        sizes="(max-width: 768px) 50vw, 33vw"
+                        className="object-cover"
+                      />
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-0"
+                        style={{
+                          background: isAmber
+                            ? "linear-gradient(180deg, rgba(241,229,47,0.08) 0%, rgba(15,15,16,0.25) 50%, rgba(15,15,16,0.85) 100%)"
+                            : "linear-gradient(180deg, rgba(15,15,16,0.0) 30%, rgba(15,15,16,0.55) 70%, rgba(15,15,16,0.88) 100%)",
+                        }}
+                      />
+                    </div>
+
+                    {isAmber && (
+                      <motion.div
+                        aria-hidden="true"
+                        className="absolute -top-12 -right-12 size-40 rounded-full pointer-events-none"
+                        style={{
+                          background:
+                            "radial-gradient(circle, rgba(241,229,47,0.28) 0%, transparent 60%)",
+                          filter: "blur(20px)",
+                        }}
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                      />
+                    )}
+
+                    <div className="relative flex items-center justify-between p-5">
+                      <span className="v3-mono text-[10px] tracking-[0.18em] uppercase text-white/70">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <NicheGlyph index={i} />
+                    </div>
+
+                    <div className="relative p-5 pt-0">
+                      <span
+                        className="v3-mono text-[10px] tracking-[0.2em] uppercase text-white/60 block mb-1"
+                      >
+                        nicho
+                      </span>
+                      <span
+                        className={`relative font-semibold tracking-[-0.02em] text-white ${
+                          isAmber ? "text-[24px] md:text-[28px]" : "text-[16px] md:text-[18px]"
+                        }`}
+                      >
+                        {niche}
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between relative">
+                      <span className="v3-mono text-[10px] tracking-[0.18em] uppercase text-[var(--text-tertiary)]">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <NicheGlyph index={i} />
+                    </div>
+                    <span className="relative font-semibold tracking-[-0.02em] text-[16px] md:text-[18px]">
+                      {niche}
+                    </span>
+                  </>
+                )}
+              </motion.div>
+            );
+          })}
         </motion.div>
 
         <motion.p

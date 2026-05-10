@@ -1,7 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
 import { social } from "@/content/landing";
+
+const avatarMap: Record<string, string> = {
+  "Rafael M.": "/images/people/rafael.png",
+  "Camila B.": "/images/people/camila.png",
+  "Diego F.": "/images/people/diego.png",
+};
 
 export default function V3Social() {
   return (
@@ -66,19 +73,37 @@ export default function V3Social() {
             >
               <div className="flex items-center gap-3">
                 <div
-                  className="size-11 rounded-full grid place-items-center text-[14px] font-semibold"
+                  className="relative size-12 rounded-full overflow-hidden shrink-0"
                   style={{
-                    background:
-                      "linear-gradient(135deg, #F1E52F 0%, #C9BF28 100%)",
-                    color: "#0F0F10",
+                    boxShadow:
+                      "0 0 0 1px rgba(241,229,47,0.25), 0 4px 16px rgba(0,0,0,0.35)",
                   }}
-                  aria-hidden="true"
                 >
-                  {t.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")
-                    .slice(0, 2)}
+                  {avatarMap[t.name] ? (
+                    <Image
+                      src={avatarMap[t.name]}
+                      alt={t.name}
+                      fill
+                      sizes="48px"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div
+                      className="size-full grid place-items-center text-[14px] font-semibold"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #F1E52F 0%, #C9BF28 100%)",
+                        color: "#0F0F10",
+                      }}
+                      aria-hidden="true"
+                    >
+                      {t.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .slice(0, 2)}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <div className="text-[14px] font-semibold tracking-[-0.01em]">

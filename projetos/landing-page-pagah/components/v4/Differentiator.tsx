@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { differentiator } from "@/content/landing";
 
@@ -85,191 +86,56 @@ export default function V4Differentiator() {
           </blockquote>
         </div>
 
-        {/* Right: dark Pagah-style call center dashboard */}
-        <CallCenterPanel />
+        {/* Right: real call center photo card */}
+        <CallCenterPhotoCard />
       </div>
     </section>
   );
 }
 
-function CallCenterPanel() {
+function CallCenterPhotoCard() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ type: "spring", stiffness: 80, damping: 20 }}
-      className="v4-card-dark"
-      style={{ padding: "28px" }}
+      className="v4-card relative overflow-hidden"
+      style={{ padding: 0 }}
     >
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
+      <div className="relative aspect-[4/3] w-full">
+        <Image
+          src="/images/v4/callcenter.png"
+          alt="Equipe de atendimento Pagah ao vivo"
+          fill
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="object-cover"
+          priority={false}
+        />
+        <div
+          className="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-3.5 py-2"
+          style={{
+            background: "var(--bg-card)",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
+          }}
+        >
           <span
-            className="size-2 rounded-full v4-pulse-dot"
+            className="size-2 rounded-full v4-pulse-dot shrink-0"
             style={{ background: "#16A34A" }}
             aria-hidden="true"
           />
           <span
-            className="v4-mono uppercase tracking-[0.14em]"
+            className="v4-mono v4-tabular font-medium"
             style={{
-              fontSize: "11px",
-              color: "var(--text-on-dark-secondary)",
+              fontSize: "12px",
+              color: "var(--text-primary)",
+              letterSpacing: "-0.005em",
             }}
           >
-            Painel de atendimento
+            32 atendentes · ao vivo agora
           </span>
         </div>
-        <span
-          className="v4-mono v4-tabular"
-          style={{
-            fontSize: "11px",
-            color: "var(--text-on-dark-secondary)",
-          }}
-        >
-          14:38
-        </span>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3 mb-5">
-        <DarkKpi label="Em fila" value="12" trend="" />
-        <DarkKpi label="Em atendimento" value="38" trend="" />
-        <DarkKpi
-          label="Recuperados hoje"
-          value="188"
-          trend="+27%"
-          highlight
-        />
-        <DarkKpi label="Upsell hoje" value="R$ 84,2k" trend="+38%" />
-      </div>
-
-      <div
-        className="rounded-xl p-4"
-        style={{
-          background: "var(--bg-card-dark-elevated)",
-          border: "1px solid var(--border-on-dark)",
-        }}
-      >
-        <div
-          className="v4-mono uppercase mb-3"
-          style={{
-            fontSize: "10px",
-            letterSpacing: "0.14em",
-            color: "var(--text-on-dark-secondary)",
-          }}
-        >
-          Atendimentos recentes
-        </div>
-        <ul className="space-y-2.5">
-          {[
-            { name: "Mariana S.", action: "Carrinho recuperado", val: "R$ 247" },
-            { name: "Eduardo P.", action: "Upsell concluído", val: "R$ 189" },
-            { name: "Talita R.", action: "Cartão aprovado", val: "R$ 312" },
-          ].map((r, i) => (
-            <motion.li
-              key={r.name}
-              initial={{ opacity: 0, x: -6 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                type: "spring",
-                stiffness: 100,
-                damping: 20,
-                delay: 0.2 + i * 0.08,
-              }}
-              className="flex items-center justify-between text-[13px]"
-              style={{ color: "var(--text-on-dark)" }}
-            >
-              <div className="flex items-center gap-3">
-                <span
-                  className="size-7 rounded-full grid place-items-center v4-mono font-bold"
-                  style={{
-                    background: "rgba(241,229,47,0.18)",
-                    color: "var(--accent)",
-                    fontSize: "11px",
-                  }}
-                  aria-hidden="true"
-                >
-                  {r.name.charAt(0)}
-                </span>
-                <div>
-                  <div className="font-medium">{r.name}</div>
-                  <div
-                    style={{
-                      fontSize: "11px",
-                      color: "var(--text-on-dark-secondary)",
-                    }}
-                  >
-                    {r.action}
-                  </div>
-                </div>
-              </div>
-              <span
-                className="v4-mono v4-tabular font-bold"
-                style={{ fontSize: "13px", color: "var(--accent)" }}
-              >
-                {r.val}
-              </span>
-            </motion.li>
-          ))}
-        </ul>
       </div>
     </motion.div>
-  );
-}
-
-function DarkKpi({
-  label,
-  value,
-  trend,
-  highlight = false,
-}: {
-  label: string;
-  value: string;
-  trend?: string;
-  highlight?: boolean;
-}) {
-  return (
-    <div
-      className="rounded-xl p-4"
-      style={{
-        background: highlight
-          ? "rgba(241,229,47,0.1)"
-          : "var(--bg-card-dark-elevated)",
-        border: highlight
-          ? "1px solid rgba(241,229,47,0.25)"
-          : "1px solid var(--border-on-dark)",
-      }}
-    >
-      <div
-        className="v4-mono uppercase mb-2"
-        style={{
-          fontSize: "10px",
-          letterSpacing: "0.14em",
-          color: "var(--text-on-dark-secondary)",
-        }}
-      >
-        {label}
-      </div>
-      <div className="flex items-baseline justify-between gap-2">
-        <span
-          className="v4-tabular font-bold"
-          style={{
-            fontSize: "22px",
-            color: highlight ? "var(--accent)" : "var(--text-on-dark)",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          {value}
-        </span>
-        {trend && (
-          <span
-            className="v4-mono v4-tabular"
-            style={{ fontSize: "11px", color: "#22C55E" }}
-          >
-            {trend}
-          </span>
-        )}
-      </div>
-    </div>
   );
 }

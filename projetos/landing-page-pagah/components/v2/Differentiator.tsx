@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { differentiator } from "@/content/landing";
 
@@ -57,6 +58,82 @@ export default function V2Differentiator() {
             {differentiator.subtitle}
           </motion.p>
         </div>
+
+        <motion.figure
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          className="relative mb-20 md:mb-28"
+        >
+          <div className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--bg-contrast)]">
+            <Image
+              src="/images/v2/callcenter.png"
+              alt="Operação de call center da Pagah ao vivo, com atendentes recuperando vendas"
+              width={1600}
+              height={900}
+              sizes="(min-width: 1280px) 80rem, 100vw"
+              priority={false}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55) 100%)",
+              }}
+              aria-hidden="true"
+            />
+            <div className="absolute left-6 top-6 md:left-10 md:top-10 flex items-center gap-3">
+              <span
+                className="v2-kicker v2-tabular px-3 py-1.5"
+                style={{
+                  background: "var(--accent)",
+                  color: "var(--text-primary)",
+                }}
+              >
+                Edição 01
+              </span>
+              <span
+                className="v2-kicker"
+                style={{ color: "rgba(255,255,255,0.85)" }}
+              >
+                Operação ao vivo · Porto Alegre
+              </span>
+            </div>
+            <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 md:right-10 flex items-end justify-between gap-6">
+              <p
+                className="v2-display font-extrabold leading-[0.9]"
+                style={{
+                  fontSize: "clamp(28px, 4vw, 56px)",
+                  letterSpacing: "-0.04em",
+                  color: "#fff",
+                  maxWidth: "20ch",
+                }}
+              >
+                Atendimento que <span className="italic font-medium">vende</span>.
+              </p>
+              <span
+                className="v2-num v2-tabular hidden md:block"
+                style={{
+                  fontSize: "clamp(40px, 6vw, 88px)",
+                  color: "var(--accent)",
+                  lineHeight: 0.85,
+                  fontWeight: 800,
+                  letterSpacing: "-0.04em",
+                }}
+              >
+                R$ 2.051
+              </span>
+            </div>
+          </div>
+          <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-3 v2-kicker text-[var(--text-tertiary)]">
+            <span>Foto · Equipe Pagah, sede Porto Alegre · Maio 2026</span>
+            <span className="v2-tabular">
+              Total recuperado no dia da foto · 188 conversas
+            </span>
+          </figcaption>
+        </motion.figure>
 
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
           <motion.div

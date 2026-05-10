@@ -1,6 +1,13 @@
 "use client";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { social } from "@/content/landing";
+
+const avatarMap: Record<string, string> = {
+  "Rafael M.": "/images/people/rafael.png",
+  "Camila B.": "/images/people/camila.png",
+  "Diego A.": "/images/people/diego.png",
+};
 
 export default function V2Social() {
   return (
@@ -110,16 +117,37 @@ export default function V2Social() {
               className="grid lg:grid-cols-12 gap-8 lg:gap-12 py-16 md:py-20 border-t-2 border-[var(--text-primary)]"
             >
               <div className="col-span-12 lg:col-span-3">
-                <span
-                  className="v2-num font-extrabold v2-tabular block mb-2"
-                  style={{
-                    fontSize: "clamp(56px, 7vw, 96px)",
-                    color: "var(--accent)",
-                    lineHeight: 0.85,
-                  }}
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+                <div className="flex items-start gap-5 mb-4">
+                  {avatarMap[t.name] ? (
+                    <div
+                      className="relative shrink-0 overflow-hidden rounded-full"
+                      style={{
+                        width: 72,
+                        height: 72,
+                        boxShadow: "0 0 0 2px var(--accent)",
+                      }}
+                    >
+                      <Image
+                        src={avatarMap[t.name]}
+                        alt={`Retrato de ${t.name}, ${t.segment}`}
+                        width={144}
+                        height={144}
+                        sizes="72px"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ) : null}
+                  <span
+                    className="v2-num font-extrabold v2-tabular block"
+                    style={{
+                      fontSize: "clamp(48px, 6vw, 80px)",
+                      color: "var(--accent)",
+                      lineHeight: 0.85,
+                    }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
                 <p className="v2-display font-bold text-2xl">{t.name}</p>
                 <p className="text-sm text-[var(--text-tertiary)] mt-1">
                   {t.segment}

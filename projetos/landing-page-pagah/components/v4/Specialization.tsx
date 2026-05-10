@@ -1,7 +1,15 @@
 "use client";
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { specialization } from "@/content/landing";
+
+const nichePhotos: Record<string, string> = {
+  Encapsulados: "/images/products/encapsulados.png",
+  Suplementos: "/images/products/suplementos.png",
+  Cosméticos: "/images/products/cosmeticos.png",
+  Gotas: "/images/products/gotas.png",
+};
 
 const nicheIcons: Record<string, ReactNode> = {
   Encapsulados: (
@@ -121,39 +129,69 @@ export default function V4Specialization() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
-          {specialization.niches.map((n, i) => (
-            <motion.div
-              key={n}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{
-                type: "spring",
-                stiffness: 100,
-                damping: 20,
-                delay: (i % 4) * 0.05 + Math.floor(i / 4) * 0.08,
-              }}
-              whileHover={{ y: -2 }}
-              className="v4-card text-center"
-              style={{ padding: "24px 20px" }}
-            >
-              <span
-                className="grid place-items-center size-12 rounded-xl mx-auto mb-4"
-                style={{
-                  background: "var(--bg-base)",
-                  color: "var(--text-primary)",
-                  border: "1px solid var(--border-subtle)",
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          {specialization.niches.map((n, i) => {
+            const photoSrc = nichePhotos[n];
+            return (
+              <motion.div
+                key={n}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 20,
+                  delay: (i % 4) * 0.05 + Math.floor(i / 4) * 0.08,
                 }}
-                aria-hidden="true"
+                whileHover={{ y: -2 }}
+                className="v4-card text-center overflow-hidden"
+                style={{ padding: photoSrc ? 0 : "24px 20px" }}
               >
-                <svg viewBox="0 0 24 24" className="size-6">
-                  {nicheIcons[n]}
-                </svg>
-              </span>
-              <h3 className="text-[14px] font-bold tracking-tight">{n}</h3>
-            </motion.div>
-          ))}
+                {photoSrc ? (
+                  <>
+                    <div
+                      className="relative w-full aspect-square"
+                      style={{ background: "var(--bg-base)" }}
+                    >
+                      <Image
+                        src={photoSrc}
+                        alt={n}
+                        width={400}
+                        height={400}
+                        sizes="(min-width: 768px) 25vw, 50vw"
+                        className="absolute inset-0 size-full object-cover"
+                      />
+                    </div>
+                    <div style={{ padding: "18px 16px 22px" }}>
+                      <h3 className="text-[14px] font-bold tracking-tight">
+                        {n}
+                      </h3>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <span
+                      className="grid place-items-center size-12 rounded-xl mx-auto mb-4"
+                      style={{
+                        background: "var(--bg-base)",
+                        color: "var(--text-primary)",
+                        border: "1px solid var(--border-subtle)",
+                      }}
+                      aria-hidden="true"
+                    >
+                      <svg viewBox="0 0 24 24" className="size-6">
+                        {nicheIcons[n]}
+                      </svg>
+                    </span>
+                    <h3 className="text-[14px] font-bold tracking-tight">
+                      {n}
+                    </h3>
+                  </>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
 
         <p

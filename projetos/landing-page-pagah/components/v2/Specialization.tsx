@@ -1,6 +1,14 @@
 "use client";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { specialization } from "@/content/landing";
+
+const nicheImageMap: Record<string, string> = {
+  Encapsulados: "/images/products/encapsulados.png",
+  Suplementos: "/images/products/suplementos.png",
+  Cosméticos: "/images/products/cosmeticos.png",
+  Gotas: "/images/products/gotas.png",
+};
 
 export default function V2Specialization() {
   return (
@@ -58,48 +66,124 @@ export default function V2Specialization() {
           viewport={{ once: true, margin: "-50px" }}
           variants={{
             hidden: {},
+            visible: { transition: { staggerChildren: 0.06 } },
+          }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[var(--border-medium)] border border-[var(--border-medium)] mb-12"
+        >
+          {specialization.niches.slice(0, 4).map((n, i) => {
+            const src = nicheImageMap[n];
+            return (
+              <motion.li
+                key={n}
+                variants={{
+                  hidden: { opacity: 0, y: 12 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 20,
+                    },
+                  },
+                }}
+                className="bg-[var(--bg-base)] group cursor-default flex flex-col"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden bg-[var(--bg-contrast)]">
+                  {src ? (
+                    <Image
+                      src={src}
+                      alt={`Packshot editorial · ${n}`}
+                      width={1200}
+                      height={900}
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    />
+                  ) : null}
+                  <span
+                    className="v2-kicker v2-tabular absolute left-5 top-5 px-2.5 py-1"
+                    style={{
+                      background: "var(--accent)",
+                      color: "var(--text-primary)",
+                    }}
+                  >
+                    Nicho {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <div className="flex items-baseline justify-between gap-4 p-7 md:p-8">
+                  <h3
+                    className="v2-display font-extrabold"
+                    style={{
+                      fontSize: "clamp(26px, 3vw, 40px)",
+                      letterSpacing: "-0.04em",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {n}.
+                  </h3>
+                  <span
+                    className="v2-num v2-tabular text-[var(--text-tertiary)]"
+                    style={{ fontSize: "clamp(14px, 1.1vw, 16px)" }}
+                  >
+                    {String(i + 1).padStart(2, "0")} / 08
+                  </span>
+                </div>
+              </motion.li>
+            );
+          })}
+        </motion.ul>
+
+        <motion.ul
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: {},
             visible: { transition: { staggerChildren: 0.04 } },
           }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border-medium)] border border-[var(--border-medium)]"
         >
-          {specialization.niches.map((n, i) => (
-            <motion.li
-              key={n}
-              variants={{
-                hidden: { opacity: 0, y: 12 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    type: "spring",
-                    stiffness: 100,
-                    damping: 20,
+          {specialization.niches.slice(4).map((n, i) => {
+            const idx = i + 4;
+            return (
+              <motion.li
+                key={n}
+                variants={{
+                  hidden: { opacity: 0, y: 12 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 20,
+                    },
                   },
-                },
-              }}
-              className="bg-[var(--bg-base)] p-8 flex flex-col justify-between min-h-[180px] group cursor-default"
-            >
-              <span
-                className="v2-num font-extrabold v2-tabular text-[var(--text-tertiary)] block"
-                style={{
-                  fontSize: "clamp(28px, 3vw, 44px)",
-                  lineHeight: 0.85,
                 }}
+                className="bg-[var(--bg-base)] p-8 flex flex-col justify-between min-h-[180px] group cursor-default"
               >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3
-                className="v2-display font-bold mt-6"
-                style={{
-                  fontSize: "clamp(22px, 2.4vw, 32px)",
-                  letterSpacing: "-0.035em",
-                  lineHeight: 1,
-                }}
-              >
-                {n}.
-              </h3>
-            </motion.li>
-          ))}
+                <span
+                  className="v2-num font-extrabold v2-tabular text-[var(--text-tertiary)] block"
+                  style={{
+                    fontSize: "clamp(28px, 3vw, 44px)",
+                    lineHeight: 0.85,
+                  }}
+                >
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <h3
+                  className="v2-display font-bold mt-6"
+                  style={{
+                    fontSize: "clamp(22px, 2.4vw, 32px)",
+                    letterSpacing: "-0.035em",
+                    lineHeight: 1,
+                  }}
+                >
+                  {n}.
+                </h3>
+              </motion.li>
+            );
+          })}
         </motion.ul>
       </div>
     </section>

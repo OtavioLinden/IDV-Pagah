@@ -1,6 +1,13 @@
 "use client";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { social } from "@/content/landing";
+
+const avatarMap: Record<string, string> = {
+  "Rafael M.": "/images/people/rafael.png",
+  "Camila B.": "/images/people/camila.png",
+  "Diego A.": "/images/people/diego.png",
+};
 
 export default function V1Social() {
   return (
@@ -64,18 +71,31 @@ export default function V1Social() {
                 “{t.quote}”
               </p>
               <div className="flex items-center gap-3 pt-5 border-t border-white/5">
-                <div
-                  className="size-9 rounded-full grid place-items-center text-xs font-semibold"
-                  style={{
-                    background: "var(--accent)",
-                    color: "#0A0A0A",
-                  }}
-                >
-                  {t.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
+                {avatarMap[t.name] ? (
+                  <Image
+                    src={avatarMap[t.name]}
+                    alt={t.name}
+                    width={40}
+                    height={40}
+                    className="size-10 rounded-full object-cover"
+                    style={{
+                      border: "1px solid rgba(241,229,47,0.25)",
+                    }}
+                  />
+                ) : (
+                  <div
+                    className="size-10 rounded-full grid place-items-center text-xs font-semibold"
+                    style={{
+                      background: "var(--accent)",
+                      color: "#0A0A0A",
+                    }}
+                  >
+                    {t.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </div>
+                )}
                 <span className="text-sm font-medium">{t.name}</span>
               </div>
             </motion.article>

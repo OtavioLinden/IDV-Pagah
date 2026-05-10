@@ -1,6 +1,7 @@
 "use client";
 
 import { memo } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { differentiator } from "@/content/landing";
 
@@ -101,64 +102,96 @@ const CallCenterBento = memo(function CallCenterBento() {
       transition={{ type: "spring", stiffness: 80, damping: 18 }}
       className="grid grid-cols-6 gap-3 auto-rows-[minmax(80px,auto)]"
     >
-      {/* Live call hero tile */}
-      <div className="col-span-6 v3-tile p-6 relative overflow-hidden">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2.5">
-            <span className="v3-status-dot" aria-hidden="true" />
-            <span className="v3-mono text-[10px] tracking-[0.2em] uppercase text-[var(--text-secondary)]">
-              chamada ativa · 02:14
-            </span>
-          </div>
-          <span
-            className="v3-mono text-[10px] px-2 py-0.5 rounded"
+      {/* Photo hero tile — real call center with live overlays */}
+      <motion.div
+        whileHover={{ y: -2 }}
+        transition={{ type: "spring", stiffness: 200, damping: 18 }}
+        className="col-span-6 v3-tile relative overflow-hidden group p-0 aspect-[4/3] sm:aspect-[16/9]"
+      >
+        <div className="absolute inset-0">
+          <Image
+            src="/images/v3/callcenter.png"
+            alt="Call center Pagah ao vivo: atendentes em operação com painéis de dados em tempo real"
+            fill
+            sizes="(max-width: 1024px) 100vw, 55vw"
+            className="object-cover"
+            priority={false}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0"
             style={{
-              background: "rgba(241,229,47,0.12)",
-              color: "var(--accent)",
+              background:
+                "linear-gradient(180deg, rgba(15,15,16,0.15) 0%, rgba(15,15,16,0.55) 60%, rgba(15,15,16,0.85) 100%)",
             }}
-          >
-            upsell
+          />
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none rounded-[inherit]"
+            initial={{ boxShadow: "inset 0 0 0 1px rgba(241,229,47,0)" }}
+            whileHover={{
+              boxShadow: "inset 0 0 0 1px rgba(241,229,47,0.55)",
+            }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          />
+        </div>
+
+        {/* Top-left status pill */}
+        <div className="absolute top-4 left-4 flex items-center gap-2.5 px-3 py-1.5 rounded-full backdrop-blur-md"
+          style={{ background: "rgba(15,15,16,0.55)", border: "1px solid rgba(255,255,255,0.08)" }}
+        >
+          <span className="v3-status-dot" aria-hidden="true" />
+          <span className="v3-mono text-[10px] tracking-[0.2em] uppercase text-white">
+            ao vivo · agora
           </span>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div
-            className="size-12 rounded-full grid place-items-center text-[14px] font-semibold"
-            style={{
-              background: "linear-gradient(135deg, #F1E52F 0%, #C9BF28 100%)",
-              color: "#0F0F10",
-            }}
-          >
-            MR
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="text-[14px] font-medium">Maria · Pagah CC</div>
-            <div className="text-[11px] v3-mono text-[var(--text-tertiary)] tracking-wider">
-              cliente: 41 9 ••• 27
-            </div>
-          </div>
-          <Waveform />
-        </div>
+        {/* Top-right upsell badge */}
+        <span
+          className="absolute top-4 right-4 v3-mono text-[10px] px-2 py-0.5 rounded backdrop-blur-md"
+          style={{
+            background: "rgba(241,229,47,0.18)",
+            color: "var(--accent)",
+            border: "1px solid rgba(241,229,47,0.35)",
+          }}
+        >
+          upsell
+        </span>
 
-        <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-          {[
-            ["Ticket", "+ R$ 89"],
-            ["Conversao", "62%"],
-            ["NPS", "9.4"],
-          ].map(([k, v]) => (
-            <div
-              key={k}
-              className="v3-tile-elevated px-3 py-2.5"
-              style={{ background: "rgba(255,255,255,0.025)" }}
-            >
-              <div className="v3-mono text-[9px] tracking-[0.16em] uppercase text-[var(--text-tertiary)]">
-                {k}
-              </div>
-              <div className="mt-1 text-[15px] font-semibold v3-num">{v}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+        {/* Floating KPI — bottom-left */}
+        <motion.div
+          animate={{ y: [0, -4, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-4 left-4 px-3.5 py-2.5 rounded-xl backdrop-blur-md"
+          style={{
+            background: "rgba(15,15,16,0.6)",
+            border: "1px solid rgba(255,255,255,0.1)",
+          }}
+        >
+          <div className="v3-mono text-[9px] tracking-[0.18em] uppercase text-white/60">
+            operação ao vivo
+          </div>
+          <div className="mt-0.5 text-[13px] font-semibold text-white">
+            32 atendentes · 47 calls/min
+          </div>
+        </motion.div>
+
+        {/* Floating waveform — bottom-right */}
+        <motion.div
+          animate={{ y: [0, -3, 0] }}
+          transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+          className="absolute bottom-4 right-4 flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur-md"
+          style={{
+            background: "rgba(15,15,16,0.6)",
+            border: "1px solid rgba(255,255,255,0.1)",
+          }}
+        >
+          <Waveform />
+          <span className="v3-mono text-[10px] tracking-[0.16em] uppercase text-white/70">
+            02:14
+          </span>
+        </motion.div>
+      </motion.div>
 
       {/* Recovered tile */}
       <motion.div

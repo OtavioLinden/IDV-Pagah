@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { differentiator } from "@/content/landing";
 
@@ -81,90 +82,88 @@ function CallCenterVisual() {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ type: "spring", stiffness: 80, damping: 18 }}
-      className="relative aspect-[4/3.2] rounded-2xl v1-glass overflow-hidden"
+      className="relative aspect-[4/3] rounded-2xl v1-glass overflow-hidden"
       style={{
         background:
           "linear-gradient(135deg, rgba(241,229,47,0.06) 0%, rgba(0,0,0,0.4) 100%)",
       }}
     >
+      {/* Real photo */}
+      <Image
+        src="/images/v1/callcenter.png"
+        alt="Equipe de call center Pagah em atendimento"
+        width={800}
+        height={600}
+        className="absolute inset-0 w-full h-full object-cover"
+        priority={false}
+      />
+
+      {/* Subtle accent glow on top */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none mix-blend-overlay"
         style={{
           background:
-            "radial-gradient(ellipse at 30% 20%, rgba(241,229,47,0.18) 0%, transparent 50%)",
+            "radial-gradient(ellipse at 30% 20%, rgba(241,229,47,0.18) 0%, transparent 55%)",
         }}
       />
 
-      {/* Header bar */}
-      <div className="relative px-5 pt-5 flex items-center gap-2.5">
-        <div className="flex gap-1.5">
-          <span className="size-2.5 rounded-full bg-white/15" />
-          <span className="size-2.5 rounded-full bg-white/15" />
-          <span className="size-2.5 rounded-full bg-white/15" />
-        </div>
-        <span className="v1-mono text-[10px] opacity-50 ml-2">
-          atendimento.pagah.com
-        </span>
+      {/* Bottom dark gradient for legibility of overlays */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.55) 35%, transparent 100%)",
+        }}
+      />
+
+      {/* Top-right "ao vivo" badge */}
+      <div className="absolute top-5 right-5 flex items-center gap-2">
         <span
-          className="ml-auto px-2 py-0.5 v1-mono text-[10px] tracking-wider rounded-md flex items-center gap-1.5"
+          className="px-2.5 py-1 v1-mono text-[10px] tracking-wider rounded-md flex items-center gap-1.5 backdrop-blur-md"
           style={{
-            background: "rgba(34,197,94,0.15)",
+            background: "rgba(34,197,94,0.18)",
             color: "#4ade80",
+            border: "1px solid rgba(74,222,128,0.25)",
           }}
         >
           <span className="size-1.5 rounded-full bg-[#4ade80] animate-pulse" />
-          7 atendentes online
+          ao vivo
         </span>
       </div>
 
-      {/* Active call */}
-      <div className="relative mx-5 mt-5 rounded-xl p-4 v1-glass" style={{ background: "rgba(0,0,0,0.4)" }}>
-        <div className="flex items-center gap-3">
-          <div
-            className="size-10 rounded-full grid place-items-center text-sm font-semibold"
-            style={{ background: "var(--accent)", color: "#0A0A0A" }}
-          >
-            CL
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium">Carrinho abandonado</div>
-            <div className="text-xs text-[var(--text-tertiary)]">
-              Cliente Lucas · R$ 287,00 · cartão 12x
-            </div>
-          </div>
-          <span
-            className="px-2.5 py-1 v1-mono text-[10px] tracking-wider rounded-md"
-            style={{
-              background: "rgba(241,229,47,0.15)",
-              color: "var(--accent)",
-            }}
-          >
-            ao vivo · 2:47
-          </span>
+      {/* Bottom status row: live label + waveform */}
+      <div className="absolute bottom-4 left-5 right-5 flex items-center gap-3">
+        <span
+          className="v1-mono text-[10px] tracking-[0.18em] uppercase px-2.5 py-1 rounded-md backdrop-blur-md"
+          style={{
+            background: "rgba(0,0,0,0.55)",
+            color: "var(--accent)",
+            border: "1px solid rgba(241,229,47,0.2)",
+          }}
+        >
+          Atendimento ao vivo · 7 atendentes
+        </span>
+        <div className="flex-1">
+          <Waveform />
         </div>
-        <Waveform />
       </div>
 
-      {/* Mini metrics */}
-      <div className="relative grid grid-cols-3 gap-2 mx-5 mt-3">
-        <MiniStat label="Recuperados hoje" value="32" />
-        <MiniStat label="Upsell aceito" value="48%" />
-        <MiniStat label="Ticket médio" value="R$ 412" />
-      </div>
-
-      {/* Quote bubble */}
+      {/* Floating quote bubble */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.6, type: "spring", stiffness: 100, damping: 18 }}
-        className="absolute bottom-4 right-5 left-5 rounded-xl px-4 py-3 v1-glass text-sm leading-relaxed"
-        style={{ background: "rgba(0,0,0,0.6)" }}
+        transition={{ delay: 0.5, type: "spring", stiffness: 100, damping: 18 }}
+        className="absolute top-16 left-5 max-w-[78%] rounded-xl px-4 py-3 v1-glass text-sm leading-relaxed backdrop-blur-md"
+        style={{
+          background: "rgba(10,10,10,0.7)",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
       >
-        <span className="v1-mono text-[10px] tracking-wider opacity-50 block mb-1">
+        <span className="v1-mono text-[10px] tracking-wider opacity-60 block mb-1">
           atendente · Bruna
         </span>
-        <span>
+        <span className="text-white/90">
           “Lucas, vi que você ia levar o kit completo. Posso te oferecer um
           combo com 30% de desconto se fechar agora?”
         </span>
@@ -173,23 +172,10 @@ function CallCenterVisual() {
   );
 }
 
-function MiniStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-lg p-3 bg-white/[0.03] border border-white/5">
-      <div className="text-[10px] uppercase tracking-[0.12em] opacity-50">
-        {label}
-      </div>
-      <div className="text-base font-semibold tracking-tight tabular mt-0.5">
-        {value}
-      </div>
-    </div>
-  );
-}
-
 function Waveform() {
   return (
-    <div className="flex items-center gap-1 mt-3 h-6">
-      {Array.from({ length: 32 }).map((_, i) => (
+    <div className="flex items-center gap-1 h-5">
+      {Array.from({ length: 24 }).map((_, i) => (
         <span
           key={i}
           className="flex-1 rounded-full"
