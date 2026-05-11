@@ -59,15 +59,18 @@ export default function AmbientBackground() {
     rafRef.current = requestAnimationFrame(tick);
     window.addEventListener("pointermove", onPointerMove, { passive: true });
 
-    // Watermark parallax — moves 60px range with scroll
+    // Watermark parallax — rolls freely with the entire page scroll
+    // (no clamp: starts at +0 on page top, climbs upward as you scroll down
+    // and eventually leaves the viewport — the wordmark "passa" pela página).
     const onScroll = () => {
       if (scrollRafRef.current) return;
       scrollRafRef.current = requestAnimationFrame(() => {
         const y = window.scrollY;
         if (Math.abs(y - lastScrollRef.current) > 0.5) {
           lastScrollRef.current = y;
-          // Move mark up/down based on scroll (clamped to ±60px)
-          const offset = Math.min(60, Math.max(-60, y * -0.08));
+          // 0.22 multiplier: in a 6000px page, the mark travels ~1320px upward.
+          // This is enough to cross the viewport (~900px) cleanly.
+          const offset = y * -0.22;
           root.style.setProperty("--mark-y", `${offset.toFixed(1)}px`);
         }
         scrollRafRef.current = 0;
@@ -231,21 +234,9 @@ export default function AmbientBackground() {
           to   { transform: rotate(360deg); }
         }
 
-        /* Layer 5 — broadsheet column rules (8 hairlines) */
-        .v4-ambient__rules {
-          position: absolute;
-          inset: 0;
-          background-image: linear-gradient(
-            to right,
-            transparent calc(12.5% - 0.5px),
-            oklch(0.235 0.006 99 / 0.07) calc(12.5% - 0.5px),
-            oklch(0.235 0.006 99 / 0.07) calc(12.5% + 0.5px),
-            transparent calc(12.5% + 0.5px)
-          );
-          background-size: 12.5% 100%;
-        }
+        /* Layer 5 removed — column rules were too visually heavy */
 
-        /* Layer 6 — watermark "pagah" with scroll parallax */
+        /* Layer 6 — watermark "pagah" with scroll parallax (unbounded) */
         .v4-ambient__mark {
           position: absolute;
           right: -2vw;
@@ -311,7 +302,6 @@ export default function AmbientBackground() {
       <div className="v4-ambient__blob v4-ambient__blob--c" />
       <div className="v4-ambient__mesh" />
       <div className="v4-ambient__spotlight" />
-      <div className="v4-ambient__rules" />
       <div className="v4-ambient__mark">pagah</div>
       <div className="v4-ambient__grain" />
       <div className="v4-ambient__vignette" />
