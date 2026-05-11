@@ -10,7 +10,7 @@ export default function V4Integrations() {
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-3xl mb-8">
           <span
             className="v4-mono uppercase mb-5 inline-block"
             style={{
@@ -40,7 +40,7 @@ export default function V4Integrations() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
           {integrations.list.map((name, i) => (
             <motion.div
               key={name}

@@ -9,7 +9,7 @@ export default function V4Fraud() {
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-16 items-start mb-12">
+        <div className="grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-16 items-start mb-8">
           <div>
             <span
               className="v4-mono uppercase mb-5 inline-block"
@@ -33,7 +33,7 @@ export default function V4Fraud() {
               {fraud.title}
             </motion.h2>
             <p
-              className="text-[16px] leading-relaxed mb-7"
+              className="text-[16px] leading-relaxed mb-5"
               style={{ color: "var(--text-secondary)" }}
             >
               {fraud.text}

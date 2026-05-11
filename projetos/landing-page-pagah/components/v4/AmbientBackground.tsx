@@ -105,6 +105,40 @@ export default function AmbientBackground() {
           pointer-events: none;
         }
 
+        /* Layer 5.5 — single ultra-slow diagonal beam (Apple Newsroom vibe).
+           150s loop, opacity peak 0.18, blur 56px. One pass per 2.5 minutes. */
+        .v4-ambient__beam {
+          position: absolute;
+          top: -30vh;
+          left: -50vw;
+          width: 44vw;
+          height: 170vh;
+          mix-blend-mode: multiply;
+          will-change: transform, opacity;
+          transform: translate3d(-100vw, 0, 0) rotate(20deg);
+          background: linear-gradient(
+            90deg,
+            rgba(241, 229, 47, 0) 0%,
+            rgba(241, 229, 47, 0.10) 30%,
+            rgba(241, 229, 47, 0.18) 50%,
+            rgba(241, 229, 47, 0.10) 70%,
+            rgba(241, 229, 47, 0) 100%
+          );
+          filter: blur(56px);
+          animation: v4-ambient-beam-slow 150s linear infinite;
+          pointer-events: none;
+        }
+        @keyframes v4-ambient-beam-slow {
+          0%   { transform: translate3d(-100vw, 0, 0) rotate(20deg); opacity: 0; }
+          8%   { opacity: 1; }
+          42%  { transform: translate3d(160vw, 0, 0) rotate(20deg); opacity: 1; }
+          48%  { transform: translate3d(160vw, 0, 0) rotate(20deg); opacity: 0; }
+          100% { transform: translate3d(-100vw, 0, 0) rotate(20deg); opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .v4-ambient__beam { animation: none; opacity: 0.18; transform: translate3d(20vw, 0, 0) rotate(20deg); }
+        }
+
         /* Layer 6 — page vignette (corner depth) */
         .v4-ambient__vignette {
           position: absolute;
@@ -122,6 +156,7 @@ export default function AmbientBackground() {
       <div className="v4-ambient__grain" />
       <div className="v4-ambient__rules" />
       <div className="v4-ambient__folds" />
+      <div className="v4-ambient__beam" />
       <div className="v4-ambient__mark">pagah</div>
       <div className="v4-ambient__vignette" />
     </div>

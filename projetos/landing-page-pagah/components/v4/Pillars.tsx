@@ -10,7 +10,7 @@ export default function V4Pillars() {
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-4xl mb-14">
+        <div className="max-w-4xl mb-10">
           <span
             className="v4-serif mb-4 inline-block"
             style={{
@@ -93,7 +93,7 @@ export default function V4Pillars() {
                   {col.title}
                 </h3>
                 <p
-                  className="text-[14.5px] leading-relaxed mb-7"
+                  className="text-[14.5px] leading-relaxed mb-5"
                   style={{ color: "var(--text-secondary)" }}
                 >
                   {col.text}

@@ -9,7 +9,7 @@ export default function V4Pricing() {
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-3xl mb-8">
           <hr className="v4-section-rule--accent" aria-hidden="true" />
           <span
             className="v4-mono uppercase mb-5 inline-block"
@@ -93,7 +93,7 @@ export default function V4Pricing() {
             </p>
 
             <p
-              className="text-[15px] leading-relaxed mb-7"
+              className="text-[15px] leading-relaxed mb-5"
               style={{ color: "var(--text-secondary)" }}
             >
               {pricing.description}

@@ -9,7 +9,7 @@ export default function V4Comparison() {
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-3xl mb-8">
           <span
             className="v4-serif mb-5 inline-block"
             style={{

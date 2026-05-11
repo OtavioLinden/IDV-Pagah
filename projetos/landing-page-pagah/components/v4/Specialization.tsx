@@ -101,7 +101,7 @@ export default function V4Specialization() {
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-3xl mb-8">
           <hr className="v4-section-rule--accent" aria-hidden="true" />
           <span
             className="v4-mono uppercase mb-5 inline-block"
@@ -136,7 +136,7 @@ export default function V4Specialization() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           {specialization.niches.map((n, i) => {
             const photoSrc = nichePhotos[n];
             return (

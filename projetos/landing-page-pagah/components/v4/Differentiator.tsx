@@ -41,13 +41,13 @@ export default function V4Differentiator() {
             {differentiator.subtitle}
           </p>
           <p
-            className="text-[15px] leading-relaxed mb-8 v4-dropcap"
+            className="text-[15px] leading-relaxed mb-6 v4-dropcap"
             style={{ color: "var(--text-secondary)" }}
           >
             {differentiator.text}
           </p>
 
-          <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3 mb-8">
+          <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3 mb-6">
             {differentiator.cards.map((c) => (
               <li
                 key={c}

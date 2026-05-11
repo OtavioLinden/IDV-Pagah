@@ -77,13 +77,13 @@ export default function V4ModuleX1() {
             {moduleX1.title}
           </motion.h2>
           <p
-            className="text-[17px] leading-relaxed mb-10"
+            className="text-[17px] leading-relaxed mb-6"
             style={{ color: "var(--text-secondary)" }}
           >
             {moduleX1.subtitle}
           </p>
 
-          <div className="grid sm:grid-cols-2 gap-4 mb-8">
+          <div className="grid sm:grid-cols-2 gap-4 mb-6">
             {moduleX1.cards.map((c, i) => (
               <motion.article
                 key={c.title}

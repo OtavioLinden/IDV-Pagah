@@ -11,7 +11,7 @@ export default function V4Interest() {
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-3xl mb-14">
+        <div className="max-w-3xl mb-10">
           <span
             className="v4-mono uppercase mb-4 inline-block"
             style={{
@@ -40,7 +40,7 @@ export default function V4Interest() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-5 mb-10">
+        <div className="grid md:grid-cols-2 gap-5 mb-6">
           {/* Common platforms - white card */}
           <motion.div
             initial={{ opacity: 0, y: 6 }}
