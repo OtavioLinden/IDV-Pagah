@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antecipável | Pagah</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            prefix: 'tw-',
+            corePlugins: { preflight: false },
+            theme: { extend: { fontFamily: { sans: ['Ubuntu', 'sans-serif'] } } }
+        }
+    </script>
+
+    <style>
+        :root {
+            --pagah-yellow: #F1E52F;
+            --pagah-yellow-soft: #FFF6A8;
+            --pagah-yellow-faint: #FFFBEA;
+            --pagah-yellow-deep: #A18800;
+            --pagah-dark: #1C1C1C;
+            --pagah-gray: #575756;
+            --pagah-light-gray: #DADADA;
+            --pagah-bg: #F2F2F2;
+            --pagah-white: #FFFFFF;
+            --pagah-border: #E0E0E0;
+            --pagah-green: #198754;
+            --pagah-green-bg: #E8F5E9;
+            --pagah-green-faint: #F1F9F3;
+            --pagah-danger: #DC3545;
+            --header-height: 56px;
+            --sidebar-width: 240px;
+            --sidebar-collapsed: 68px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background: var(--pagah-bg);
+            color: var(--pagah-dark);
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER */
+        .pb-header {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: var(--header-height); background: var(--pagah-yellow);
+            z-index: 1000; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 16px; border-bottom: 1px solid rgba(0,0,0,.06);
+        }
+        .pb-header__left { display: flex; align-items: center; gap: 8px; }
+        .pb-header__logo_img { height: 34px; width: 34px; border-radius: 8px; }
+        .pb-header__nav_right { display: flex; align-items: center; gap: 2px; }
+        .pb-header__icon {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: none; background: transparent; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background .2s; position: relative;
+        }
+        .pb-header__icon:hover { background: rgba(0,0,0,.08); }
+        .pb-header__icon .material-symbols-rounded { font-size: 24px; color: var(--pagah-dark); }
+        .pb-burger__btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: none; background: transparent; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 5px; padding: 10px; transition: background .2s;
+        }
+        .pb-burger__btn:hover { background: rgba(0,0,0,.08); }
+        .pb-burger__btn span { display: block; width: 18px; height: 2px; background: var(--pagah-dark); border-radius: 2px; }
+        .notification-count {
+            position: absolute; top: 2px; right: 2px;
+            background: #EF4444; color: white; font-size: 10px; font-weight: 700;
+            border-radius: 50%; width: 18px; height: 18px;
+            display: flex; align-items: center; justify-content: center; line-height: 1;
+        }
+
+        /* SIDEBAR */
+        .pb-side_menu {
+            position: fixed; top: var(--header-height); left: 0;
+            width: var(--sidebar-width); height: calc(100vh - var(--header-height));
+            background: var(--pagah-white); border-right: 1px solid #EBEBEB;
+            overflow-y: auto; overflow-x: hidden; z-index: 999;
+            display: flex; flex-direction: column;
+            transition: width .3s ease; scrollbar-width: none;
+        }
+        .pb-side_menu::-webkit-scrollbar { display: none; }
+        .pb-side_menu__list { list-style: none; padding: 8px 0; flex: 1; }
+        .pb-side_menu__item { position: relative; }
+        .pb-side_menu__link {
+            display: flex; align-items: center; gap: 14px;
+            padding: 11px 20px; color: var(--pagah-gray);
+            text-decoration: none; font-size: 14px; font-weight: 400;
+            transition: all .2s; cursor: pointer;
+            white-space: nowrap; overflow: hidden;
+        }
+        .pb-side_menu__link:hover { color: var(--pagah-dark); background: #F8F8F8; }
+        .pb-side_menu__link.active { color: var(--pagah-dark); font-weight: 600; }
+        .pb-side_menu__link.active::before {
+            content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+            width: 3px; background: var(--pagah-yellow); border-radius: 0 3px 3px 0;
+        }
+        .pb-side_menu__icon {
+            display: flex; align-items: center; justify-content: center;
+            min-width: 24px; width: 24px; height: 24px;
+        }
+        .pb-side_menu__icon .material-symbols-rounded { font-size: 22px; color: inherit; }
+        .has_submenu > .pb-side_menu__link::after {
+            content: 'expand_more'; font-family: 'Material Symbols Rounded';
+            font-size: 18px; margin-left: auto;
+            transition: transform .3s; color: var(--pagah-gray);
+        }
+        .has_submenu.open > .pb-side_menu__link::after { transform: rotate(180deg); }
+        .submenu {
+            list-style: none; padding: 0; max-height: 0; overflow: hidden;
+            transition: max-height .3s ease; background: #FAFAFA;
+        }
+        .has_submenu.open > .submenu { max-height: 500px; }
+        .submenu__link {
+            display: flex; align-items: center; gap: 8px;
+            padding: 9px 20px 9px 58px; color: var(--pagah-gray);
+            text-decoration: none; font-size: 13px;
+            transition: all .2s; white-space: nowrap;
+        }
+        .submenu__link:hover { color: var(--pagah-dark); background: #F0F0F0; }
+        .apps { margin-top: auto; padding: 20px 0 24px; text-align: center; }
+        .apps small { font-size: 10px; display: block; margin-bottom: 8px; color: var(--pagah-gray); }
+        .apps .app-link img { width: 80%; max-width: 80px; }
+        .pb-menu--closed .pb-side_menu { width: var(--sidebar-collapsed); }
+        .pb-menu--closed .pb-side_menu__label,
+        .pb-menu--closed .has_submenu > .pb-side_menu__link::after,
+        .pb-menu--closed .submenu,
+        .pb-menu--closed .apps small { display: none; }
+        .pb-menu--closed .pb-side_menu:hover { width: var(--sidebar-width); box-shadow: 4px 0 12px rgba(0,0,0,.08); }
+        .pb-menu--closed .pb-side_menu:hover .pb-side_menu__label,
+        .pb-menu--closed .pb-side_menu:hover .has_submenu > .pb-side_menu__link::after,
+        .pb-menu--closed .pb-side_menu:hover .apps small { display: inline; }
+
+        .pb-main {
+            margin-left: var(--sidebar-width);
+            padding: 24px 32px; padding-top: calc(var(--header-height) + 24px);
+            min-height: 100vh; transition: margin-left .3s ease;
+        }
+        .pb-menu--closed .pb-main { margin-left: var(--sidebar-collapsed); }
+        .pb-main-inner { max-width: 1280px; margin: 0 auto; }
+
+        @media (max-width: 768px) {
+            .pb-main { padding: 16px; padding-top: calc(var(--header-height) + 16px); margin-left: 0 !important; }
+            .pb-side_menu { transform: translateX(-100%); }
+            .pb-menu--closed .pb-side_menu { transform: translateX(-100%); }
+        }
+
+        /* PAGE HEADER */
+        .breadcrumb-line {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 12px; color: var(--pagah-gray);
+            margin-bottom: 8px;
+        }
+        .breadcrumb-line a { color: var(--pagah-gray); text-decoration: none; }
+        .breadcrumb-line a:hover { color: var(--pagah-dark); }
+        .breadcrumb-line .material-symbols-rounded { font-size: 14px; opacity: .7; }
+        .breadcrumb-line strong { color: var(--pagah-dark); font-weight: 600; }
+
+        .page-title-detail {
+            font-size: 1.5rem; font-weight: 700;
+            color: var(--pagah-dark); margin: 0;
+            letter-spacing: -0.5px;
+            display: inline-flex; align-items: center; gap: 10px;
+        }
+        .page-title-detail .title-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: var(--pagah-yellow); color: var(--pagah-dark);
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .page-title-detail .title-icon .material-symbols-rounded { font-size: 22px; }
+        .page-subtitle { font-size: 13px; color: var(--pagah-gray); margin: 6px 0 0; }
+
+        .btn-soft {
+            background: #fff; border: 1px solid #ECECEC;
+            color: var(--pagah-dark); font-weight: 600; font-size: 13px;
+            padding: 8px 14px; border-radius: 10px;
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: all .2s; cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,.02);
+            text-decoration: none;
+        }
+        .btn-soft:hover {
+            background: #F8F8F8; border-color: #DADADA;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0,0,0,.05);
+        }
+        .btn-soft.btn-primary-yellow {
+            background: var(--pagah-yellow); border-color: var(--pagah-yellow);
+        }
+        .btn-soft.btn-primary-yellow:hover { background: #f4ea4a; }
+        .btn-soft .material-symbols-rounded { font-size: 16px; }
+
+        /* KPI BAR */
+        .kpi-bar {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 900px) {
+            .kpi-bar { grid-template-columns: 1fr; }
+        }
+        .kpi-cell {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,.04);
+            border-radius: 10px;
+            padding: 12px 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.03);
+        }
+        .kpi-cell .lbl {
+            font-size: 10px; font-weight: 700;
+            color: var(--pagah-gray);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .kpi-cell .lbl .material-symbols-rounded { font-size: 14px; }
+        .kpi-cell .val {
+            font-size: 1.1rem; font-weight: 800;
+            color: var(--pagah-dark);
+            letter-spacing: -0.3px;
+            line-height: 1.1;
+        }
+        .kpi-cell .val.green { color: var(--pagah-green); }
+        .kpi-cell .sub { font-size: 11px; color: var(--pagah-gray); margin-top: 2px; }
+
+        /* HERO PRETO */
+        .kpi-hero {
+            position: relative;
+            background: var(--pagah-dark);
+            border-radius: 12px;
+            padding: 18px 22px;
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(0,0,0,.18);
+            overflow: hidden;
+            display: flex; flex-direction: column; gap: 12px;
+            grid-row: span 2;
+        }
+        @media (max-width: 900px) { .kpi-hero { grid-row: auto; } }
+        .kpi-hero::after {
+            content: ''; position: absolute;
+            top: -40%; right: -25%;
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(241, 229, 47, 0.10), transparent 70%);
+            pointer-events: none;
+        }
+        .kpi-hero .hero-top {
+            position: relative; z-index: 1;
+            display: flex; justify-content: space-between; align-items: flex-start;
+        }
+        .kpi-hero .hero-lbl {
+            font-size: 10px; font-weight: 700;
+            color: var(--pagah-yellow);
+            text-transform: uppercase; letter-spacing: 0.6px;
+            display: inline-flex; align-items: center; gap: 5px;
+        }
+        .kpi-hero .hero-lbl .material-symbols-rounded { font-size: 14px; }
+        .kpi-hero .hero-pagah-badge {
+            background: var(--pagah-yellow); color: var(--pagah-dark);
+            font-size: 10px; font-weight: 700;
+            padding: 3px 8px; border-radius: 6px;
+            letter-spacing: 0.3px;
+        }
+        .kpi-hero .hero-val {
+            position: relative; z-index: 1;
+            font-size: 2.2rem; font-weight: 800;
+            color: var(--pagah-yellow);
+            letter-spacing: -1px; line-height: 1;
+        }
+        .kpi-hero .hero-cta-line {
+            position: relative; z-index: 1;
+            font-size: 11.5px;
+            color: rgba(255,255,255,.7);
+        }
+        .kpi-hero .hero-meta {
+            position: relative; z-index: 1;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .kpi-hero .hero-meta .col { display: flex; flex-direction: column; gap: 2px; }
+        .kpi-hero .hero-meta .mlbl {
+            font-size: 9.5px; font-weight: 600;
+            color: rgba(255,255,255,.55);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .kpi-hero .hero-meta .mval {
+            font-size: 13px; font-weight: 700; color: #fff;
+            line-height: 1.1;
+        }
+        .kpi-hero .hero-meta .msub {
+            font-size: 10px; color: rgba(255,255,255,.55);
+        }
+
+        /* CARDS DE MÉTODO SELECIONÁVEIS */
+        .metodos-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 900px) {
+            .metodos-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .metodos-grid { grid-template-columns: 1fr; }
+        }
+        .metodo-card {
+            background: #fff;
+            border: 1.5px solid rgba(0,0,0,.06);
+            border-radius: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all .2s ease;
+            display: flex; align-items: flex-start; gap: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.03);
+            position: relative;
+            font-family: inherit;
+            text-align: left;
+            color: inherit;
+        }
+        .metodo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.06);
+            border-color: #DADADA;
+        }
+        .metodo-card.active {
+            border-color: var(--pagah-dark);
+            box-shadow: 0 4px 14px rgba(0,0,0,.08);
+            background: #FAFAFA;
+        }
+        .metodo-card.active::after {
+            content: 'check_circle';
+            font-family: 'Material Symbols Rounded';
+            position: absolute;
+            top: 10px; right: 10px;
+            font-size: 18px;
+            color: var(--pagah-dark);
+        }
+        .metodo-icon {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            display: inline-flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .metodo-icon .material-symbols-rounded { font-size: 20px; }
+        .metodo-icon.todos  { background: #ECEFF1; color: #455A64; }
+        .metodo-icon.cartao { background: #E3F2FD; color: #1565c0; }
+        .metodo-icon.pix    { background: #E8F5E9; color: #2E7D32; }
+        .metodo-icon.boleto { background: #F5F5F5; color: #424242; }
+
+        .metodo-info { flex: 1; min-width: 0; }
+        .metodo-name {
+            font-size: 0.95rem; font-weight: 700;
+            color: var(--pagah-dark);
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 8px;
+            padding-right: 22px;
+            flex-wrap: wrap;
+        }
+        .metodo-name .qty {
+            background: #F2F2F2; color: var(--pagah-gray);
+            font-size: 11px; font-weight: 700;
+            padding: 2px 8px; border-radius: 99px;
+        }
+        .metodo-card.active .metodo-name .qty {
+            background: var(--pagah-dark); color: #fff;
+        }
+        .metodo-summary {
+            display: flex; align-items: flex-start; gap: 12px;
+            font-size: 11px;
+            color: var(--pagah-gray);
+        }
+        .metodo-summary .col {
+            display: flex; flex-direction: column;
+            min-width: 0;
+        }
+        .metodo-summary .col strong {
+            color: var(--pagah-dark);
+            font-size: 13px; font-weight: 700;
+            margin-top: 1px;
+            white-space: nowrap;
+        }
+        .metodo-summary .col strong.yellow-deep { color: var(--pagah-yellow-deep); }
+
+        /* CARD DA TABELA DE PEDIDOS */
+        .pedidos-card {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,.04);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,.03);
+        }
+        .pedidos-head {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 18px;
+            border-bottom: 1px solid #F2F2F2;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .pedidos-title {
+            font-size: 0.95rem; font-weight: 700;
+            color: var(--pagah-dark);
+            display: inline-flex; align-items: center; gap: 8px;
+            flex-wrap: wrap;
+        }
+        .pedidos-title .material-symbols-rounded { font-size: 18px; }
+        .pedidos-title .selected-method {
+            background: var(--pagah-dark); color: var(--pagah-yellow);
+            font-size: 11px; font-weight: 700;
+            padding: 2px 9px; border-radius: 99px;
+            text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .pedidos-head-right {
+            display: flex; align-items: center; gap: 8px;
+            flex-wrap: wrap;
+        }
+        .filter-period {
+            border: 1px solid #E0E0E0; background: #fff;
+            border-radius: 8px; padding: 7px 10px;
+            font-size: 12.5px; font-family: inherit;
+            color: var(--pagah-dark); outline: 0;
+            cursor: pointer;
+        }
+        .filter-search {
+            position: relative;
+        }
+        .filter-search input {
+            border: 1px solid #E0E0E0; background: #fff;
+            border-radius: 8px; padding: 7px 10px 7px 32px;
+            font-size: 12.5px; font-family: inherit;
+            color: var(--pagah-dark); width: 220px; outline: 0;
+            transition: all .2s;
+        }
+        .filter-search input:focus { border-color: var(--pagah-dark); }
+        .filter-search > .material-symbols-rounded {
+            position: absolute; left: 9px; top: 50%;
+            transform: translateY(-50%); font-size: 16px;
+            color: var(--pagah-gray); pointer-events: none;
+        }
+        .filter-search .clear-btn {
+            position: absolute; right: 6px; top: 50%;
+            transform: translateY(-50%);
+            background: transparent; border: 0; padding: 4px;
+            cursor: pointer; color: var(--pagah-gray);
+            display: none;
+        }
+        .filter-search.has-value .clear-btn { display: inline-flex; }
+        .filter-search .clear-btn .material-symbols-rounded {
+            position: static; transform: none; font-size: 16px;
+        }
+        .auto-select-toast {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 11px; color: var(--pagah-green);
+            font-weight: 600;
+            padding: 3px 8px;
+            background: #E8F5E9;
+            border-radius: 99px;
+        }
+        .auto-select-toast .material-symbols-rounded { font-size: 13px; }
+
+        /* TABELA INTERNA */
+        .pedidos-table {
+            width: 100%; border-collapse: collapse;
+        }
+        .pedidos-table thead th {
+            background: var(--pagah-dark); color: #fff;
+            font-size: 0.7rem; text-transform: uppercase;
+            letter-spacing: 0.6px; font-weight: 600;
+            padding: 11px 14px; text-align: left;
+            white-space: nowrap;
+        }
+        .pedidos-table thead th:first-child { padding-left: 18px; }
+        .pedidos-table thead th:last-child { padding-right: 18px; text-align: right; }
+        .pedidos-table tbody td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #F5F5F5;
+            font-size: 13px;
+        }
+        .pedidos-table tbody td:first-child { padding-left: 18px; font-weight: 700; }
+        .pedidos-table tbody td:last-child { padding-right: 18px; text-align: right; }
+        .pedidos-table tbody tr:last-child td { border-bottom: 0; }
+        .pedidos-table tbody tr:hover { background: #FAFAFA; }
+        .text-muted { color: var(--pagah-gray); }
+        .text-dark-bold { color: var(--pagah-dark); font-weight: 700; }
+        .text-green-bold { color: var(--pagah-green); font-weight: 700; }
+        .badge-method {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 8px; border-radius: 99px;
+            font-size: 11px; font-weight: 600;
+        }
+        .badge-method .material-symbols-rounded { font-size: 12px; }
+        .badge-method.cartao { background: #E3F2FD; color: #1565c0; }
+        .badge-method.pix    { background: #E8F5E9; color: #2E7D32; }
+        .badge-method.boleto { background: #F5F5F5; color: #424242; }
+        .parcela-pill {
+            display: inline-block;
+            background: #FFFBEA; color: var(--pagah-yellow-deep);
+            font-size: 11px; font-weight: 700;
+            padding: 2px 8px; border-radius: 6px;
+            border: 1px solid #FFF6A8;
+        }
+        .btn-antecipar {
+            background: var(--pagah-yellow); border: 1px solid var(--pagah-yellow);
+            color: var(--pagah-dark); font-weight: 700; font-size: 11.5px;
+            padding: 5px 11px; border-radius: 99px;
+            display: inline-flex; align-items: center; gap: 4px;
+            cursor: pointer; transition: all .2s;
+            font-family: inherit;
+        }
+        .btn-antecipar:hover { background: #f4ea4a; transform: translateY(-1px); }
+        .btn-antecipar .material-symbols-rounded { font-size: 13px; }
+
+        /* PAGINAÇÃO INTERNA */
+        .pag-internal {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 18px;
+            background: #FAFAFA;
+            border-top: 1px solid #F2F2F2;
+            font-size: 12px; color: var(--pagah-gray);
+        }
+        .pag-internal .controls { display: inline-flex; gap: 4px; }
+        .pag-btn {
+            background: #fff; border: 1px solid #E0E0E0;
+            color: var(--pagah-dark); font-size: 12px; font-weight: 600;
+            min-width: 28px; height: 28px;
+            border-radius: 6px; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center;
+            transition: all .15s; font-family: inherit; padding: 0 8px;
+        }
+        .pag-btn:hover:not(:disabled) { background: #F5F5F5; border-color: var(--pagah-dark); }
+        .pag-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .pag-btn.active { background: var(--pagah-dark); color: #fff; border-color: var(--pagah-dark); }
+        .pag-btn .material-symbols-rounded { font-size: 14px; }
+
+        /* INFO BAR (faixa explicativa amarela) */
+        .info-bar {
+            background: var(--pagah-yellow-faint);
+            border-left: 3px solid var(--pagah-yellow);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 12.5px; color: var(--pagah-dark);
+            margin-bottom: 16px;
+        }
+        .info-bar .material-symbols-rounded {
+            font-size: 18px; color: var(--pagah-yellow-deep);
+            flex-shrink: 0;
+        }
+        .info-bar strong { font-weight: 700; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .anim-1 { animation: fadeUp .5s ease both .05s; }
+        .anim-2 { animation: fadeUp .5s ease both .15s; }
+        .anim-3 { animation: fadeUp .5s ease both .25s; }
+        .anim-4 { animation: fadeUp .5s ease both .35s; }
+        .anim-5 { animation: fadeUp .5s ease both .45s; }
+    </style>
+</head>
+
+<body class="pb-body pb-pagah pb-menu--closed">
+
+    <!-- HEADER -->
+    <header class="pb-header">
+        <div class="pb-header__left">
+            <a href="/home" class="pb-header__logo_link">
+                <img src="assets/icon/svg/icon-pagah-yellow-rounded.svg" alt="Pagah" class="pb-header__logo_img">
+            </a>
+            <button class="pb-burger__btn" type="button" onclick="document.body.classList.toggle('pb-menu--closed')">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="pb-header__nav_right">
+            <button class="pb-header__icon" type="button" title="Notificações">
+                <span class="material-symbols-rounded">notifications_active</span>
+                <span class="notification-count">4</span>
+            </button>
+            <button class="pb-header__icon" type="button" title="Ajuda">
+                <span class="material-symbols-rounded">help</span>
+            </button>
+            <button class="pb-header__icon" type="button" title="Perfil">
+                <span class="material-symbols-rounded">person</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="pb-side_menu">
+        <ul class="pb-side_menu__list">
+            <li class="pb-side_menu__item"><a href="/home" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">home</span></span><span class="pb-side_menu__label">Dashboard</span></a></li>
+            <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">monitoring</span></span><span class="pb-side_menu__label">Relatórios</span></a><ul class="submenu"><li><a href="/relatorios/v2" class="submenu__link">Vendas</a></li><li><a href="/relatorios-abandonos/v2" class="submenu__link">Abandonos</a></li><li><a href="/estoque/v2" class="submenu__link">Estoque</a></li><li><a href="/relatorios/utms" class="submenu__link">Relatório Utms</a></li></ul></li>
+            <li class="pb-side_menu__item"><a href="/produtos/lista" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">box_add</span></span><span class="pb-side_menu__label">Produtos</span></a></li>
+            <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">handshake</span></span><span class="pb-side_menu__label">Afiliados</span></a><ul class="submenu"><li><a href="/afiliados/listar" class="submenu__link">Gestão de Afiliados</a></li><li><a href="/afiliados/gestao" class="submenu__link">Gestão de Produtos</a></li><li><a href="/afiliados/relatorios" class="submenu__link">Relatórios</a></li></ul></li>
+            <li class="pb-side_menu__item"><a href="/pedidos" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">paid</span></span><span class="pb-side_menu__label">Vendas</span></a></li>
+            <li class="pb-side_menu__item"><a href="/pedidos-marketplace" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">storefront</span></span><span class="pb-side_menu__label">Vendas Marketplace</span></a></li>
+            <li class="pb-side_menu__item"><a href="/suporte-index" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">support_agent</span></span><span class="pb-side_menu__label">Suporte</span></a></li>
+            <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">control_camera</span></span><span class="pb-side_menu__label">Conversão</span></a><ul class="submenu"><li><a href="/pixel_api" class="submenu__link">Pixel</a></li><li><a href="/listas-sms-novas" class="submenu__link">Listas</a></li><li><a href="/campanhas" class="submenu__link">ENVIO$</a></li><li><a href="/funis" class="submenu__link">Funil de Eventos</a></li></ul></li>
+            <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">manufacturing</span></span><span class="pb-side_menu__label">Ferramentas</span></a><ul class="submenu"><li><a href="/webhooks-eventos-2" class="submenu__link">Webhooks</a></li><li><a href="/integracoes" class="submenu__link">Integrações</a></li></ul></li>
+            <li class="pb-side_menu__item"><a href="index.html" class="pb-side_menu__link active"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">receipt_long</span></span><span class="pb-side_menu__label">Saques</span></a></li>
+            <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">settings</span></span><span class="pb-side_menu__label">Configurações</span></a><ul class="submenu"><li><a href="/usuarios" class="submenu__link">Usuários</a></li><li><a href="/notas" class="submenu__link">Notas</a></li></ul></li>
+        </ul>
+        <div class="apps">
+            <small>Baixe nosso App</small>
+            <a href="https://apps.apple.com/app/id6743241219" target="_blank" class="app-link">
+                <img src="https://app.pagah.com/images/appstore.png" alt="Baixe nosso App">
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="pb-main">
+        <div class="pb-main-inner">
+
+            <!-- Page Header -->
+            <div class="anim-1 tw-flex tw-flex-col md:tw-flex-row md:tw-items-end tw-justify-between tw-mb-6 tw-gap-3">
+                <div>
+                    <div class="breadcrumb-line">
+                        <a href="index.html">Saques</a>
+                        <span class="material-symbols-rounded">chevron_right</span>
+                        <strong>Antecipável</strong>
+                    </div>
+                    <h1 class="page-title-detail">
+                        <span class="title-icon"><span class="material-symbols-rounded">bolt</span></span>
+                        Antecipável
+                    </h1>
+                    <p class="page-subtitle">Recebíveis futuros que você pode adiantar pagando 1,99%/mês</p>
+                </div>
+                <div class="tw-flex tw-gap-2">
+                    <a href="index.html" class="btn-soft">
+                        <span class="material-symbols-rounded">arrow_back</span> Voltar
+                    </a>
+                    <button class="btn-soft" id="btnXls">
+                        <span class="material-symbols-rounded">download</span> Exportar Planilha
+                    </button>
+                    <button class="btn-soft btn-primary-yellow" id="btnAnteciparAll">
+                        <span class="material-symbols-rounded">bolt</span> Antecipar selecionados
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI BAR -->
+            <div class="anim-2 kpi-bar">
+                <!-- HERO PRETO: Total a antecipar -->
+                <div class="kpi-hero">
+                    <div class="hero-top">
+                        <div class="hero-lbl"><span class="material-symbols-rounded">bolt</span>Total a antecipar</div>
+                        <span class="hero-pagah-badge">PAGAH</span>
+                    </div>
+                    <div class="hero-val">R$ 12.121,49</div>
+                    <div class="hero-cta-line">Receba hoje pagando taxa de antecipação</div>
+                    <div class="hero-meta">
+                        <div class="col">
+                            <span class="mlbl">Parcelas a vencer</span>
+                            <span class="mval">47</span>
+                            <span class="msub">de 23 pedidos</span>
+                        </div>
+                        <div class="col">
+                            <span class="mlbl">Líquido se antecipar TUDO hoje</span>
+                            <span class="mval">R$ 11.880,29</span>
+                            <span class="msub">após taxa</span>
+                        </div>
+                        <div class="col">
+                            <span class="mlbl">Próxima cai naturalmente em</span>
+                            <span class="mval">12/05</span>
+                            <span class="msub">R$ 380,00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="kpi-cell">
+                    <div class="lbl"><span class="material-symbols-rounded">percent</span>Taxa de antecipação</div>
+                    <div class="val">1,99%/mês</div>
+                    <div class="sub">Cobrada proporcional ao prazo</div>
+                </div>
+                <div class="kpi-cell">
+                    <div class="lbl"><span class="material-symbols-rounded">savings</span>Economia se esperar</div>
+                    <div class="val green">R$ 241,20</div>
+                    <div class="sub">0 taxa se aguardar vencimento</div>
+                </div>
+                <div class="kpi-cell" style="grid-column: 2 / 4;">
+                    <div class="lbl"><span class="material-symbols-rounded">event_available</span>Janela de vencimento</div>
+                    <div class="val" style="font-size:0.95rem;">até 90 dias</div>
+                    <div class="sub">Pedidos com parcelas entre 07/05 e 05/08</div>
+                </div>
+            </div>
+
+            <!-- Faixa explicativa -->
+            <div class="anim-3 info-bar">
+                <span class="material-symbols-rounded">bolt</span>
+                <span><strong>Antecipar</strong> = receber agora pagando taxa. <strong>Esperar</strong> = receber 100% mas só na data de vencimento. Você escolhe pedido por pedido.</span>
+            </div>
+
+            <!-- 4 Cards selecionáveis (Todos / Cartão / PIX / Boleto) -->
+            <div class="anim-4 metodos-grid" id="metodosGrid"></div>
+
+            <!-- Tabela de parcelas -->
+            <div class="anim-5 pedidos-card">
+                <div class="pedidos-head">
+                    <div class="pedidos-title">
+                        <span class="material-symbols-rounded">schedule</span>
+                        Parcelas a vencer
+                        <span class="selected-method" id="selectedMethodLabel">Todos</span>
+                        <span class="auto-select-toast" id="autoSelectToast" style="display:none;">
+                            <span class="material-symbols-rounded">check_circle</span>
+                            Método selecionado pela busca
+                        </span>
+                    </div>
+                    <div class="pedidos-head-right">
+                        <select class="filter-period" id="filterPeriod">
+                            <option value="all">Todos os períodos</option>
+                            <option value="7">Próximos 7 dias</option>
+                            <option value="15">Próximos 15 dias</option>
+                            <option value="30">Próximos 30 dias</option>
+                            <option value="30-90">30-90 dias</option>
+                        </select>
+                        <div class="filter-search" id="searchWrap">
+                            <span class="material-symbols-rounded">search</span>
+                            <input type="text" id="searchPedido" placeholder="Buscar por ID...">
+                            <button class="clear-btn" id="clearSearch" type="button" title="Limpar"><span class="material-symbols-rounded">close</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="pedidos-table" id="pedidosTable">
+                        <thead>
+                            <tr>
+                                <th>Pedido</th>
+                                <th>Parcela</th>
+                                <th>Vence em</th>
+                                <th>Cliente</th>
+                                <th>Método</th>
+                                <th>Valor original</th>
+                                <th>Líquido se antecipar hoje</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="pedidosTbody"></tbody>
+                    </table>
+                </div>
+                <div class="pag-internal" id="pedidosPagination"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.has_submenu > .pb-side_menu__link').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                this.parentElement.classList.toggle('open');
+            });
+        });
+
+        const fmt = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+        // ====== Mock: gerar 47 parcelas totalizando ~R$ 12.121,49 ======
+        // Estratégia: alvo bruto = 12121.49. Geramos 47 parcelas com valores realistas
+        // (R$ 200-1500), depois normalizamos para bater no alvo.
+        const TARGET_TOTAL = 12121.49;
+        const TODAY = new Date('2026-05-06');
+        const CLIENTES = ['Maria Silva', 'João Souza', 'Ana Costa', 'Carlos Lima', 'Beatriz Reis', 'Felipe Almeida', 'Juliana Rocha', 'Pedro Henrique', 'Larissa Mendes', 'Rafael Torres', 'Camila Duarte', 'Bruno Martins', 'Patrícia Nunes', 'Eduardo Vieira', 'Sofia Cardoso', 'Lucas Ferreira', 'Renata Barbosa', 'Gustavo Pires', 'Mariana Pinto', 'Tiago Moreira', 'Vanessa Castro', 'Ricardo Gomes', 'Isabela Ramos'];
+
+        // 23 pedidos -> distribuir 47 parcelas entre eles
+        // Maioria cartão (parcelado), poucos pix/boleto (1x ou parcelas atrasadas)
+        const pedidoSeed = [
+            // [qtdParcelas, totalParcelas, metodo]
+            { metodo: 'cartao', total: 12 },
+            { metodo: 'cartao', total: 10 },
+            { metodo: 'cartao', total: 8 },
+            { metodo: 'cartao', total: 6 },
+            { metodo: 'cartao', total: 6 },
+            { metodo: 'cartao', total: 4 },
+            { metodo: 'cartao', total: 4 },
+            { metodo: 'cartao', total: 3 },
+            { metodo: 'cartao', total: 3 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'cartao', total: 2 },
+            { metodo: 'pix',    total: 1 }, // pix com prazo (raro, mas existente)
+            { metodo: 'boleto', total: 1 }
+        ];
+
+        // Gerar todas parcelas iniciais
+        let parcelaCounter = 0;
+        let pedidoId = 9100;
+        let allParcelas = [];
+
+        pedidoSeed.forEach((seed) => {
+            const id = pedidoId++;
+            const cliente = CLIENTES[Math.floor(Math.random() * CLIENTES.length)];
+            // ticket por parcela
+            const baseTicket = 200 + Math.random() * 1300;
+            for (let i = 0; i < seed.total; i++) {
+                // Espalhar vencimentos: parcela i+1 vence ~30*(i+1) dias após hoje
+                // Ajuste para caber em janela de 1-90 dias
+                const baseDays = (i + 1) * Math.max(2, Math.floor(85 / Math.max(seed.total, 1)));
+                const daysToDue = Math.min(89, Math.max(1, baseDays + Math.floor(Math.random() * 5 - 2)));
+                const valor = baseTicket * (0.85 + Math.random() * 0.3);
+                allParcelas.push({
+                    pid: id,
+                    parcelaNum: i + 1,
+                    totalParcelas: seed.total,
+                    daysToDue,
+                    cliente,
+                    metodo: seed.metodo,
+                    valorOriginal: valor
+                });
+                parcelaCounter++;
+                if (parcelaCounter >= 47) return;
+            }
+        });
+
+        // Cortar/garantir exatamente 47
+        allParcelas = allParcelas.slice(0, 47);
+
+        // Normalizar para bater no alvo R$ 12.121,49
+        const somaAtual = allParcelas.reduce((a, p) => a + p.valorOriginal, 0);
+        const fator = TARGET_TOTAL / somaAtual;
+        allParcelas.forEach(p => { p.valorOriginal = p.valorOriginal * fator; });
+
+        // Calcular líquido antecipado: liquido = valor * (1 - 0.0199 * (days/30))
+        allParcelas.forEach(p => {
+            const taxaProporcional = 0.0199 * (p.daysToDue / 30);
+            p.liquidoAntecipado = p.valorOriginal * (1 - taxaProporcional);
+        });
+
+        // Ordenar por proximidade de vencimento
+        allParcelas.sort((a, b) => a.daysToDue - b.daysToDue);
+
+        function dueLabel(daysToDue) {
+            const d = new Date(TODAY);
+            d.setDate(d.getDate() + daysToDue);
+            return d.toLocaleDateString('pt-BR');
+        }
+
+        // Estrutura de métodos
+        const METODOS = {
+            todos:  { key: 'todos',  label: 'Todos',  icon: 'apps' },
+            cartao: { key: 'cartao', label: 'Cartão', icon: 'credit_card' },
+            pix:    { key: 'pix',    label: 'PIX',    icon: 'bolt' },
+            boleto: { key: 'boleto', label: 'Boleto', icon: 'receipt_long' }
+        };
+        Object.values(METODOS).forEach(m => {
+            const arr = m.key === 'todos' ? allParcelas : allParcelas.filter(p => p.metodo === m.key);
+            m.parcelas = arr;
+            m.bruto = arr.reduce((acc, p) => acc + p.valorOriginal, 0);
+            m.liquido = arr.reduce((acc, p) => acc + p.liquidoAntecipado, 0);
+        });
+
+        let selectedMetodo = 'todos';
+        let searchPedido = '';
+        let filterPeriod = 'all';
+        let pedidosPage = 1;
+        const PER_PAGE = 10;
+        let lastAutoSelected = false;
+
+        function renderMetodoCards() {
+            const grid = document.getElementById('metodosGrid');
+            grid.replaceChildren();
+            Object.values(METODOS).forEach(m => {
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.className = 'metodo-card' + (m.key === selectedMetodo ? ' active' : '');
+                card.dataset.metodo = m.key;
+
+                const icon = document.createElement('div');
+                icon.className = 'metodo-icon ' + m.key;
+                const iconSym = document.createElement('span');
+                iconSym.className = 'material-symbols-rounded';
+                iconSym.textContent = m.icon;
+                icon.appendChild(iconSym);
+
+                const info = document.createElement('div');
+                info.className = 'metodo-info';
+
+                const name = document.createElement('div');
+                name.className = 'metodo-name';
+                name.appendChild(document.createTextNode(m.label));
+                const qty = document.createElement('span');
+                qty.className = 'qty';
+                qty.textContent = m.parcelas.length;
+                name.appendChild(qty);
+                info.appendChild(name);
+
+                const summary = document.createElement('div');
+                summary.className = 'metodo-summary';
+                const col = document.createElement('div');
+                col.className = 'col';
+                if (m.parcelas.length === 0) {
+                    col.appendChild(document.createTextNode('Sem parcelas a vencer'));
+                    const s = document.createElement('strong');
+                    s.textContent = '—';
+                    col.appendChild(s);
+                } else {
+                    col.appendChild(document.createTextNode('Líquido antecipando'));
+                    const s = document.createElement('strong');
+                    s.className = 'yellow-deep';
+                    s.textContent = fmt(m.liquido);
+                    col.appendChild(s);
+                }
+                summary.appendChild(col);
+                info.appendChild(summary);
+
+                card.appendChild(icon);
+                card.appendChild(info);
+                card.addEventListener('click', () => {
+                    if (selectedMetodo !== m.key) {
+                        selectedMetodo = m.key;
+                        pedidosPage = 1;
+                        lastAutoSelected = false;
+                        document.getElementById('autoSelectToast').style.display = 'none';
+                        renderMetodoCards();
+                        renderPedidos();
+                    }
+                });
+                grid.appendChild(card);
+            });
+        }
+
+        function inPeriod(daysToDue, key) {
+            if (key === 'all') return true;
+            if (key === '30-90') return daysToDue > 30 && daysToDue <= 90;
+            return daysToDue <= parseInt(key);
+        }
+
+        function renderPedidos() {
+            const metodo = METODOS[selectedMetodo];
+            document.getElementById('selectedMethodLabel').textContent = metodo.label;
+
+            const filtered = metodo.parcelas.filter(p => {
+                if (!inPeriod(p.daysToDue, filterPeriod)) return false;
+                if (!searchPedido) return true;
+                return String(p.pid).includes(searchPedido.replace('#', ''));
+            });
+
+            const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+            if (pedidosPage > totalPages) pedidosPage = totalPages;
+            const start = (pedidosPage - 1) * PER_PAGE;
+            const pageRows = filtered.slice(start, start + PER_PAGE);
+
+            const tbody = document.getElementById('pedidosTbody');
+            tbody.replaceChildren();
+
+            if (pageRows.length === 0) {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = 8;
+                td.style.textAlign = 'center';
+                td.style.padding = '32px';
+                td.style.color = 'var(--pagah-gray)';
+                td.style.fontStyle = 'italic';
+                td.textContent = 'Nenhuma parcela encontrada com esses filtros.';
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+            } else {
+                pageRows.forEach(p => tbody.appendChild(buildPedidoRow(p)));
+            }
+
+            const pag = document.getElementById('pedidosPagination');
+            pag.replaceChildren();
+            if (filtered.length > 0) {
+                const info2 = document.createElement('div');
+                const fromN = start + 1;
+                const toN = Math.min(start + PER_PAGE, filtered.length);
+                info2.textContent = `Mostrando ${fromN}-${toN} de ${filtered.length} parcelas`;
+                pag.appendChild(info2);
+
+                if (filtered.length > PER_PAGE) {
+                    const ctrls = document.createElement('div');
+                    ctrls.className = 'controls';
+                    const mkBtn = (label, onClick, opts = {}) => {
+                        const b = document.createElement('button');
+                        b.className = 'pag-btn' + (opts.active ? ' active' : '');
+                        if (opts.disabled) b.disabled = true;
+                        if (opts.icon) {
+                            const ic = document.createElement('span');
+                            ic.className = 'material-symbols-rounded';
+                            ic.textContent = label;
+                            b.appendChild(ic);
+                        } else {
+                            b.textContent = label;
+                        }
+                        b.addEventListener('click', onClick);
+                        return b;
+                    };
+                    ctrls.appendChild(mkBtn('chevron_left', () => { pedidosPage--; renderPedidos(); }, { icon: true, disabled: pedidosPage <= 1 }));
+                    for (let p = 1; p <= totalPages; p++) {
+                        ctrls.appendChild(mkBtn(String(p), () => { pedidosPage = p; renderPedidos(); }, { active: p === pedidosPage }));
+                    }
+                    ctrls.appendChild(mkBtn('chevron_right', () => { pedidosPage++; renderPedidos(); }, { icon: true, disabled: pedidosPage >= totalPages }));
+                    pag.appendChild(ctrls);
+                }
+            }
+        }
+
+        const METHOD_META = {
+            cartao: { label: 'Cartão', icon: 'credit_card' },
+            pix:    { label: 'PIX',    icon: 'bolt' },
+            boleto: { label: 'Boleto', icon: 'receipt_long' }
+        };
+
+        function buildPedidoRow(p) {
+            const tr = document.createElement('tr');
+            const meta = METHOD_META[p.metodo];
+
+            const tdId = document.createElement('td');
+            tdId.textContent = '#' + p.pid;
+            tr.appendChild(tdId);
+
+            const tdParc = document.createElement('td');
+            const pill = document.createElement('span');
+            pill.className = 'parcela-pill';
+            pill.textContent = p.parcelaNum + '/' + p.totalParcelas;
+            tdParc.appendChild(pill);
+            tr.appendChild(tdParc);
+
+            const tdDue = document.createElement('td');
+            tdDue.className = 'text-muted';
+            tdDue.textContent = dueLabel(p.daysToDue);
+            tr.appendChild(tdDue);
+
+            const tdCli = document.createElement('td');
+            tdCli.className = 'text-muted';
+            tdCli.textContent = p.cliente;
+            tr.appendChild(tdCli);
+
+            const tdMet = document.createElement('td');
+            const badge = document.createElement('span');
+            badge.className = 'badge-method ' + p.metodo;
+            const ic = document.createElement('span');
+            ic.className = 'material-symbols-rounded';
+            ic.textContent = meta.icon;
+            badge.appendChild(ic);
+            badge.appendChild(document.createTextNode(meta.label));
+            tdMet.appendChild(badge);
+            tr.appendChild(tdMet);
+
+            const tdVal = document.createElement('td');
+            tdVal.textContent = fmt(p.valorOriginal);
+            tr.appendChild(tdVal);
+
+            const tdLiq = document.createElement('td');
+            tdLiq.className = 'text-green-bold';
+            tdLiq.textContent = fmt(p.liquidoAntecipado);
+            tr.appendChild(tdLiq);
+
+            const tdAct = document.createElement('td');
+            const btn = document.createElement('button');
+            btn.className = 'btn-antecipar';
+            btn.type = 'button';
+            const bi = document.createElement('span');
+            bi.className = 'material-symbols-rounded';
+            bi.textContent = 'bolt';
+            btn.appendChild(bi);
+            btn.appendChild(document.createTextNode('Antecipar'));
+            btn.addEventListener('click', () => {
+                alert('Confirmação de antecipação para pedido #' + p.pid + ' (a implementar)');
+            });
+            tdAct.appendChild(btn);
+            tr.appendChild(tdAct);
+
+            return tr;
+        }
+
+        // Auto-seleção pelo ID
+        function findMetodoByPedidoId(rawTerm) {
+            const term = rawTerm.replace('#', '').trim();
+            if (!term) return null;
+            const match = allParcelas.find(p => String(p.pid) === term);
+            return match ? match.metodo : null;
+        }
+
+        const $search = document.getElementById('searchPedido');
+        const $searchWrap = document.getElementById('searchWrap');
+        const $clearBtn = document.getElementById('clearSearch');
+        const $toast = document.getElementById('autoSelectToast');
+        const $filterPeriod = document.getElementById('filterPeriod');
+
+        $search.addEventListener('input', (e) => {
+            searchPedido = e.target.value.trim();
+            $searchWrap.classList.toggle('has-value', searchPedido.length > 0);
+
+            const matchKey = findMetodoByPedidoId(searchPedido);
+            if (matchKey && matchKey !== selectedMetodo && selectedMetodo !== 'todos') {
+                selectedMetodo = matchKey;
+                lastAutoSelected = true;
+                $toast.style.display = 'inline-flex';
+                renderMetodoCards();
+            } else if (!matchKey && lastAutoSelected) {
+                $toast.style.display = 'none';
+                lastAutoSelected = false;
+            }
+
+            pedidosPage = 1;
+            renderPedidos();
+        });
+
+        $clearBtn.addEventListener('click', () => {
+            $search.value = '';
+            searchPedido = '';
+            $searchWrap.classList.remove('has-value');
+            $toast.style.display = 'none';
+            lastAutoSelected = false;
+            pedidosPage = 1;
+            renderPedidos();
+        });
+
+        $filterPeriod.addEventListener('change', (e) => {
+            filterPeriod = e.target.value;
+            pedidosPage = 1;
+            renderPedidos();
+        });
+
+        document.getElementById('btnXls').addEventListener('click', () => alert('Exportação da planilha (a implementar)'));
+        document.getElementById('btnAnteciparAll').addEventListener('click', () => alert('Antecipação em lote dos pedidos selecionados (a implementar)'));
+
+        renderMetodoCards();
+        renderPedidos();
+    </script>
+</body>
+</html>

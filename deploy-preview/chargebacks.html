@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chargebacks / Estornos | Pagah</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            prefix: 'tw-',
+            corePlugins: { preflight: false },
+            theme: { extend: { fontFamily: { sans: ['Ubuntu', 'sans-serif'] } } }
+        }
+    </script>
+
+    <style>
+        :root {
+            --pagah-yellow: #F1E52F;
+            --pagah-yellow-soft: #FFF6A8;
+            --pagah-yellow-faint: #FFFBEA;
+            --pagah-dark: #1C1C1C;
+            --pagah-gray: #575756;
+            --pagah-light-gray: #DADADA;
+            --pagah-bg: #F2F2F2;
+            --pagah-white: #FFFFFF;
+            --pagah-border: #E0E0E0;
+            --pagah-green: #198754;
+            --pagah-green-bg: #E8F5E9;
+            --pagah-green-faint: #F1F9F3;
+            --pagah-danger: #DC3545;
+            --pagah-danger-bg: #FFEDED;
+            --pagah-danger-faint: #FFF5F5;
+            --pagah-warning: #B7791F;
+            --pagah-warning-bg: #FFF3CD;
+            --header-height: 56px;
+            --sidebar-width: 240px;
+            --sidebar-collapsed: 68px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background: var(--pagah-bg);
+            color: var(--pagah-dark);
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER */
+        .pb-header {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: var(--header-height); background: var(--pagah-yellow);
+            z-index: 1000; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 16px; border-bottom: 1px solid rgba(0,0,0,.06);
+        }
+        .pb-header__left { display: flex; align-items: center; gap: 8px; }
+        .pb-header__logo_img { height: 34px; width: 34px; border-radius: 8px; }
+        .pb-header__nav_right { display: flex; align-items: center; gap: 2px; }
+        .pb-header__icon {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: none; background: transparent; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background .2s; position: relative;
+        }
+        .pb-header__icon:hover { background: rgba(0,0,0,.08); }
+        .pb-header__icon .material-symbols-rounded { font-size: 24px; color: var(--pagah-dark); }
+        .pb-burger__btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: none; background: transparent; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 5px; padding: 10px; transition: background .2s;
+        }
+        .pb-burger__btn:hover { background: rgba(0,0,0,.08); }
+        .pb-burger__btn span { display: block; width: 18px; height: 2px; background: var(--pagah-dark); border-radius: 2px; }
+        .notification-count {
+            position: absolute; top: 2px; right: 2px;
+            background: #EF4444; color: white; font-size: 10px; font-weight: 700;
+            border-radius: 50%; width: 18px; height: 18px;
+            display: flex; align-items: center; justify-content: center; line-height: 1;
+        }
+
+        /* SIDEBAR */
+        .pb-side_menu {
+            position: fixed; top: var(--header-height); left: 0;
+            width: var(--sidebar-width); height: calc(100vh - var(--header-height));
+            background: var(--pagah-white); border-right: 1px solid #EBEBEB;
+            overflow-y: auto; overflow-x: hidden; z-index: 999;
+            display: flex; flex-direction: column;
+            transition: width .3s ease; scrollbar-width: none;
+        }
+        .pb-side_menu::-webkit-scrollbar { display: none; }
+        .pb-side_menu__list { list-style: none; padding: 8px 0; flex: 1; }
+        .pb-side_menu__item { position: relative; }
+        .pb-side_menu__link {
+            display: flex; align-items: center; gap: 14px;
+            padding: 11px 20px; color: var(--pagah-gray);
+            text-decoration: none; font-size: 14px; font-weight: 400;
+            transition: all .2s; cursor: pointer;
+            white-space: nowrap; overflow: hidden;
+        }
+        .pb-side_menu__link:hover { color: var(--pagah-dark); background: #F8F8F8; }
+        .pb-side_menu__link.active { color: var(--pagah-dark); font-weight: 600; }
+        .pb-side_menu__link.active::before {
+            content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+            width: 3px; background: var(--pagah-yellow); border-radius: 0 3px 3px 0;
+        }
+        .pb-side_menu__icon {
+            display: flex; align-items: center; justify-content: center;
+            min-width: 24px; width: 24px; height: 24px;
+        }
+        .pb-side_menu__icon .material-symbols-rounded { font-size: 22px; color: inherit; }
+        .has_submenu > .pb-side_menu__link::after {
+            content: 'expand_more'; font-family: 'Material Symbols Rounded';
+            font-size: 18px; margin-left: auto;
+            transition: transform .3s; color: var(--pagah-gray);
+        }
+        .has_submenu.open > .pb-side_menu__link::after { transform: rotate(180deg); }
+        .submenu {
+            list-style: none; padding: 0; max-height: 0; overflow: hidden;
+            transition: max-height .3s ease; background: #FAFAFA;
+        }
+        .has_submenu.open > .submenu { max-height: 500px; }
+        .submenu__link {
+            display: flex; align-items: center; gap: 8px;
+            padding: 9px 20px 9px 58px; color: var(--pagah-gray);
+            text-decoration: none; font-size: 13px;
+            transition: all .2s; white-space: nowrap;
+        }
+        .submenu__link:hover { color: var(--pagah-dark); background: #F0F0F0; }
+        .apps { margin-top: auto; padding: 20px 0 24px; text-align: center; }
+        .apps small { font-size: 10px; display: block; margin-bottom: 8px; color: var(--pagah-gray); }
+        .apps .app-link img { width: 80%; max-width: 80px; }
+        .pb-menu--closed .pb-side_menu { width: var(--sidebar-collapsed); }
+        .pb-menu--closed .pb-side_menu__label,
+        .pb-menu--closed .has_submenu > .pb-side_menu__link::after,
+        .pb-menu--closed .submenu,
+        .pb-menu--closed .apps small { display: none; }
+        .pb-menu--closed .pb-side_menu:hover { width: var(--sidebar-width); box-shadow: 4px 0 12px rgba(0,0,0,.08); }
+        .pb-menu--closed .pb-side_menu:hover .pb-side_menu__label,
+        .pb-menu--closed .pb-side_menu:hover .has_submenu > .pb-side_menu__link::after,
+        .pb-menu--closed .pb-side_menu:hover .apps small { display: inline; }
+
+        .pb-main {
+            margin-left: var(--sidebar-width);
+            padding: 24px 32px; padding-top: calc(var(--header-height) + 24px);
+            min-height: 100vh; transition: margin-left .3s ease;
+        }
+        .pb-menu--closed .pb-main { margin-left: var(--sidebar-collapsed); }
+        .pb-main-inner { max-width: 1280px; margin: 0 auto; }
+
+        @media (max-width: 768px) {
+            .pb-main { padding: 16px; padding-top: calc(var(--header-height) + 16px); margin-left: 0 !important; }
+            .pb-side_menu { transform: translateX(-100%); }
+            .pb-menu--closed .pb-side_menu { transform: translateX(-100%); }
+        }
+
+        /* PAGE HEADER */
+        .breadcrumb-line {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 12px; color: var(--pagah-gray);
+            margin-bottom: 8px;
+        }
+        .breadcrumb-line a { color: var(--pagah-gray); text-decoration: none; }
+        .breadcrumb-line a:hover { color: var(--pagah-dark); }
+        .breadcrumb-line .material-symbols-rounded { font-size: 14px; opacity: .7; }
+        .breadcrumb-line strong { color: var(--pagah-dark); font-weight: 600; }
+
+        .page-title-detail {
+            font-size: 1.5rem; font-weight: 700;
+            color: var(--pagah-dark); margin: 0;
+            letter-spacing: -0.5px;
+            display: inline-flex; align-items: center; gap: 10px;
+        }
+        .page-title-detail .title-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: var(--pagah-danger-bg); color: var(--pagah-danger);
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .page-title-detail .title-icon .material-symbols-rounded { font-size: 22px; }
+        .page-subtitle { font-size: 13px; color: var(--pagah-gray); margin: 6px 0 0; }
+
+        .btn-soft {
+            background: #fff; border: 1px solid #ECECEC;
+            color: var(--pagah-dark); font-weight: 600; font-size: 13px;
+            padding: 8px 14px; border-radius: 10px;
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: all .2s; cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,.02);
+            text-decoration: none;
+        }
+        .btn-soft:hover {
+            background: #F8F8F8; border-color: #DADADA;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0,0,0,.05);
+        }
+        .btn-soft.btn-primary-yellow {
+            background: var(--pagah-yellow); border-color: var(--pagah-yellow);
+        }
+        .btn-soft.btn-primary-yellow:hover { background: #f4ea4a; }
+        .btn-soft .material-symbols-rounded { font-size: 16px; }
+
+        /* KPI BAR */
+        .kpi-bar {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 900px) {
+            .kpi-bar { grid-template-columns: 1fr; }
+        }
+        .kpi-cell {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,.04);
+            border-radius: 10px;
+            padding: 12px 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.03);
+        }
+        .kpi-cell .lbl {
+            font-size: 10px; font-weight: 700;
+            color: var(--pagah-gray);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .kpi-cell .lbl .material-symbols-rounded { font-size: 14px; }
+        .kpi-cell .val {
+            font-size: 1.1rem; font-weight: 800;
+            color: var(--pagah-dark);
+            letter-spacing: -0.3px;
+            line-height: 1.1;
+        }
+        .kpi-cell .val.danger { color: var(--pagah-danger); }
+        .kpi-cell .sub { font-size: 11px; color: var(--pagah-gray); margin-top: 2px; }
+
+        /* HERO PRETO */
+        .kpi-hero {
+            position: relative;
+            background: var(--pagah-dark);
+            border-radius: 12px;
+            padding: 18px 22px;
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(0,0,0,.18);
+            overflow: hidden;
+            display: flex; flex-direction: column; gap: 12px;
+            grid-row: span 2;
+        }
+        @media (max-width: 900px) { .kpi-hero { grid-row: auto; } }
+        .kpi-hero::after {
+            content: ''; position: absolute;
+            top: -40%; right: -25%;
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(241, 229, 47, 0.10), transparent 70%);
+            pointer-events: none;
+        }
+        .kpi-hero .hero-top {
+            position: relative; z-index: 1;
+            display: flex; justify-content: space-between; align-items: flex-start;
+        }
+        .kpi-hero .hero-lbl {
+            font-size: 10px; font-weight: 700;
+            color: var(--pagah-yellow);
+            text-transform: uppercase; letter-spacing: 0.6px;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .kpi-hero .hero-lbl .material-symbols-rounded { font-size: 14px; }
+        .hero-status-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--pagah-danger);
+            box-shadow: 0 0 0 3px rgba(220,53,69,.18);
+            display: inline-block;
+        }
+        .kpi-hero .hero-pagah-badge {
+            background: var(--pagah-yellow); color: var(--pagah-dark);
+            font-size: 10px; font-weight: 700;
+            padding: 3px 8px; border-radius: 6px;
+            letter-spacing: 0.3px;
+        }
+        .kpi-hero .hero-val {
+            position: relative; z-index: 1;
+            font-size: 2.2rem; font-weight: 800;
+            color: var(--pagah-yellow);
+            letter-spacing: -1px; line-height: 1;
+        }
+        .kpi-hero .hero-cta-line {
+            position: relative; z-index: 1;
+            font-size: 11.5px;
+            color: rgba(255,255,255,.7);
+        }
+        .kpi-hero .hero-meta {
+            position: relative; z-index: 1;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .kpi-hero .hero-meta .col { display: flex; flex-direction: column; gap: 2px; }
+        .kpi-hero .hero-meta .mlbl {
+            font-size: 9.5px; font-weight: 600;
+            color: rgba(255,255,255,.55);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .kpi-hero .hero-meta .mval {
+            font-size: 13px; font-weight: 700; color: #fff;
+            line-height: 1.1;
+        }
+        .kpi-hero .hero-meta .msub {
+            font-size: 10px; color: rgba(255,255,255,.55);
+        }
+
+        /* CARDS DE MÉTODO SELECIONÁVEIS */
+        .metodos-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 900px) {
+            .metodos-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .metodos-grid { grid-template-columns: 1fr; }
+        }
+        .metodo-card {
+            background: #fff;
+            border: 1.5px solid rgba(0,0,0,.06);
+            border-radius: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all .2s ease;
+            display: flex; align-items: flex-start; gap: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.03);
+            position: relative;
+            font-family: inherit;
+            text-align: left;
+            color: inherit;
+        }
+        .metodo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.06);
+            border-color: #DADADA;
+        }
+        .metodo-card.active {
+            border-color: var(--pagah-dark);
+            box-shadow: 0 4px 14px rgba(0,0,0,.08);
+            background: #FAFAFA;
+        }
+        .metodo-card.active::after {
+            content: 'check_circle';
+            font-family: 'Material Symbols Rounded';
+            position: absolute;
+            top: 10px; right: 10px;
+            font-size: 18px;
+            color: var(--pagah-dark);
+        }
+        .metodo-icon {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            display: inline-flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .metodo-icon .material-symbols-rounded { font-size: 20px; }
+        .metodo-icon.todos  { background: #ECEFF1; color: #455A64; }
+        .metodo-icon.cartao { background: #E3F2FD; color: #1565c0; }
+        .metodo-icon.pix    { background: #E8F5E9; color: #2E7D32; }
+        .metodo-icon.boleto { background: #F5F5F5; color: #424242; }
+
+        .metodo-info { flex: 1; min-width: 0; }
+        .metodo-name {
+            font-size: 0.95rem; font-weight: 700;
+            color: var(--pagah-dark);
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 8px;
+            padding-right: 22px;
+            flex-wrap: wrap;
+        }
+        .metodo-name .qty {
+            background: #F2F2F2; color: var(--pagah-gray);
+            font-size: 11px; font-weight: 700;
+            padding: 2px 8px; border-radius: 99px;
+        }
+        .metodo-card.active .metodo-name .qty {
+            background: var(--pagah-dark); color: #fff;
+        }
+        .metodo-summary {
+            display: flex; align-items: flex-start; gap: 12px;
+            font-size: 11px;
+            color: var(--pagah-gray);
+        }
+        .metodo-summary .col {
+            display: flex; flex-direction: column;
+            min-width: 0;
+        }
+        .metodo-summary .col strong {
+            color: var(--pagah-dark);
+            font-size: 13px; font-weight: 700;
+            margin-top: 1px;
+            white-space: nowrap;
+        }
+        .metodo-summary .col strong.danger { color: var(--pagah-danger); }
+
+        /* CARD DA TABELA DE PEDIDOS */
+        .pedidos-card {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,.04);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,.03);
+        }
+        .pedidos-head {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 18px;
+            border-bottom: 1px solid #F2F2F2;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .pedidos-title {
+            font-size: 0.95rem; font-weight: 700;
+            color: var(--pagah-dark);
+            display: inline-flex; align-items: center; gap: 8px;
+            flex-wrap: wrap;
+        }
+        .pedidos-title .material-symbols-rounded { font-size: 18px; }
+        .pedidos-title .selected-method {
+            background: var(--pagah-dark); color: var(--pagah-yellow);
+            font-size: 11px; font-weight: 700;
+            padding: 2px 9px; border-radius: 99px;
+            text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .pedidos-head-right {
+            display: flex; align-items: center; gap: 8px;
+            flex-wrap: wrap;
+        }
+        .filter-period, .filter-status {
+            border: 1px solid #E0E0E0; background: #fff;
+            border-radius: 8px; padding: 7px 10px;
+            font-size: 12.5px; font-family: inherit;
+            color: var(--pagah-dark); outline: 0;
+            cursor: pointer;
+        }
+        .filter-search {
+            position: relative;
+        }
+        .filter-search input {
+            border: 1px solid #E0E0E0; background: #fff;
+            border-radius: 8px; padding: 7px 10px 7px 32px;
+            font-size: 12.5px; font-family: inherit;
+            color: var(--pagah-dark); width: 220px; outline: 0;
+            transition: all .2s;
+        }
+        .filter-search input:focus { border-color: var(--pagah-dark); }
+        .filter-search > .material-symbols-rounded {
+            position: absolute; left: 9px; top: 50%;
+            transform: translateY(-50%); font-size: 16px;
+            color: var(--pagah-gray); pointer-events: none;
+        }
+        .filter-search .clear-btn {
+            position: absolute; right: 6px; top: 50%;
+            transform: translateY(-50%);
+            background: transparent; border: 0; padding: 4px;
+            cursor: pointer; color: var(--pagah-gray);
+            display: none;
+        }
+        .filter-search.has-value .clear-btn { display: inline-flex; }
+        .filter-search .clear-btn .material-symbols-rounded {
+            position: static; transform: none; font-size: 16px;
+        }
+        .auto-select-toast {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 11px; color: var(--pagah-green);
+            font-weight: 600;
+            padding: 3px 8px;
+            background: #E8F5E9;
+            border-radius: 99px;
+        }
+        .auto-select-toast .material-symbols-rounded { font-size: 13px; }
+
+        /* TABELA INTERNA */
+        .pedidos-table {
+            width: 100%; border-collapse: collapse;
+        }
+        .pedidos-table thead th {
+            background: var(--pagah-dark); color: #fff;
+            font-size: 0.7rem; text-transform: uppercase;
+            letter-spacing: 0.6px; font-weight: 600;
+            padding: 11px 14px; text-align: left;
+            white-space: nowrap;
+        }
+        .pedidos-table thead th:first-child { padding-left: 18px; }
+        .pedidos-table thead th:last-child { padding-right: 18px; text-align: right; }
+        .pedidos-table tbody td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #F5F5F5;
+            font-size: 13px;
+        }
+        .pedidos-table tbody td:first-child { padding-left: 18px; font-weight: 700; }
+        .pedidos-table tbody td:last-child { padding-right: 18px; text-align: right; }
+        .pedidos-table tbody tr:last-child td { border-bottom: 0; }
+        .pedidos-table tbody tr:hover { background: #FAFAFA; }
+        .text-muted { color: var(--pagah-gray); }
+        .text-dark-bold { color: var(--pagah-dark); font-weight: 700; }
+        .text-danger-bold { color: var(--pagah-danger); font-weight: 700; }
+        .badge-method {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 8px; border-radius: 99px;
+            font-size: 11px; font-weight: 600;
+        }
+        .badge-method .material-symbols-rounded { font-size: 12px; }
+        .badge-method.cartao { background: #E3F2FD; color: #1565c0; }
+        .badge-method.pix    { background: #E8F5E9; color: #2E7D32; }
+        .badge-method.boleto { background: #F5F5F5; color: #424242; }
+
+        .badge-tipo {
+            display: inline-flex; align-items: center;
+            padding: 3px 9px; border-radius: 99px;
+            font-size: 11px; font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge-tipo.chargeback { background: var(--pagah-danger-bg); color: var(--pagah-danger); }
+        .badge-tipo.estorno    { background: #ECEFF1; color: #455A64; }
+
+        .badge-status {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 9px; border-radius: 99px;
+            font-size: 11px; font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge-status .dot {
+            width: 6px; height: 6px; border-radius: 50%;
+        }
+        .badge-status.aberto   { background: #FFF3CD; color: #856404; }
+        .badge-status.aberto .dot   { background: #B7791F; }
+        .badge-status.perdida  { background: var(--pagah-danger-bg); color: var(--pagah-danger); }
+        .badge-status.perdida .dot  { background: var(--pagah-danger); }
+        .badge-status.ganha    { background: var(--pagah-green-bg); color: var(--pagah-green); }
+        .badge-status.ganha .dot    { background: var(--pagah-green); }
+        .badge-status.concluido{ background: #ECEFF1; color: #455A64; }
+        .badge-status.concluido .dot{ background: #607D8B; }
+
+        /* PAGINAÇÃO INTERNA */
+        .pag-internal {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 18px;
+            background: #FAFAFA;
+            border-top: 1px solid #F2F2F2;
+            font-size: 12px; color: var(--pagah-gray);
+        }
+        .pag-internal .controls { display: inline-flex; gap: 4px; }
+        .pag-btn {
+            background: #fff; border: 1px solid #E0E0E0;
+            color: var(--pagah-dark); font-size: 12px; font-weight: 600;
+            min-width: 28px; height: 28px;
+            border-radius: 6px; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center;
+            transition: all .15s; font-family: inherit; padding: 0 8px;
+        }
+        .pag-btn:hover:not(:disabled) { background: #F5F5F5; border-color: var(--pagah-dark); }
+        .pag-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .pag-btn.active { background: var(--pagah-dark); color: #fff; border-color: var(--pagah-dark); }
+        .pag-btn .material-symbols-rounded { font-size: 14px; }
+
+        /* INFO BAR (faixa explicativa vermelha-soft, NÃO alarmista) */
+        .info-bar {
+            background: var(--pagah-danger-faint);
+            border-left: 3px solid var(--pagah-danger);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex; align-items: flex-start; gap: 10px;
+            font-size: 12.5px; color: var(--pagah-dark);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .info-bar .material-symbols-rounded {
+            font-size: 18px; color: var(--pagah-danger);
+            flex-shrink: 0; margin-top: 1px;
+        }
+        .info-bar strong { font-weight: 700; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .anim-1 { animation: fadeUp .5s ease both .05s; }
+        .anim-2 { animation: fadeUp .5s ease both .15s; }
+        .anim-3 { animation: fadeUp .5s ease both .25s; }
+        .anim-4 { animation: fadeUp .5s ease both .35s; }
+        .anim-5 { animation: fadeUp .5s ease both .45s; }
+    </style>
+</head>
+
+<body class="pb-body pb-pagah pb-menu--closed">
+
+    <!-- HEADER -->
+    <header class="pb-header">
+        <div class="pb-header__left">
+            <a href="/home" class="pb-header__logo_link">
+                <img src="assets/icon/svg/icon-pagah-yellow-rounded.svg" alt="Pagah" class="pb-header__logo_img">
+            </a>
+            <button class="pb-burger__btn" type="button" onclick="document.body.classList.toggle('pb-menu--closed')">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="pb-header__nav_right">
+            <button class="pb-header__icon" type="button" title="Notificações">
+                <span class="material-symbols-rounded">notifications_active</span>
+                <span class="notification-count">4</span>
+            </button>
+            <button class="pb-header__icon" type="button" title="Ajuda">
+                <span class="material-symbols-rounded">help</span>
+            </button>
+            <button class="pb-header__icon" type="button" title="Perfil">
+                <span class="material-symbols-rounded">person</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="pb-side_menu">
+        <ul class="pb-side_menu__list">
+            <li class="pb-side_menu__item"><a href="/home" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">home</span></span><span class="pb-side_menu__label">Dashboard</span></a></li>
+            <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">monitoring</span></span><span class="pb-side_menu__label">Relatórios</span></a><ul class="submenu"><li><a href="/relatorios/v2" class="submenu__link">Vendas</a></li><li><a href="/relatorios-abandonos/v2" class="submenu__link">Abandonos</a></li><li><a href="/estoque/v2" class="submenu__link">Estoque</a></li><li><a href="/relatorios/utms" class="submenu__link">Relatório Utms</a></li></ul></li>
+            <li class="pb-side_menu__item"><a href="/produtos/lista" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">box_add</span></span><span class="pb-side_menu__label">Produtos</span></a></li>
+            <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">handshake</span></span><span class="pb-side_menu__label">Afiliados</span></a><ul class="submenu"><li><a href="/afiliados/listar" class="submenu__link">Gestão de Afiliados</a></li><li><a href="/afiliados/gestao" class="submenu__link">Gestão de Produtos</a></li><li><a href="/afiliados/relatorios" class="submenu__link">Relatórios</a></li></ul></li>
+            <li class="pb-side_menu__item"><a href="/pedidos" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">paid</span></span><span class="pb-side_menu__label">Vendas</span></a></li>
+            <li class="pb-side_menu__item"><a href="/pedidos-marketplace" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">storefront</span></span><span class="pb-side_menu__label">Vendas Marketplace</span></a></li>
+            <li class="pb-side_menu__item"><a href="/suporte-index" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">support_agent</span></span><span class="pb-side_menu__label">Suporte</span></a></li>
+            <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">control_camera</span></span><span class="pb-side_menu__label">Conversão</span></a><ul class="submenu"><li><a href="/pixel_api" class="submenu__link">Pixel</a></li><li><a href="/listas-sms-novas" class="submenu__link">Listas</a></li><li><a href="/campanhas" class="submenu__link">ENVIO$</a></li><li><a href="/funis" class="submenu__link">Funil de Eventos</a></li></ul></li>
+            <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">manufacturing</span></span><span class="pb-side_menu__label">Ferramentas</span></a><ul class="submenu"><li><a href="/webhooks-eventos-2" class="submenu__link">Webhooks</a></li><li><a href="/integracoes" class="submenu__link">Integrações</a></li></ul></li>
+            <li class="pb-side_menu__item"><a href="index.html" class="pb-side_menu__link active"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">receipt_long</span></span><span class="pb-side_menu__label">Saques</span></a></li>
+            <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">settings</span></span><span class="pb-side_menu__label">Configurações</span></a><ul class="submenu"><li><a href="/usuarios" class="submenu__link">Usuários</a></li><li><a href="/notas" class="submenu__link">Notas</a></li></ul></li>
+        </ul>
+        <div class="apps">
+            <small>Baixe nosso App</small>
+            <a href="https://apps.apple.com/app/id6743241219" target="_blank" class="app-link">
+                <img src="https://app.pagah.com/images/appstore.png" alt="Baixe nosso App">
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="pb-main">
+        <div class="pb-main-inner">
+
+            <!-- Page Header -->
+            <div class="anim-1 tw-flex tw-flex-col md:tw-flex-row md:tw-items-end tw-justify-between tw-mb-6 tw-gap-3">
+                <div>
+                    <div class="breadcrumb-line">
+                        <a href="index.html">Saques</a>
+                        <span class="material-symbols-rounded">chevron_right</span>
+                        <strong>Chargebacks / Estornos</strong>
+                    </div>
+                    <h1 class="page-title-detail">
+                        <span class="title-icon"><span class="material-symbols-rounded">sync_problem</span></span>
+                        Chargebacks / Estornos
+                    </h1>
+                    <p class="page-subtitle">Disputas e devoluções dos últimos 30 dias</p>
+                </div>
+                <div class="tw-flex tw-gap-2">
+                    <a href="index.html" class="btn-soft">
+                        <span class="material-symbols-rounded">arrow_back</span> Voltar
+                    </a>
+                    <button class="btn-soft" id="btnXls">
+                        <span class="material-symbols-rounded">download</span> Exportar Planilha
+                    </button>
+                    <button class="btn-soft" id="btnContestar">
+                        <span class="material-symbols-rounded">gavel</span> Contestar disputa
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI BAR -->
+            <div class="anim-2 kpi-bar">
+                <!-- HERO PRETO: Impacto total -->
+                <div class="kpi-hero">
+                    <div class="hero-top">
+                        <div class="hero-lbl">
+                            <span class="hero-status-dot"></span>
+                            Impacto total no período
+                        </div>
+                        <span class="hero-pagah-badge">PAGAH</span>
+                    </div>
+                    <div class="hero-val">R$ 350,00</div>
+                    <div class="hero-cta-line">5 ocorrências · de 12 contestações abertas, 5 viraram débito</div>
+                    <div class="hero-meta">
+                        <div class="col">
+                            <span class="mlbl">Disputas em aberto</span>
+                            <span class="mval">7</span>
+                            <span class="msub">aguardando resposta sua</span>
+                        </div>
+                        <div class="col">
+                            <span class="mlbl">Resolvidas a seu favor</span>
+                            <span class="mval">23</span>
+                            <span class="msub">nos últimos 90 dias</span>
+                        </div>
+                        <div class="col">
+                            <span class="mlbl">Taxa de chargeback</span>
+                            <span class="mval">0,42%</span>
+                            <span class="msub">abaixo do limite (1%)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="kpi-cell">
+                    <div class="lbl"><span class="material-symbols-rounded">bolt</span>Estornos via PIX</div>
+                    <div class="val">R$ 120,00</div>
+                    <div class="sub">2 devoluções</div>
+                </div>
+                <div class="kpi-cell">
+                    <div class="lbl"><span class="material-symbols-rounded">credit_card</span>Chargebacks de cartão</div>
+                    <div class="val">R$ 230,00</div>
+                    <div class="sub">3 disputas</div>
+                </div>
+                <div class="kpi-cell" style="grid-column: 2 / 4;">
+                    <div class="lbl"><span class="material-symbols-rounded">schedule</span>Prazo médio de defesa</div>
+                    <div class="val" style="font-size:0.95rem;">5 dias úteis</div>
+                    <div class="sub">Não responder = perde automaticamente</div>
+                </div>
+            </div>
+
+            <!-- Faixa explicativa (vermelha-soft, NÃO alarmista) -->
+            <div class="anim-3 info-bar">
+                <span class="material-symbols-rounded">info</span>
+                <span><strong>Chargeback</strong> é uma disputa aberta pelo cliente junto à bandeira do cartão. <strong>Estorno</strong> é uma devolução voluntária via PIX/Boleto. Disputas pendentes pedem sua atenção — quanto antes responder, maior a chance de reverter.</span>
+            </div>
+
+            <!-- 4 Cards selecionáveis (Todos / Cartão / PIX / Boleto) -->
+            <div class="anim-4 metodos-grid" id="metodosGrid"></div>
+
+            <!-- Tabela de ocorrências -->
+            <div class="anim-5 pedidos-card">
+                <div class="pedidos-head">
+                    <div class="pedidos-title">
+                        <span class="material-symbols-rounded">list_alt</span>
+                        Ocorrências
+                        <span class="selected-method" id="selectedMethodLabel">Todos</span>
+                        <span class="auto-select-toast" id="autoSelectToast" style="display:none;">
+                            <span class="material-symbols-rounded">check_circle</span>
+                            Método selecionado pela busca
+                        </span>
+                    </div>
+                    <div class="pedidos-head-right">
+                        <select class="filter-status" id="filterStatus">
+                            <option value="all">Todos os status</option>
+                            <option value="aberto">Em aberto</option>
+                            <option value="ganha">Ganha</option>
+                            <option value="perdida">Perdida</option>
+                            <option value="concluido">Concluído</option>
+                        </select>
+                        <select class="filter-period" id="filterPeriod">
+                            <option value="30" selected>Últimos 30 dias</option>
+                            <option value="7">Últimos 7 dias</option>
+                            <option value="15">Últimos 15 dias</option>
+                            <option value="90">Últimos 90 dias</option>
+                        </select>
+                        <div class="filter-search" id="searchWrap">
+                            <span class="material-symbols-rounded">search</span>
+                            <input type="text" id="searchPedido" placeholder="Buscar por ID...">
+                            <button class="clear-btn" id="clearSearch" type="button" title="Limpar"><span class="material-symbols-rounded">close</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="pedidos-table" id="pedidosTable">
+                        <thead>
+                            <tr>
+                                <th>Pedido</th>
+                                <th>Data</th>
+                                <th>Cliente</th>
+                                <th>Método</th>
+                                <th>Tipo</th>
+                                <th>Motivo</th>
+                                <th>Status</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pedidosTbody"></tbody>
+                    </table>
+                </div>
+                <div class="pag-internal" id="pedidosPagination"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.has_submenu > .pb-side_menu__link').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                this.parentElement.classList.toggle('open');
+            });
+        });
+
+        const fmt = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+        // Mock: 12 ocorrências, total impact = R$ 350,00
+        // 5 viraram débito (perdidas + concluído de estorno) somam exatamente R$ 350,00
+        // chargebacks perdidos: 230,00 (3 disputas)
+        // estornos PIX/boleto: 120,00 (2 devoluções concluídas)
+        const OCORRENCIAS = [
+            // Chargebacks perdidos (somam 230,00) - viraram débito
+            { id: 8821, daysAgo: 3,  cliente: 'Ricardo Mendes',   metodo: 'cartao', tipo: 'chargeback', motivo: 'Não reconhece compra',     status: 'perdida',  valor: 89.90 },
+            { id: 8745, daysAgo: 8,  cliente: 'Patrícia Gomes',   metodo: 'cartao', tipo: 'chargeback', motivo: 'Fraude reportada',         status: 'perdida',  valor: 67.10 },
+            { id: 8702, daysAgo: 14, cliente: 'Bruno Carvalho',   metodo: 'cartao', tipo: 'chargeback', motivo: 'Cobrança duplicada',       status: 'perdida',  valor: 73.00 },
+            // Estornos concluídos (somam 120,00) - viraram débito
+            { id: 8810, daysAgo: 5,  cliente: 'Camila Ferreira',  metodo: 'pix',    tipo: 'estorno',    motivo: 'Devolução solicitada',     status: 'concluido', valor: 65.00 },
+            { id: 8688, daysAgo: 17, cliente: 'Diego Martins',    metodo: 'pix',    tipo: 'estorno',    motivo: 'Produto não recebido',     status: 'concluido', valor: 55.00 },
+            // Em aberto (ainda em disputa, não contam no impacto)
+            { id: 8855, daysAgo: 1,  cliente: 'Fernanda Castro',  metodo: 'cartao', tipo: 'chargeback', motivo: 'Não reconhece compra',     status: 'aberto',   valor: 142.00 },
+            { id: 8848, daysAgo: 2,  cliente: 'Gustavo Pereira',  metodo: 'cartao', tipo: 'chargeback', motivo: 'Produto não recebido',     status: 'aberto',   valor: 98.50 },
+            { id: 8830, daysAgo: 4,  cliente: 'Helena Vieira',    metodo: 'cartao', tipo: 'chargeback', motivo: 'Cobrança duplicada',       status: 'aberto',   valor: 215.00 },
+            // Ganhas (revertidas, sem impacto)
+            { id: 8779, daysAgo: 10, cliente: 'Igor Nascimento',  metodo: 'cartao', tipo: 'chargeback', motivo: 'Não reconhece compra',     status: 'ganha',    valor: 178.90 },
+            { id: 8758, daysAgo: 12, cliente: 'Júlia Barbosa',    metodo: 'cartao', tipo: 'chargeback', motivo: 'Fraude reportada',         status: 'ganha',    valor: 312.40 },
+            { id: 8721, daysAgo: 16, cliente: 'Lucas Ribeiro',    metodo: 'boleto', tipo: 'estorno',    motivo: 'Devolução solicitada',     status: 'concluido', valor: 89.00 },
+            { id: 8665, daysAgo: 22, cliente: 'Mariana Souza',    metodo: 'pix',    tipo: 'estorno',    motivo: 'Devolução solicitada',     status: 'ganha',    valor: 47.50 }
+        ];
+
+        // Data formatada (subtrai dias da data atual)
+        const TODAY = new Date('2026-05-06');
+        function dateLabel(daysAgo) {
+            const d = new Date(TODAY);
+            d.setDate(d.getDate() - daysAgo);
+            return d.toLocaleDateString('pt-BR');
+        }
+
+        // Estrutura de métodos
+        const METODOS = {
+            todos:  { key: 'todos',  label: 'Todos',             icon: 'apps' },
+            cartao: { key: 'cartao', label: 'Cartão (chargebacks)', icon: 'credit_card' },
+            pix:    { key: 'pix',    label: 'PIX (estornos)',    icon: 'bolt' },
+            boleto: { key: 'boleto', label: 'Boleto (estornos)', icon: 'receipt_long' }
+        };
+
+        // Computa ocorrências/impacto por método (impacto = perdidas + concluido)
+        Object.values(METODOS).forEach(m => {
+            const arr = m.key === 'todos' ? OCORRENCIAS : OCORRENCIAS.filter(p => p.metodo === m.key);
+            m.ocorrencias = arr;
+            m.impacto = arr
+                .filter(o => o.status === 'perdida' || o.status === 'concluido')
+                .reduce((acc, o) => acc + o.valor, 0);
+        });
+
+        let selectedMetodo = 'todos';
+        let searchPedido = '';
+        let filterPeriod = '30';
+        let filterStatus = 'all';
+        let pedidosPage = 1;
+        const PER_PAGE = 10;
+        let lastAutoSelected = false;
+
+        function renderMetodoCards() {
+            const grid = document.getElementById('metodosGrid');
+            grid.replaceChildren();
+            Object.values(METODOS).forEach(m => {
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.className = 'metodo-card' + (m.key === selectedMetodo ? ' active' : '');
+                card.dataset.metodo = m.key;
+
+                const icon = document.createElement('div');
+                icon.className = 'metodo-icon ' + m.key;
+                const iconSym = document.createElement('span');
+                iconSym.className = 'material-symbols-rounded';
+                iconSym.textContent = m.icon;
+                icon.appendChild(iconSym);
+
+                const info = document.createElement('div');
+                info.className = 'metodo-info';
+
+                const name = document.createElement('div');
+                name.className = 'metodo-name';
+                name.appendChild(document.createTextNode(m.label));
+                const qty = document.createElement('span');
+                qty.className = 'qty';
+                qty.textContent = m.ocorrencias.length;
+                name.appendChild(qty);
+                info.appendChild(name);
+
+                const summary = document.createElement('div');
+                summary.className = 'metodo-summary';
+                const col = document.createElement('div');
+                col.className = 'col';
+                col.appendChild(document.createTextNode('Impacto'));
+                const s = document.createElement('strong');
+                s.className = 'danger';
+                s.textContent = fmt(m.impacto);
+                col.appendChild(s);
+                summary.appendChild(col);
+                info.appendChild(summary);
+
+                card.appendChild(icon);
+                card.appendChild(info);
+                card.addEventListener('click', () => {
+                    if (selectedMetodo !== m.key) {
+                        selectedMetodo = m.key;
+                        pedidosPage = 1;
+                        lastAutoSelected = false;
+                        document.getElementById('autoSelectToast').style.display = 'none';
+                        renderMetodoCards();
+                        renderPedidos();
+                    }
+                });
+                grid.appendChild(card);
+            });
+        }
+
+        function renderPedidos() {
+            const metodo = METODOS[selectedMetodo];
+            document.getElementById('selectedMethodLabel').textContent =
+                selectedMetodo === 'todos' ? 'Todos' :
+                selectedMetodo === 'cartao' ? 'Cartão' :
+                selectedMetodo === 'pix' ? 'PIX' : 'Boleto';
+
+            const filtered = metodo.ocorrencias.filter(p => {
+                if (filterPeriod !== 'all' && p.daysAgo > parseInt(filterPeriod)) return false;
+                if (filterStatus !== 'all' && p.status !== filterStatus) return false;
+                if (!searchPedido) return true;
+                return String(p.id).includes(searchPedido.replace('#', ''));
+            });
+
+            const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+            if (pedidosPage > totalPages) pedidosPage = totalPages;
+            const start = (pedidosPage - 1) * PER_PAGE;
+            const pageRows = filtered.slice(start, start + PER_PAGE);
+
+            const tbody = document.getElementById('pedidosTbody');
+            tbody.replaceChildren();
+
+            if (pageRows.length === 0) {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = 8;
+                td.style.textAlign = 'center';
+                td.style.padding = '32px';
+                td.style.color = 'var(--pagah-gray)';
+                td.style.fontStyle = 'italic';
+                td.textContent = 'Nenhuma ocorrência encontrada com esses filtros.';
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+            } else {
+                pageRows.forEach(p => tbody.appendChild(buildPedidoRow(p)));
+            }
+
+            const pag = document.getElementById('pedidosPagination');
+            pag.replaceChildren();
+            if (filtered.length > 0) {
+                const info2 = document.createElement('div');
+                const fromN = start + 1;
+                const toN = Math.min(start + PER_PAGE, filtered.length);
+                info2.textContent = `Mostrando ${fromN}-${toN} de ${filtered.length} ocorrências`;
+                pag.appendChild(info2);
+
+                if (filtered.length > PER_PAGE) {
+                    const ctrls = document.createElement('div');
+                    ctrls.className = 'controls';
+                    const mkBtn = (label, onClick, opts = {}) => {
+                        const b = document.createElement('button');
+                        b.className = 'pag-btn' + (opts.active ? ' active' : '');
+                        if (opts.disabled) b.disabled = true;
+                        if (opts.icon) {
+                            const ic = document.createElement('span');
+                            ic.className = 'material-symbols-rounded';
+                            ic.textContent = label;
+                            b.appendChild(ic);
+                        } else {
+                            b.textContent = label;
+                        }
+                        b.addEventListener('click', onClick);
+                        return b;
+                    };
+                    ctrls.appendChild(mkBtn('chevron_left', () => { pedidosPage--; renderPedidos(); }, { icon: true, disabled: pedidosPage <= 1 }));
+                    for (let p = 1; p <= totalPages; p++) {
+                        ctrls.appendChild(mkBtn(String(p), () => { pedidosPage = p; renderPedidos(); }, { active: p === pedidosPage }));
+                    }
+                    ctrls.appendChild(mkBtn('chevron_right', () => { pedidosPage++; renderPedidos(); }, { icon: true, disabled: pedidosPage >= totalPages }));
+                    pag.appendChild(ctrls);
+                }
+            }
+        }
+
+        const METHOD_META = {
+            cartao: { label: 'Cartão', icon: 'credit_card' },
+            pix:    { label: 'PIX',    icon: 'bolt' },
+            boleto: { label: 'Boleto', icon: 'receipt_long' }
+        };
+
+        const STATUS_LABEL = {
+            aberto: 'Em aberto',
+            perdida: 'Perdida',
+            ganha: 'Ganha',
+            concluido: 'Concluído'
+        };
+
+        function buildPedidoRow(p) {
+            const tr = document.createElement('tr');
+            const meta = METHOD_META[p.metodo];
+
+            const tdId = document.createElement('td');
+            tdId.textContent = '#' + p.id;
+            tr.appendChild(tdId);
+
+            const tdData = document.createElement('td');
+            tdData.className = 'text-muted';
+            tdData.textContent = dateLabel(p.daysAgo);
+            tr.appendChild(tdData);
+
+            const tdCli = document.createElement('td');
+            tdCli.className = 'text-muted';
+            tdCli.textContent = p.cliente;
+            tr.appendChild(tdCli);
+
+            const tdMet = document.createElement('td');
+            const badge = document.createElement('span');
+            badge.className = 'badge-method ' + p.metodo;
+            const ic = document.createElement('span');
+            ic.className = 'material-symbols-rounded';
+            ic.textContent = meta.icon;
+            badge.appendChild(ic);
+            badge.appendChild(document.createTextNode(meta.label));
+            tdMet.appendChild(badge);
+            tr.appendChild(tdMet);
+
+            const tdTipo = document.createElement('td');
+            const bTipo = document.createElement('span');
+            bTipo.className = 'badge-tipo ' + p.tipo;
+            bTipo.textContent = p.tipo === 'chargeback' ? 'Chargeback' : 'Estorno';
+            tdTipo.appendChild(bTipo);
+            tr.appendChild(tdTipo);
+
+            const tdMotivo = document.createElement('td');
+            tdMotivo.className = 'text-muted';
+            tdMotivo.textContent = p.motivo;
+            tr.appendChild(tdMotivo);
+
+            const tdStatus = document.createElement('td');
+            const bSt = document.createElement('span');
+            bSt.className = 'badge-status ' + p.status;
+            const dot = document.createElement('span');
+            dot.className = 'dot';
+            bSt.appendChild(dot);
+            bSt.appendChild(document.createTextNode(STATUS_LABEL[p.status]));
+            tdStatus.appendChild(bSt);
+            tr.appendChild(tdStatus);
+
+            const tdVal = document.createElement('td');
+            tdVal.className = 'text-danger-bold';
+            tdVal.textContent = '- ' + fmt(p.valor);
+            tr.appendChild(tdVal);
+
+            return tr;
+        }
+
+        // Auto-seleção pelo ID
+        function findMetodoByPedidoId(rawTerm) {
+            const term = rawTerm.replace('#', '').trim();
+            if (!term) return null;
+            const match = OCORRENCIAS.find(p => String(p.id) === term);
+            return match ? match.metodo : null;
+        }
+
+        const $search = document.getElementById('searchPedido');
+        const $searchWrap = document.getElementById('searchWrap');
+        const $clearBtn = document.getElementById('clearSearch');
+        const $toast = document.getElementById('autoSelectToast');
+        const $filterPeriod = document.getElementById('filterPeriod');
+        const $filterStatus = document.getElementById('filterStatus');
+
+        $search.addEventListener('input', (e) => {
+            searchPedido = e.target.value.trim();
+            $searchWrap.classList.toggle('has-value', searchPedido.length > 0);
+
+            const matchKey = findMetodoByPedidoId(searchPedido);
+            if (matchKey && matchKey !== selectedMetodo && selectedMetodo !== 'todos') {
+                selectedMetodo = matchKey;
+                lastAutoSelected = true;
+                $toast.style.display = 'inline-flex';
+                renderMetodoCards();
+            } else if (!matchKey && lastAutoSelected) {
+                $toast.style.display = 'none';
+                lastAutoSelected = false;
+            }
+
+            pedidosPage = 1;
+            renderPedidos();
+        });
+
+        $clearBtn.addEventListener('click', () => {
+            $search.value = '';
+            searchPedido = '';
+            $searchWrap.classList.remove('has-value');
+            $toast.style.display = 'none';
+            lastAutoSelected = false;
+            pedidosPage = 1;
+            renderPedidos();
+        });
+
+        $filterPeriod.addEventListener('change', (e) => {
+            filterPeriod = e.target.value;
+            pedidosPage = 1;
+            renderPedidos();
+        });
+
+        $filterStatus.addEventListener('change', (e) => {
+            filterStatus = e.target.value;
+            pedidosPage = 1;
+            renderPedidos();
+        });
+
+        document.getElementById('btnXls').addEventListener('click', () => alert('Exportação da planilha (a implementar)'));
+        document.getElementById('btnContestar').addEventListener('click', () => alert('Abrir fluxo de contestação de disputa (a implementar)'));
+
+        renderMetodoCards();
+        renderPedidos();
+    </script>
+</body>
+</html>
