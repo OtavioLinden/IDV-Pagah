@@ -50,6 +50,12 @@ Thumbs.db
 
 # user-dropped screenshots / temp images
 image.png
+image copy*.png
+image-copy*.png
+v4-*.png
+v3-*.png
+v2-*.png
+v1-*.png
 .tmp-*
 .tmp/
 .audits/
