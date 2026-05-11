@@ -77,7 +77,7 @@ export default function V4Layout({ children }: { children: React.ReactNode }) {
       <style>{`
         .v4-root {
           font-family: var(--font-v4-body), system-ui, sans-serif;
-          background: var(--bg-base);
+          background: transparent;
           color: var(--text-primary);
           font-feature-settings: "ss01";
           letter-spacing: -0.005em;

@@ -6,7 +6,6 @@ export default function V4Fraud() {
   return (
     <section
       className="py-10 md:py-14"
-      style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <div className="grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-16 items-start mb-5">

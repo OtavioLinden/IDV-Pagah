@@ -8,7 +8,6 @@ export default function V4Interest() {
     <section
       id="juros"
       className="py-10 md:py-14"
-      style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <div className="max-w-3xl mb-6">

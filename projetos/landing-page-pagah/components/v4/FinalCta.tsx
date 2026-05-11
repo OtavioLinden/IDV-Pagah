@@ -7,7 +7,6 @@ export default function V4FinalCta() {
     <section
       id="cta-final"
       className="py-10 md:py-14"
-      style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-6xl px-6 md:px-10">
         <motion.div

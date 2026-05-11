@@ -40,7 +40,6 @@ export default function V4ThreePoints() {
     <section
       id="solucoes"
       className="py-10 md:py-14"
-      style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <hr className="v4-section-rule--accent" aria-hidden="true" />

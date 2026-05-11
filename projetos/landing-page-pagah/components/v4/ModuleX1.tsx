@@ -50,7 +50,6 @@ export default function V4ModuleX1() {
     <section
       id="x1"
       className="py-10 md:py-14"
-      style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10 grid lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 items-start">
         <div>
