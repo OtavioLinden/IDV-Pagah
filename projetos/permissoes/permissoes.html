@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupos de Permissões | Pagah</title>
+
+    <!-- Google Fonts: Ubuntu (textos) -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Google Material Symbols Rounded (icones da plataforma) -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <!-- Tailwind CSS com prefix tw- (mesmo padrao do sistema real) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            prefix: 'tw-',
+            corePlugins: { preflight: false },
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Ubuntu', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ============================================
+           VARIAVEIS DO DESIGN SYSTEM PAGAH
+           Nunca alterar esses valores.
+           ============================================ */
+        :root {
+            --pagah-yellow: #F1E52F;
+            --pagah-dark: #1C1C1C;
+            --pagah-gray: #575756;
+            --pagah-light-gray: #DADADA;
+            --pagah-bg: #F2F2F2;
+            --pagah-white: #FFFFFF;
+            --header-height: 56px;
+            --sidebar-width: 240px;
+            --sidebar-collapsed: 68px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background: var(--pagah-bg);
+            color: var(--pagah-dark);
+            font-size: 14px;
+        }
+
+        /* ============================================
+           HEADER — Barra amarela fixa no topo
+           NUNCA mudar a cor, posicao ou estrutura.
+           ============================================ */
+        .pb-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--pagah-yellow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .pb-header__left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pb-header__logo_link {
+            display: flex;
+            align-items: center;
+        }
+
+        .pb-header__logo_img {
+            height: 34px;
+            width: 34px;
+            border-radius: 8px;
+        }
+
+        .pb-header__nav_right {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .pb-header__icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .pb-header__icon:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .pb-header__icon .material-symbols-rounded {
+            font-size: 24px;
+            color: var(--pagah-dark);
+        }
+
+        /* Botao hamburger (toggle sidebar) */
+        .pb-burger__btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 10px;
+            transition: background 0.2s;
+        }
+
+        .pb-burger__btn:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .pb-burger__btn span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background: var(--pagah-dark);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* Badge de notificacao */
+        .notification-count {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: #EF4444;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        /* ============================================
+           SIDEBAR — Menu lateral BRANCO
+           Background SEMPRE #FFFFFF. NUNCA usar fundo
+           escuro (#1C1C1C) na sidebar.
+           ============================================ */
+        .pb-side_menu {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--header-height));
+            background: var(--pagah-white);
+            border-right: 1px solid #EBEBEB;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s ease;
+            scrollbar-width: none;
+        }
+
+        .pb-side_menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pb-side_menu__list {
+            list-style: none;
+            padding: 8px 0;
+            flex: 1;
+        }
+
+        .pb-side_menu__item {
+            position: relative;
+        }
+
+        .pb-side_menu__link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 11px 20px;
+            color: var(--pagah-gray);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            transition: all 0.2s;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .pb-side_menu__link:hover {
+            color: var(--pagah-dark);
+            background: #F8F8F8;
+        }
+
+        .pb-side_menu__link.active {
+            color: var(--pagah-dark);
+            font-weight: 600;
+        }
+
+        .pb-side_menu__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .pb-side_menu__icon .material-symbols-rounded {
+            font-size: 22px;
+            color: inherit;
+        }
+
+        .pb-side_menu__label {
+            transition: opacity 0.2s;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Chevron para itens com submenu */
+        .has_submenu>.pb-side_menu__link::after {
+            content: 'expand_more';
+            font-family: 'Material Symbols Rounded';
+            font-size: 18px;
+            margin-left: auto;
+            transition: transform 0.3s;
+            color: var(--pagah-gray);
+        }
+
+        .has_submenu.open>.pb-side_menu__link::after {
+            transform: rotate(180deg);
+        }
+
+        /* Submenu */
+        .submenu {
+            list-style: none;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #FAFAFA;
+        }
+
+        .has_submenu.open>.submenu {
+            max-height: 500px;
+        }
+
+        .submenu__item {}
+
+        .submenu__link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 20px 9px 58px;
+            color: var(--pagah-gray);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .submenu__link:hover {
+            color: var(--pagah-dark);
+            background: #F0F0F0;
+        }
+
+        /* App download (rodape da sidebar) */
+        .apps {
+            margin-top: auto;
+            padding: 20px 0 24px;
+            text-align: center;
+        }
+
+        .apps small {
+            font-size: 10px;
+            display: block;
+            text-align: center;
+            margin-bottom: 8px;
+            color: var(--pagah-gray);
+        }
+
+        .apps .app-link {
+            display: inline-block;
+        }
+
+        .apps .app-link img {
+            width: 80%;
+            max-width: 80px;
+        }
+
+        /* ============================================
+           SIDEBAR COMPACTA (estado padrao: fechada)
+           Classe pb-menu--closed no <body> ativa este
+           estado. Ao passar o mouse, expande.
+           ============================================ */
+        .pb-menu--closed .pb-side_menu {
+            width: var(--sidebar-collapsed);
+        }
+
+        .pb-menu--closed .pb-side_menu__label,
+        .pb-menu--closed .has_submenu>.pb-side_menu__link::after,
+        .pb-menu--closed .submenu,
+        .pb-menu--closed .apps small {
+            display: none;
+        }
+
+        /* Hover: expande temporariamente */
+        .pb-menu--closed .pb-side_menu:hover {
+            width: var(--sidebar-width);
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .pb-menu--closed .pb-side_menu:hover .pb-side_menu__label,
+        .pb-menu--closed .pb-side_menu:hover .has_submenu>.pb-side_menu__link::after,
+        .pb-menu--closed .pb-side_menu:hover .apps small {
+            display: inline;
+        }
+
+        /* ============================================
+           CONTEUDO PRINCIPAL
+           Margem esquerda acompanha a sidebar.
+           ============================================ */
+        .pb-main {
+            margin-left: var(--sidebar-width);
+            padding: 24px 32px;
+            padding-top: calc(var(--header-height) + 24px);
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        .pb-menu--closed .pb-main {
+            margin-left: var(--sidebar-collapsed);
+        }
+
+        /* ============================================
+           COMPONENTES REUTILIZAVEIS (Tailwind tw-)
+           Use estes padroes no conteudo principal:
+
+           Card branco:
+             tw-bg-white tw-rounded-xl tw-shadow-sm tw-border tw-border-gray-100 tw-p-6
+
+           Card escuro de destaque:
+             tw-bg-[#1C1C1C] tw-rounded-2xl tw-p-6 tw-text-white
+
+           Header de tabela:
+             tw-bg-[#1C1C1C] tw-text-white
+
+           Badge de status:
+             Aprovado:    tw-bg-green-100 tw-text-green-700 tw-rounded-full tw-px-3 tw-py-1 tw-text-xs tw-font-medium
+             Cancelado:   tw-bg-red-100 tw-text-red-700 tw-rounded-full tw-px-3 tw-py-1 tw-text-xs tw-font-medium
+             Pendente:    tw-bg-yellow-100 tw-text-yellow-700 tw-rounded-full tw-px-3 tw-py-1 tw-text-xs tw-font-medium
+             Processando: tw-bg-blue-100 tw-text-blue-700 tw-rounded-full tw-px-3 tw-py-1 tw-text-xs tw-font-medium
+
+           Botao primario:
+             tw-bg-[#F1E52F] tw-text-[#1C1C1C] tw-font-semibold tw-px-6 tw-py-2.5 tw-rounded-lg hover:tw-brightness-95
+
+           Botao secundario:
+             tw-border tw-border-gray-300 tw-text-gray-600 tw-px-6 tw-py-2.5 tw-rounded-lg hover:tw-bg-gray-50
+           ============================================ */
+    </style>
+
+    <!-- ============================================
+         ESTILOS ESPECIFICOS DA PAGINA
+         ============================================ -->
+    <style>
+        /* Split view layout */
+        .perm-container {
+            display: flex;
+            gap: 24px;
+            height: calc(100vh - var(--header-height) - 48px);
+        }
+
+        /* Painel esquerdo: lista de grupos */
+        .perm-left {
+            width: 300px;
+            background: var(--pagah-white);
+            border-radius: 16px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .perm-left__header {
+            padding: 20px;
+            border-bottom: 1px solid #EBEBEB;
+        }
+
+        .perm-left__title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--pagah-dark);
+            margin-bottom: 16px;
+        }
+
+        .perm-left__list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* Painel direito: detalhes do grupo selecionado */
+        .perm-right {
+            flex: 1;
+            background: var(--pagah-white);
+            border-radius: 16px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* CARDS DE GRUPO */
+        .group-card {
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: #F8F8F8;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .group-card:hover { background: #F0F0F0; }
+        .group-card.active { background: var(--pagah-yellow); }
+
+        .group-card__info { flex: 1; min-width: 0; }
+        .group-card__name {
+            font-size: 14px; font-weight: 600; color: var(--pagah-dark);
+            margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
+        }
+        .group-card__meta {
+            font-size: 11px; color: var(--pagah-gray);
+            display: flex; align-items: center; gap: 4px;
+        }
+        .group-card.active .group-card__meta { color: rgba(28, 28, 28, 0.7); }
+
+        .group-card__edit {
+            width: 32px; height: 32px; border-radius: 8px; border: none;
+            background: transparent; cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+            transition: background 0.2s; color: var(--pagah-gray); flex-shrink: 0;
+        }
+        .group-card__edit:hover { background: rgba(0, 0, 0, 0.08); }
+        .group-card.active .group-card__edit { color: var(--pagah-dark); }
+        .group-card.active .group-card__edit:hover { background: rgba(0, 0, 0, 0.1); }
+
+        /* Badges de nível */
+        .badge-level {
+            font-size: 10px; font-weight: 600; padding: 2px 8px;
+            border-radius: 20px; white-space: nowrap;
+        }
+        .badge-level--total { background: #DCFCE7; color: #166534; }
+        .badge-level--quase-total { background: #D1FAE5; color: #065F46; }
+        .badge-level--parcial { background: #FEF9C3; color: #854D0E; }
+        .badge-level--restrito { background: #FEE2E2; color: #991B1B; }
+
+        /* SISTEMA DE ABAS */
+        .perm-tabs {
+            display: flex;
+            border-bottom: 2px solid #EBEBEB;
+            padding: 0 24px;
+        }
+        .perm-tab {
+            padding: 14px 20px;
+            font-size: 14px;
+            color: #999;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-family: 'Ubuntu', sans-serif;
+        }
+        .perm-tab:hover { color: var(--pagah-dark); }
+        .perm-tab.active {
+            color: var(--pagah-dark);
+            font-weight: 600;
+            border-bottom-color: var(--pagah-yellow);
+        }
+        .perm-tab__count {
+            font-size: 11px;
+            background: #EBEBEB;
+            color: var(--pagah-gray);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .perm-tab.active .perm-tab__count {
+            background: var(--pagah-yellow);
+            color: var(--pagah-dark);
+        }
+        .perm-tab-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+        }
+        .perm-right__header {
+            padding: 20px 24px 0;
+        }
+        .perm-right__title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--pagah-dark);
+            margin-bottom: 4px;
+        }
+
+        /* SEÇÕES DE PERMISSÃO */
+        .perm-section { margin-bottom: 8px; }
+
+        .perm-section__header {
+            background: #FAFAF0;
+            color: var(--pagah-dark);
+            border: 1px solid #E8E4A0;
+            padding: 10px 14px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: border-radius 0.2s, background 0.2s;
+            user-select: none;
+        }
+        .perm-section__header:hover { background: #F5F0C0; }
+        .perm-section.open .perm-section__header {
+            border-radius: 8px 8px 0 0;
+            border-bottom-color: #E8E4A0;
+        }
+
+        .perm-section__icon { font-size: 20px; display: flex; align-items: center; color: var(--pagah-dark); }
+        .perm-section__name { font-size: 13px; font-weight: 600; flex: 1; color: var(--pagah-dark); }
+        .perm-section__counter {
+            background: var(--pagah-dark); color: var(--pagah-yellow);
+            font-size: 10px; font-weight: 600; padding: 3px 10px;
+            border-radius: 20px; white-space: nowrap;
+        }
+        .perm-section__chevron {
+            font-size: 20px; transition: transform 0.3s; display: flex; align-items: center;
+        }
+        .perm-section.open .perm-section__chevron { transform: rotate(180deg); }
+
+        /* Toggle switch */
+        .perm-toggle {
+            position: relative; width: 36px; height: 20px; flex-shrink: 0;
+        }
+        .perm-toggle input {
+            opacity: 0; width: 0; height: 0; position: absolute;
+        }
+        .perm-toggle__slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--pagah-light-gray);
+            border-radius: 20px; transition: background 0.3s;
+        }
+        .perm-toggle__slider::before {
+            content: ''; position: absolute;
+            width: 16px; height: 16px; left: 2px; bottom: 2px;
+            background: white; border-radius: 50%; transition: transform 0.3s;
+        }
+        .perm-toggle input:checked + .perm-toggle__slider { background: var(--pagah-yellow); }
+        .perm-toggle input:checked + .perm-toggle__slider::before { transform: translateX(16px); }
+
+        /* Header toggle - usa o padrão normal (fundo claro) */
+        .perm-section__header .perm-toggle__slider { background: var(--pagah-light-gray); }
+
+        /* Permission items list */
+        .perm-section__body {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #FAFAFA;
+            border: 1px solid #EBEBEB; border-top: 0;
+            border-radius: 0 0 8px 8px;
+        }
+        .perm-section.open .perm-section__body { max-height: 2000px; }
+
+        .perm-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px; border-bottom: 1px solid #F0F0F0;
+            font-size: 13px; color: var(--pagah-gray);
+        }
+        .perm-item:last-child { border-bottom: none; }
+        .perm-item--child { padding-left: 32px; }
+
+        .perm-item__name {
+            flex: 1; display: flex; align-items: center; gap: 6px;
+        }
+        .perm-item__expand {
+            cursor: pointer; display: flex; align-items: center;
+            color: var(--pagah-gray); font-size: 18px; transition: transform 0.2s;
+        }
+        .perm-item__expand.open { transform: rotate(180deg); }
+
+        /* ABA DE USUÁRIOS */
+        .users-search { position: relative; margin-bottom: 16px; }
+        .users-search__icon {
+            position: absolute; left: 12px; top: 50%;
+            transform: translateY(-50%); font-size: 20px; color: var(--pagah-gray);
+        }
+        .users-search__input {
+            width: 100%; padding: 10px 12px 10px 40px;
+            border: 1px solid var(--pagah-light-gray); border-radius: 8px;
+            font-size: 14px; font-family: 'Ubuntu', sans-serif;
+            color: var(--pagah-dark); outline: none; transition: border-color 0.2s;
+        }
+        .users-search__input:focus { border-color: var(--pagah-yellow); }
+
+        .users-section-label {
+            font-size: 11px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--pagah-gray);
+            padding: 8px 0 4px; margin-top: 8px;
+        }
+        .users-section-label:first-of-type { margin-top: 0; }
+
+        .user-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 0; border-bottom: 1px solid #F0F0F0;
+        }
+        .user-item:last-child { border-bottom: none; }
+
+        .user-item__avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; color: white; flex-shrink: 0;
+        }
+        .user-item__name { font-size: 14px; color: var(--pagah-dark); }
+        .user-item__email { font-size: 12px; color: var(--pagah-gray); }
+
+        /* SCROLLBAR CUSTOMIZADA */
+        .perm-left__list::-webkit-scrollbar,
+        .perm-tab-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .perm-left__list::-webkit-scrollbar-track,
+        .perm-tab-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .perm-left__list::-webkit-scrollbar-thumb,
+        .perm-tab-content::-webkit-scrollbar-thumb {
+            background: var(--pagah-light-gray);
+            border-radius: 3px;
+        }
+        .perm-left__list::-webkit-scrollbar-thumb:hover,
+        .perm-tab-content::-webkit-scrollbar-thumb:hover {
+            background: var(--pagah-gray);
+        }
+    </style>
+</head>
+
+<body class="pb-body pb-pagah pb-menu--closed">
+
+    <!-- ============================================================
+         HEADER — Barra amarela fixa no topo (OBRIGATORIO)
+         NAO ALTERAR a estrutura, cores ou elementos do header.
+         ============================================================ -->
+    <header class="pb-header">
+        <div class="pb-header__left">
+            <a href="/home" class="pb-header__logo_link">
+                <!-- Ajuste o caminho relativo ao SVG conforme a localizacao do arquivo -->
+                <img src="../../assets/icon/svg/icon-pagah-yellow-rounded.svg" alt="Pagah" class="pb-header__logo_img">
+            </a>
+            <button class="pb-burger__btn" type="button"
+                onclick="document.body.classList.toggle('pb-menu--closed')">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <div class="pb-header__nav_right">
+            <button class="pb-header__icon" type="button" title="Notificacoes">
+                <span class="material-symbols-rounded">notifications_active</span>
+                <span class="notification-count">4</span>
+            </button>
+            <button class="pb-header__icon" type="button" title="Ajuda">
+                <span class="material-symbols-rounded">help</span>
+            </button>
+            <button class="pb-header__icon" type="button" title="Perfil">
+                <span class="material-symbols-rounded">person</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         SIDEBAR — Menu lateral BRANCO (OBRIGATORIO)
+         NAO ALTERAR: cor de fundo, itens do menu, icones ou ordem.
+         Todos os 11 itens devem estar presentes em TODAS as paginas.
+         ============================================================ -->
+    <aside class="pb-side_menu">
+        <ul class="pb-side_menu__list">
+
+            <!-- 1. Dashboard -->
+            <li class="pb-side_menu__item">
+                <a href="/home" class="pb-side_menu__link" title="Dashboard">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">home</span></span>
+                    <span class="pb-side_menu__label">Dashboard</span>
+                </a>
+            </li>
+
+            <!-- 2. Relatorios (com submenu) -->
+            <li class="pb-side_menu__item has_submenu">
+                <a class="pb-side_menu__link" title="Relatórios">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">monitoring</span></span>
+                    <span class="pb-side_menu__label">Relatórios</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu__item"><a href="/relatorios/v2" class="submenu__link">Vendas</a></li>
+                    <li class="submenu__item"><a href="/relatorios-abandonos/v2" class="submenu__link">Abandonos</a></li>
+                    <li class="submenu__item"><a href="/estoque/v2" class="submenu__link">Estoque</a></li>
+                    <li class="submenu__item"><a href="/relatorios/utms" class="submenu__link">Relatório Utms</a></li>
+                </ul>
+            </li>
+
+            <!-- 3. Produtos -->
+            <li class="pb-side_menu__item">
+                <a href="/produtos/lista" class="pb-side_menu__link" title="Produtos">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">box_add</span></span>
+                    <span class="pb-side_menu__label">Produtos</span>
+                </a>
+            </li>
+
+            <!-- 4. Afiliados (com submenu) -->
+            <li class="pb-side_menu__item has_submenu">
+                <a class="pb-side_menu__link" title="Afiliados">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">handshake</span></span>
+                    <span class="pb-side_menu__label">Afiliados</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu__item"><a href="/afiliados/listar" class="submenu__link">Gestão de Afiliados</a></li>
+                    <li class="submenu__item"><a href="/afiliados/gestao" class="submenu__link">Gestão de Produtos</a></li>
+                    <li class="submenu__item"><a href="/afiliados/relatorios" class="submenu__link">Relatórios</a></li>
+                </ul>
+            </li>
+
+            <!-- 5. Vendas -->
+            <li class="pb-side_menu__item">
+                <a href="/pedidos" class="pb-side_menu__link" title="Vendas">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">paid</span></span>
+                    <span class="pb-side_menu__label">Vendas</span>
+                </a>
+            </li>
+
+            <!-- 6. Vendas Marketplace -->
+            <li class="pb-side_menu__item">
+                <a href="/pedidos-marketplace" class="pb-side_menu__link" title="Vendas Marketplace">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">storefront</span></span>
+                    <span class="pb-side_menu__label">Vendas Marketplace</span>
+                </a>
+            </li>
+
+            <!-- 7. Suporte -->
+            <li class="pb-side_menu__item">
+                <a href="/suporte-index" class="pb-side_menu__link" title="Suporte">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">support_agent</span></span>
+                    <span class="pb-side_menu__label">Suporte</span>
+                </a>
+            </li>
+
+            <!-- 8. Conversao (com submenu) -->
+            <li class="pb-side_menu__item has_submenu">
+                <a class="pb-side_menu__link" title="Conversão">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">control_camera</span></span>
+                    <span class="pb-side_menu__label">Conversão</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu__item"><a href="/pixel_api" class="submenu__link">Pixel</a></li>
+                    <li class="submenu__item"><a href="/listas-sms-novas" class="submenu__link">Listas</a></li>
+                    <li class="submenu__item"><a href="/campanhas" class="submenu__link">ENVIO$</a></li>
+                    <li class="submenu__item"><a href="/funis" class="submenu__link">Funil de Eventos</a></li>
+                </ul>
+            </li>
+
+            <!-- 9. Ferramentas (com submenu) -->
+            <li class="pb-side_menu__item has_submenu">
+                <a class="pb-side_menu__link" title="Ferramentas">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">manufacturing</span></span>
+                    <span class="pb-side_menu__label">Ferramentas</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu__item"><a href="/webhooks-eventos-2" class="submenu__link">Webhooks</a></li>
+                    <li class="submenu__item"><a href="/integracoes" class="submenu__link">Integrações</a></li>
+                </ul>
+            </li>
+
+            <!-- 10. Saques -->
+            <li class="pb-side_menu__item">
+                <a href="/saque" class="pb-side_menu__link" title="Saques">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">receipt_long</span></span>
+                    <span class="pb-side_menu__label">Saques</span>
+                </a>
+            </li>
+
+            <!-- 11. Configuracoes (com submenu) — ATIVO -->
+            <li class="pb-side_menu__item has_submenu">
+                <a class="pb-side_menu__link active" title="Configurações">
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">settings</span></span>
+                    <span class="pb-side_menu__label">Configurações</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu__item"><a href="/usuarios" class="submenu__link">Usuários</a></li>
+                    <li class="submenu__item"><a href="/notas" class="submenu__link">Notas</a></li>
+                </ul>
+            </li>
+
+        </ul>
+
+        <!-- App download (rodape fixo da sidebar) -->
+        <div class="apps">
+            <small>Baixe nosso App</small>
+            <a href="https://apps.apple.com/app/id6743241219" target="_blank" class="app-link">
+                <img src="https://app.pagah.com/images/appstore.png" alt="Baixe nosso App">
+            </a>
+        </div>
+    </aside>
+
+    <!-- ============================================================
+         CONTEUDO PRINCIPAL
+         ============================================================ -->
+    <main class="pb-main">
+
+        <div class="perm-container">
+
+            <!-- Painel esquerdo: lista de grupos -->
+            <div class="perm-left">
+                <div class="perm-left__header">
+                    <p class="perm-left__title">Grupos de Permissões</p>
+                    <button class="tw-bg-[#F1E52F] tw-text-[#1C1C1C] tw-font-semibold tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm tw-w-full hover:tw-brightness-95 tw-transition tw-flex tw-items-center tw-justify-center tw-gap-2">
+                        <span class="material-symbols-rounded" style="font-size:18px;">add</span>
+                        Novo Grupo
+                    </button>
+                </div>
+                <div class="perm-left__list" id="groupList">
+                    <!-- Lista de grupos sera carregada aqui -->
+                </div>
+            </div>
+
+            <!-- Painel direito: detalhes do grupo selecionado -->
+            <div class="perm-right" id="rightPanel">
+                <div class="perm-right__header">
+                    <h2 class="perm-right__title" id="rightPanelTitle">Permissões — ADMIN</h2>
+                </div>
+                <div class="perm-tabs">
+                    <button class="perm-tab active" onclick="switchTab('permissions')" id="tabPermissions">
+                        <span class="material-symbols-rounded" style="font-size:18px;">shield</span>
+                        Permissões
+                    </button>
+                    <button class="perm-tab" onclick="switchTab('users')" id="tabUsers">
+                        <span class="material-symbols-rounded" style="font-size:18px;">group</span>
+                        Usuários
+                        <span class="perm-tab__count" id="tabUsersCount">5</span>
+                    </button>
+                </div>
+                <div class="perm-tab-content" id="tabContent">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ============================================================
+         SCRIPTS
+         Toggle de submenus. Manter em todas as paginas.
+         ============================================================ -->
+    <script>
+        // Toggle submenus ao clicar
+        document.querySelectorAll('.has_submenu > .pb-side_menu__link').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                this.parentElement.classList.toggle('open');
+            });
+        });
+    </script>
+
+    <script>
+        // DADOS MOCKADOS
+        const TOTAL_PERMISSIONS = 90;
+
+        const groups = [
+            { id: 1, name: 'ADMIN', users: 5, activePerms: 87 },
+            { id: 2, name: 'Comercial', users: 8, activePerms: 62 },
+            { id: 3, name: 'Gabriel DEV', users: 1, activePerms: 85 },
+            { id: 4, name: 'Jeferson', users: 1, activePerms: 45 },
+            { id: 5, name: 'Julio', users: 1, activePerms: 22 },
+            { id: 6, name: 'Luis', users: 1, activePerms: 38 },
+            { id: 7, name: 'Suporte', users: 12, activePerms: 15 },
+        ];
+
+        const permissionSections = [
+            {
+                id: 'dashboard', name: 'Dashboard', icon: 'home',
+                permissions: [
+                    { key: 'dashboard_admin', name: 'Dashboard Admin' },
+                    { key: 'dashboard_terceiros', name: 'Dashboard Terceiros' },
+                    { key: 'dashboard_vendedor', name: 'Dashboard Vendedor' },
+                    { key: 'dashboard_cod', name: 'Dashboard Cash on Delivery' },
+                ]
+            },
+            {
+                id: 'relatorios', name: 'Relatórios', icon: 'monitoring',
+                permissions: [
+                    { key: 'rel_callcenter', name: 'CallCenter' },
+                    { key: 'rel_comparativo', name: 'Comparativo Vendedores' },
+                    { key: 'rel_marketplace', name: 'Marketplace Relatórios' },
+                    { key: 'rel_atendimentos', name: 'Relatório Atendimentos Leads' },
+                    { key: 'rel_botconversa', name: 'Relatório mensagens BotConversa' },
+                    { key: 'rel_tipos_atend', name: 'Relatório Tipos de Atendimentos' },
+                ]
+            },
+            {
+                id: 'produtos', name: 'Produtos', icon: 'box_add',
+                permissions: [
+                    { key: 'produtos_v', name: 'Produtos', children: [
+                        { key: 'produtos_u', name: 'Editar Produto' },
+                        { key: 'produtos_i', name: 'Incluir Produto' },
+                    ]},
+                    { key: 'kits_v', name: 'Kits', children: [
+                        { key: 'kits_u', name: 'Editar Kit' },
+                        { key: 'kits_i', name: 'Incluir Kit' },
+                    ]},
+                    { key: 'lojas_v', name: 'Lojas', children: [
+                        { key: 'lojas_u', name: 'Editar Loja' },
+                        { key: 'lojas_i', name: 'Incluir Loja' },
+                    ]},
+                    { key: 'cadastro', name: 'Cadastro' },
+                ]
+            },
+            {
+                id: 'afiliados', name: 'Afiliados', icon: 'handshake',
+                permissions: [
+                    { key: 'afiliados_produtos', name: 'Afiliados Produtos' },
+                    { key: 'modulo_afiliados', name: 'Módulo Afiliados' },
+                    { key: 'btn_x1', name: 'Botão/Recurso X1' },
+                ]
+            },
+            {
+                id: 'vendas', name: 'Vendas', icon: 'paid',
+                permissions: [
+                    { key: 'alterar_produtos_pedido', name: 'Alterar Produtos do Pedido' },
+                    { key: 'alterar_vendedor', name: 'Alterar Vendedor' },
+                    { key: 'aprovar_pedido', name: 'Aprovar Pedido' },
+                    { key: 'aprovar_estorno', name: 'Aprovar Solicitações de Estorno' },
+                    { key: 'exportar_ip', name: 'Exportar IP' },
+                    { key: 'exportar_telefone', name: 'Exportar Telefone' },
+                    { key: 'marcar_pix', name: 'Marcar Pix Pago' },
+                    { key: 'pedidos_origem', name: 'Pedidos Origem' },
+                    { key: 'pedidos_upsell', name: 'Pedidos Upsell' },
+                    { key: 'resumo_pedido', name: 'Resumo Pedido' },
+                    { key: 'solicitar_estorno', name: 'Solicitar Estorno' },
+                    { key: 'vincular_pedidos', name: 'Vincular Pedidos' },
+                    { key: 'visualizar_src', name: 'Visualizar SRC' },
+                ]
+            },
+            {
+                id: 'vendas_marketplace', name: 'Vendas Marketplace', icon: 'storefront',
+                permissions: [
+                    { key: 'marketplace_vendas', name: 'Visualizar Vendas Marketplace' },
+                    { key: 'marketplace_gestao', name: 'Gestão de Marketplace' },
+                ]
+            },
+            {
+                id: 'suporte', name: 'Suporte', icon: 'support_agent',
+                permissions: [
+                    { key: 'suporte_aprovar', name: 'Aprovar Pedidos' },
+                    { key: 'suporte_bloqueios', name: 'Bloqueios emissão de nota' },
+                    { key: 'suporte_boleto_config', name: 'Configurações Boleto Bancário' },
+                    { key: 'suporte_comprovante', name: 'Configurações Comprovante Compra' },
+                    { key: 'suporte_exp_abandonos', name: 'Exportação de Abandonos', children: [
+                        { key: 'suporte_exp_abandonos_30', name: 'Relatórios 30' },
+                        { key: 'suporte_exp_abandonos_90', name: 'Relatórios 90' },
+                        { key: 'suporte_exp_abandonos_90p', name: 'Relatórios 90+' },
+                    ]},
+                    { key: 'suporte_exp_pedidos', name: 'Exportação de Pedidos', children: [
+                        { key: 'suporte_exp_pedidos_30', name: 'Relatórios 30' },
+                        { key: 'suporte_exp_pedidos_90', name: 'Relatórios 90' },
+                        { key: 'suporte_exp_pedidos_90p', name: 'Relatórios 90+' },
+                    ]},
+                    { key: 'suporte_notas', name: 'Notas Visualizar', children: [
+                        { key: 'suporte_notas_atualizar', name: 'Atualizar Notas' },
+                        { key: 'suporte_notas_cancelar', name: 'Cancelar Notas' },
+                    ]},
+                    { key: 'suporte_estorno', name: 'Solicitações de estorno' },
+                    { key: 'suporte_produtos_extras', name: 'Solicitações de produtos extras' },
+                ]
+            },
+            {
+                id: 'conversao', name: 'Conversão', icon: 'control_camera',
+                permissions: [
+                    { key: 'pixel_v', name: 'Pixel', children: [
+                        { key: 'pixel_u', name: 'Editar Pixel' },
+                        { key: 'pixel_i', name: 'Incluir Pixel' },
+                        { key: 'pixel_d', name: 'Deletar Pixel' },
+                    ]},
+                    { key: 'campanhas', name: 'Campanhas' },
+                    { key: 'campanhas_emails', name: 'Campanhas Emails' },
+                    { key: 'campanhas_quiz', name: 'Campanhas Quiz' },
+                    { key: 'listas_sms', name: 'Listas SMS', children: [
+                        { key: 'listas_sms_exportar', name: 'Exportar Lista' },
+                    ]},
+                    { key: 'listas_email', name: 'Listas Email', children: [
+                        { key: 'listas_email_exportar', name: 'Exportar Lista' },
+                    ]},
+                    { key: 'funil_agendamentos', name: 'Funil SMS de Agendamentos' },
+                    { key: 'funil_recuperacao', name: 'Funil SMS de Recuperação' },
+                    { key: 'funil_eventos', name: 'Funil SMS/Emails de Eventos' },
+                    { key: 'bloqueio_celulares', name: 'Bloqueio de Celulares' },
+                    { key: 'listas_sms_analise', name: 'Listas SMS - Análise' },
+                    { key: 'listas_sms_categorias', name: 'Listas SMS Categorias' },
+                    { key: 'operadoras_sms', name: 'Operadoras de SMS' },
+                    { key: 'planejamento_sms', name: 'Planejamento SMS' },
+                    { key: 'sms_clicks', name: 'SMS Clicks' },
+                ]
+            },
+            {
+                id: 'ferramentas', name: 'Ferramentas', icon: 'manufacturing',
+                permissions: [
+                    { key: 'webhooks', name: 'Webhooks' },
+                    { key: 'integracoes', name: 'Integrações' },
+                ]
+            },
+            {
+                id: 'configuracoes', name: 'Configurações', icon: 'settings',
+                permissions: [
+                    { key: 'usuarios_v', name: 'Usuários', children: [
+                        { key: 'usuarios_u', name: 'Editar Usuário' },
+                        { key: 'usuarios_i', name: 'Incluir Usuário' },
+                        { key: 'usuarios_d', name: 'Deletar Usuário' },
+                    ]},
+                    { key: 'usuarios_permissoes', name: 'Grupos de Permissões' },
+                    { key: 'chamada_gateway', name: 'Chamada Gateway' },
+                    { key: 'clientes_v', name: 'Clientes' },
+                    { key: 'visualizar_src_cliente', name: 'Visualizar SRC Cliente' },
+                ]
+            },
+        ];
+
+        // Permission state per group (mock - random based on activePerms)
+        const groupPermissions = {};
+        groups.forEach(g => {
+            const allKeys = [];
+            permissionSections.forEach(s => {
+                s.permissions.forEach(p => {
+                    allKeys.push(p.key);
+                    if (p.children) p.children.forEach(c => allKeys.push(c.key));
+                });
+            });
+            const permsState = {};
+            const shuffled = [...allKeys].sort(() => Math.random() - 0.5);
+            const activeCount = Math.round((g.activePerms / TOTAL_PERMISSIONS) * allKeys.length);
+            shuffled.forEach((key, i) => {
+                permsState[key] = i < activeCount;
+            });
+            groupPermissions[g.id] = permsState;
+        });
+
+        const allUsers = [
+            { id: 1, name: 'Otavio Linden', email: 'otavio@pagah.com', color: '#F1E52F', textColor: '#1C1C1C' },
+            { id: 2, name: 'Jeferson Silva', email: 'jeferson@pagah.com', color: '#1C1C1C', textColor: '#fff' },
+            { id: 3, name: 'Gabriel Rodrigues', email: 'gabriel@pagah.com', color: '#575756', textColor: '#fff' },
+            { id: 4, name: 'Luis Fernando', email: 'luis@pagah.com', color: '#3B82F6', textColor: '#fff' },
+            { id: 5, name: 'Julio Cesar', email: 'julio@pagah.com', color: '#8B5CF6', textColor: '#fff' },
+            { id: 6, name: 'Maria Santos', email: 'maria@pagah.com', color: '#22C55E', textColor: '#fff' },
+            { id: 7, name: 'Carlos Oliveira', email: 'carlos@pagah.com', color: '#EF4444', textColor: '#fff' },
+            { id: 8, name: 'Ana Paula Costa', email: 'ana@pagah.com', color: '#F97316', textColor: '#fff' },
+            { id: 9, name: 'Ricardo Mendes', email: 'ricardo@pagah.com', color: '#1C1C1C', textColor: '#fff' },
+            { id: 10, name: 'Fernanda Lima', email: 'fernanda@pagah.com', color: '#575756', textColor: '#fff' },
+            { id: 11, name: 'Pedro Henrique', email: 'pedro@pagah.com', color: '#3B82F6', textColor: '#fff' },
+            { id: 12, name: 'Camila Souza', email: 'camila@pagah.com', color: '#8B5CF6', textColor: '#fff' },
+        ];
+
+        const groupUsers = {
+            1: [1, 2, 3, 4, 5],
+            2: [2, 4, 5, 6, 7, 8, 9, 10],
+            3: [3],
+            4: [2],
+            5: [5],
+            6: [4],
+            7: [2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 3],
+        };
+
+        function getLevelBadge(activePerms) {
+            const pct = (activePerms / TOTAL_PERMISSIONS) * 100;
+            if (pct >= 90) return { label: 'Total', css: 'badge-level--total' };
+            if (pct >= 70) return { label: 'Quase total', css: 'badge-level--quase-total' };
+            if (pct >= 30) return { label: 'Parcial', css: 'badge-level--parcial' };
+            return { label: 'Restrito', css: 'badge-level--restrito' };
+        }
+
+        let selectedGroupId = 1;
+        const openSections = new Set();
+
+        function renderGroups() {
+            const list = document.getElementById('groupList');
+            list.innerHTML = groups.map(g => {
+                const badge = getLevelBadge(g.activePerms);
+                const isActive = g.id === selectedGroupId;
+                return `
+                    <div class="group-card ${isActive ? 'active' : ''}" onclick="selectGroup(${g.id})">
+                        <div class="group-card__info">
+                            <div class="group-card__name">
+                                ${g.name}
+                                <span class="badge-level ${badge.css}">${badge.label}</span>
+                            </div>
+                            <div class="group-card__meta">
+                                <span class="material-symbols-rounded" style="font-size:14px;">group</span>
+                                ${g.users} usuário${g.users !== 1 ? 's' : ''}
+                            </div>
+                        </div>
+                        <button class="group-card__edit" onclick="event.stopPropagation();" title="Editar nome">
+                            <span class="material-symbols-rounded" style="font-size:18px;">edit</span>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectGroup(id) {
+            selectedGroupId = id;
+            renderGroups();
+            renderRightPanel();
+        }
+
+        let activeTab = 'permissions';
+
+        function switchTab(tab) {
+            activeTab = tab;
+            document.getElementById('tabPermissions').classList.toggle('active', tab === 'permissions');
+            document.getElementById('tabUsers').classList.toggle('active', tab === 'users');
+            renderTabContent();
+        }
+
+        function renderRightPanel() {
+            const group = groups.find(g => g.id === selectedGroupId);
+            document.getElementById('rightPanelTitle').textContent = 'Permissões — ' + group.name;
+            document.getElementById('tabUsersCount').textContent = group.users;
+            renderTabContent();
+        }
+
+        function renderTabContent() {
+            const content = document.getElementById('tabContent');
+            if (activeTab === 'permissions') {
+                renderPermissionsTab(content);
+            } else {
+                renderUsersTab(content);
+            }
+        }
+
+        function renderPermissionsTab(container) {
+            const perms = groupPermissions[selectedGroupId];
+
+            container.innerHTML = permissionSections.map(section => {
+                const flatKeys = [];
+                section.permissions.forEach(p => {
+                    flatKeys.push(p.key);
+                    if (p.children) p.children.forEach(c => flatKeys.push(c.key));
+                });
+                const activeCount = flatKeys.filter(k => perms[k]).length;
+                const totalCount = flatKeys.length;
+                const allActive = activeCount === totalCount;
+
+                return `
+                    <div class="perm-section" id="section-${section.id}">
+                        <div class="perm-section__header" onclick="toggleSection('${section.id}')">
+                            <span class="perm-section__icon material-symbols-rounded">${section.icon}</span>
+                            <span class="perm-section__name">${section.name}</span>
+                            <span class="perm-section__counter">${activeCount} de ${totalCount}</span>
+                            <label class="perm-toggle" onclick="event.stopPropagation();">
+                                <input type="checkbox" ${allActive ? 'checked' : ''} onchange="toggleAllSection('${section.id}', this.checked)">
+                                <span class="perm-toggle__slider"></span>
+                            </label>
+                            <span class="perm-section__chevron material-symbols-rounded">expand_more</span>
+                        </div>
+                        <div class="perm-section__body">
+                            ${renderPermissionItems(section.permissions, perms)}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Restore open sections
+            openSections.forEach(id => {
+                const el = document.getElementById('section-' + id);
+                if (el) el.classList.add('open');
+            });
+        }
+
+        function renderPermissionItems(permissions, perms) {
+            return permissions.map(p => {
+                const hasChildren = p.children && p.children.length > 0;
+                let html = `
+                    <div class="perm-item">
+                        <div class="perm-item__name">
+                            ${hasChildren ? '<span class="perm-item__expand material-symbols-rounded" onclick="toggleSubItems(this)">expand_more</span>' : ''}
+                            ${p.name}
+                        </div>
+                        <label class="perm-toggle">
+                            <input type="checkbox" ${perms[p.key] ? 'checked' : ''} onchange="togglePerm('${p.key}', this.checked)">
+                            <span class="perm-toggle__slider"></span>
+                        </label>
+                    </div>
+                `;
+                if (hasChildren) {
+                    html += '<div class="perm-subitems" style="display:none;">';
+                    html += p.children.map(c => `
+                        <div class="perm-item perm-item--child">
+                            <div class="perm-item__name">${c.name}</div>
+                            <label class="perm-toggle">
+                                <input type="checkbox" ${perms[c.key] ? 'checked' : ''} onchange="togglePerm('${c.key}', this.checked)">
+                                <span class="perm-toggle__slider"></span>
+                            </label>
+                        </div>
+                    `).join('');
+                    html += '</div>';
+                }
+                return html;
+            }).join('');
+        }
+
+        function toggleSection(sectionId) {
+            const el = document.getElementById('section-' + sectionId);
+            el.classList.toggle('open');
+            if (el.classList.contains('open')) {
+                openSections.add(sectionId);
+            } else {
+                openSections.delete(sectionId);
+            }
+        }
+
+        function toggleAllSection(sectionId, checked) {
+            const perms = groupPermissions[selectedGroupId];
+            const section = permissionSections.find(s => s.id === sectionId);
+            section.permissions.forEach(p => {
+                perms[p.key] = checked;
+                if (p.children) p.children.forEach(c => { perms[c.key] = checked; });
+            });
+            updateGroupActiveCount();
+            renderPermissionsTab(document.getElementById('tabContent'));
+            renderGroups();
+        }
+
+        function togglePerm(key, checked) {
+            groupPermissions[selectedGroupId][key] = checked;
+            updateGroupActiveCount();
+            renderPermissionsTab(document.getElementById('tabContent'));
+            renderGroups();
+        }
+
+        function toggleSubItems(chevron) {
+            const subitems = chevron.closest('.perm-item').nextElementSibling;
+            if (subitems && subitems.classList.contains('perm-subitems')) {
+                const isVisible = subitems.style.display !== 'none';
+                subitems.style.display = isVisible ? 'none' : 'block';
+                chevron.classList.toggle('open', !isVisible);
+            }
+        }
+
+        function updateGroupActiveCount() {
+            const perms = groupPermissions[selectedGroupId];
+            const allKeys = [];
+            permissionSections.forEach(s => {
+                s.permissions.forEach(p => {
+                    allKeys.push(p.key);
+                    if (p.children) p.children.forEach(c => allKeys.push(c.key));
+                });
+            });
+            const activeCount = allKeys.filter(k => perms[k]).length;
+            const group = groups.find(g => g.id === selectedGroupId);
+            group.activePerms = Math.round((activeCount / allKeys.length) * TOTAL_PERMISSIONS);
+        }
+
+        function renderUsersTab(container) {
+            const linkedIds = groupUsers[selectedGroupId] || [];
+            container.innerHTML = `
+                <div class="users-search">
+                    <span class="users-search__icon material-symbols-rounded">search</span>
+                    <input type="text" class="users-search__input" placeholder="Buscar usuário..." oninput="filterUsers(this.value)">
+                </div>
+                <div id="usersList">
+                    ${renderUsersList(linkedIds, '')}
+                </div>
+            `;
+        }
+
+        function renderUsersList(linkedIds, filter) {
+            const filterLower = filter.toLowerCase();
+            const linked = allUsers.filter(u => linkedIds.includes(u.id) && u.name.toLowerCase().includes(filterLower));
+            const available = allUsers.filter(u => !linkedIds.includes(u.id) && u.name.toLowerCase().includes(filterLower));
+            let html = '';
+            if (linked.length > 0) {
+                html += '<div class="users-section-label">Vinculados (' + linked.length + ')</div>';
+                html += linked.map(u => renderUserItem(u, true)).join('');
+            }
+            if (available.length > 0) {
+                html += '<div class="users-section-label">Disponíveis (' + available.length + ')</div>';
+                html += available.map(u => renderUserItem(u, false)).join('');
+            }
+            if (linked.length === 0 && available.length === 0) {
+                html += '<p style="color:#999;text-align:center;padding:20px;">Nenhum usuário encontrado</p>';
+            }
+            return html;
+        }
+
+        function renderUserItem(user, isLinked) {
+            const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            return `
+                <div class="user-item">
+                    <div class="user-item__avatar" style="background:${user.color};color:${user.textColor};">${initials}</div>
+                    <div style="flex:1;">
+                        <div class="user-item__name">${user.name}</div>
+                        <div class="user-item__email">${user.email}</div>
+                    </div>
+                    <label class="perm-toggle">
+                        <input type="checkbox" ${isLinked ? 'checked' : ''} onchange="toggleUser(${user.id}, this.checked)">
+                        <span class="perm-toggle__slider"></span>
+                    </label>
+                </div>
+            `;
+        }
+
+        function toggleUser(userId, linked) {
+            const ids = groupUsers[selectedGroupId];
+            if (linked && !ids.includes(userId)) {
+                ids.push(userId);
+            } else if (!linked) {
+                const idx = ids.indexOf(userId);
+                if (idx > -1) ids.splice(idx, 1);
+            }
+            const group = groups.find(g => g.id === selectedGroupId);
+            group.users = ids.length;
+            document.getElementById('tabUsersCount').textContent = ids.length;
+            renderGroups();
+            renderUsersTab(document.getElementById('tabContent'));
+        }
+
+        function filterUsers(query) {
+            const linkedIds = groupUsers[selectedGroupId] || [];
+            document.getElementById('usersList').innerHTML = renderUsersList(linkedIds, query);
+        }
+
+        // Init
+        renderGroups();
+        renderRightPanel();
+    </script>
+
+</body>
+
+</html>
