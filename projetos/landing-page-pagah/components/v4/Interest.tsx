@@ -7,7 +7,7 @@ export default function V4Interest() {
   return (
     <section
       id="juros"
-      className="py-24 md:py-32"
+      className="py-16 md:py-24"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
@@ -15,7 +15,8 @@ export default function V4Interest() {
           <span
             className="v4-mono uppercase mb-4 inline-block"
             style={{
-              fontSize: "11px",
+              fontSize: "12px",
+              fontWeight: 600,
               letterSpacing: "0.18em",
               color: "var(--text-secondary)",
             }}

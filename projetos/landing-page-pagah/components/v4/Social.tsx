@@ -18,7 +18,7 @@ export default function V4Social() {
   return (
     <section
       id="depoimentos"
-      className="py-24 md:py-32"
+      className="py-16 md:py-24"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
@@ -28,7 +28,8 @@ export default function V4Social() {
             className="v4-serif mb-5 inline-block"
             style={{
               fontStyle: "italic",
-              fontSize: "16px",
+              fontSize: "18px",
+              fontWeight: 500,
               color: "var(--text-secondary)",
               letterSpacing: "-0.005em",
             }}

@@ -39,7 +39,7 @@ export default function V4ThreePoints() {
   return (
     <section
       id="solucoes"
-      className="py-24 md:py-32"
+      className="py-16 md:py-24"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
@@ -52,7 +52,8 @@ export default function V4ThreePoints() {
           className="v4-serif mb-3"
           style={{
             fontStyle: "italic",
-            fontSize: "16px",
+            fontSize: "18px",
+            fontWeight: 500,
             color: "var(--text-secondary)",
             letterSpacing: "-0.005em",
           }}

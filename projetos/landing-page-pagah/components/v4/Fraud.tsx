@@ -5,7 +5,7 @@ import { fraud } from "@/content/landing";
 export default function V4Fraud() {
   return (
     <section
-      className="py-24 md:py-32"
+      className="py-16 md:py-24"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
@@ -14,7 +14,8 @@ export default function V4Fraud() {
             <span
               className="v4-mono uppercase mb-5 inline-block"
               style={{
-                fontSize: "11px",
+                fontSize: "12px",
+                fontWeight: 600,
                 letterSpacing: "0.18em",
                 color: "var(--text-secondary)",
               }}

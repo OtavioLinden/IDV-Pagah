@@ -21,22 +21,31 @@ export default function V4Footer() {
           <div>
             <Link
               href="/"
-              className="flex items-center gap-2.5 mb-5"
+              className="flex items-center gap-4 mb-6"
               aria-label="Pagah"
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/brand/icon-yellow-rounded.svg"
+                src="/v4-heritage/foguete-hedcut.png"
                 alt=""
                 aria-hidden="true"
-                className="h-9 w-9"
+                width={72}
+                height={72}
+                className="block"
+                style={{
+                  width: 72,
+                  height: 72,
+                  borderRadius: "10px",
+                  imageRendering: "auto",
+                }}
               />
               <span
                 className="v4-serif"
                 style={{
                   fontStyle: "italic",
                   fontWeight: 500,
-                  fontSize: "28px",
-                  letterSpacing: "-0.02em",
+                  fontSize: "44px",
+                  letterSpacing: "-0.025em",
                   color: "var(--text-primary)",
                   lineHeight: 1,
                 }}

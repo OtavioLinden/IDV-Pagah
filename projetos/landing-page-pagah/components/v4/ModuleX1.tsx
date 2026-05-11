@@ -49,7 +49,7 @@ export default function V4ModuleX1() {
   return (
     <section
       id="x1"
-      className="py-24 md:py-32"
+      className="py-16 md:py-24"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10 grid lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 items-start">
@@ -58,7 +58,8 @@ export default function V4ModuleX1() {
             className="v4-serif mb-5 inline-block"
             style={{
               fontStyle: "italic",
-              fontSize: "16px",
+              fontSize: "18px",
+              fontWeight: 500,
               color: "var(--text-secondary)",
               letterSpacing: "-0.005em",
             }}

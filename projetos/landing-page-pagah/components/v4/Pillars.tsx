@@ -6,7 +6,7 @@ export default function V4Pillars() {
   return (
     <section
       id="call-center"
-      className="py-24 md:py-32"
+      className="py-16 md:py-24"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
@@ -14,8 +14,9 @@ export default function V4Pillars() {
           <span
             className="v4-serif mb-4 inline-block"
             style={{
-              fontSize: "16px",
+              fontSize: "18px",
               fontStyle: "italic",
+              fontWeight: 500,
               color: "var(--text-secondary)",
               letterSpacing: "-0.005em",
             }}
