@@ -6,11 +6,11 @@ export default function V4Integrations() {
   return (
     <section
       id="integracoes"
-      className="py-16 md:py-24"
+      className="py-10 md:py-14"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-3xl mb-8">
+        <div className="max-w-3xl mb-5">
           <span
             className="v4-mono uppercase mb-5 inline-block"
             style={{

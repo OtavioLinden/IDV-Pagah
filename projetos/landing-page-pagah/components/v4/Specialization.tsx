@@ -97,11 +97,11 @@ const nicheIcons: Record<string, ReactNode> = {
 export default function V4Specialization() {
   return (
     <section
-      className="py-16 md:py-24"
+      className="py-10 md:py-14"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-3xl mb-8">
+        <div className="max-w-3xl mb-5">
           <hr className="v4-section-rule--accent" aria-hidden="true" />
           <span
             className="v4-mono uppercase mb-5 inline-block"

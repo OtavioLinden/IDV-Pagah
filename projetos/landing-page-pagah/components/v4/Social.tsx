@@ -18,11 +18,11 @@ export default function V4Social() {
   return (
     <section
       id="depoimentos"
-      className="py-16 md:py-24"
+      className="py-10 md:py-14"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-4xl mb-10">
+        <div className="max-w-4xl mb-6">
           <hr className="v4-section-rule--accent" aria-hidden="true" />
           <span
             className="v4-serif mb-5 inline-block"
@@ -55,7 +55,7 @@ export default function V4Social() {
         </div>
 
         {/* Metrics row - 1 dark + 3 white */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
           {social.metrics.map((m, i) => {
             const isHighlight = i === 0;
             return (

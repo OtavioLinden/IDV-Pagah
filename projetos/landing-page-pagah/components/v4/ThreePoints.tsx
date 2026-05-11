@@ -39,7 +39,7 @@ export default function V4ThreePoints() {
   return (
     <section
       id="solucoes"
-      className="py-16 md:py-24"
+      className="py-10 md:py-14"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
@@ -79,7 +79,7 @@ export default function V4ThreePoints() {
             delay: 0.05,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className="text-[15px] mb-10 max-w-2xl"
+          className="text-[15px] mb-6 max-w-2xl"
           style={{ color: "var(--text-secondary)" }}
         >
           Cada operação tem três frentes onde o lucro escapa silenciosamente.
@@ -148,7 +148,7 @@ export default function V4ThreePoints() {
             delay: 0.16,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className="mt-8 max-w-3xl"
+          className="mt-5 max-w-3xl"
         >
           <p
             className="text-[18px] md:text-[20px] leading-relaxed font-medium"

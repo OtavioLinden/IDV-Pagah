@@ -6,11 +6,11 @@ export default function V4Pillars() {
   return (
     <section
       id="call-center"
-      className="py-16 md:py-24"
+      className="py-10 md:py-14"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-4xl mb-10">
+        <div className="max-w-4xl mb-6">
           <span
             className="v4-serif mb-4 inline-block"
             style={{

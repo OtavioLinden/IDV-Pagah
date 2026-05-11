@@ -7,11 +7,11 @@ export default function V4Interest() {
   return (
     <section
       id="juros"
-      className="py-16 md:py-24"
+      className="py-10 md:py-14"
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-3xl mb-10">
+        <div className="max-w-3xl mb-6">
           <span
             className="v4-mono uppercase mb-4 inline-block"
             style={{
