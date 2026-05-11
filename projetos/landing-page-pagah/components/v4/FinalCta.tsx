@@ -49,23 +49,31 @@ export default function V4FinalCta() {
                 aria-hidden="true"
               />
               <span
-                className="v4-mono uppercase"
+                className="v4-serif"
                 style={{
-                  fontSize: "11px",
-                  letterSpacing: "0.18em",
+                  fontStyle: "italic",
+                  fontSize: "14px",
                   color: "var(--accent)",
+                  letterSpacing: "-0.005em",
                 }}
               >
                 Migração gratuita · Suporte prioritário
               </span>
             </div>
 
-            <h2
-              className="text-[36px] md:text-[52px] font-bold leading-[1.05] tracking-[-0.025em] mb-5"
-              style={{ color: "var(--text-on-dark)" }}
+            <motion.h2
+              initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="font-bold leading-[1.02] tracking-[-0.03em] mb-5"
+              style={{
+                color: "var(--text-on-dark)",
+                fontSize: "clamp(40px, 5.6vw, 72px)",
+              }}
             >
               {finalCta.title}
-            </h2>
+            </motion.h2>
             <p
               className="text-[17px] md:text-[19px] leading-relaxed mb-9 max-w-2xl"
               style={{ color: "var(--text-on-dark-secondary)" }}

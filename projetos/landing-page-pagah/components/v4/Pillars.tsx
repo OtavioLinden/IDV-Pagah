@@ -10,23 +10,25 @@ export default function V4Pillars() {
       style={{ background: "var(--bg-base)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="max-w-3xl mb-14">
+        <div className="max-w-4xl mb-14">
           <span
-            className="v4-mono uppercase mb-4 inline-block"
+            className="v4-serif mb-4 inline-block"
             style={{
-              fontSize: "11px",
-              letterSpacing: "0.18em",
+              fontSize: "16px",
+              fontStyle: "italic",
               color: "var(--text-secondary)",
+              letterSpacing: "-0.005em",
             }}
           >
-            Três engrenagens, um único motor
+            § 02 — Três engrenagens, um único motor
           </span>
           <motion.h2
             initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ type: "spring", stiffness: 80, damping: 18 }}
-            className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.08]"
+            className="v4-serif tracking-[-0.02em] leading-[1.04]"
+            style={{ fontSize: "clamp(34px, 4.6vw, 56px)", fontWeight: 500 }}
           >
             {pillars.title}
           </motion.h2>
@@ -38,21 +40,23 @@ export default function V4Pillars() {
             return (
               <motion.article
                 key={col.title}
-                initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                initial={{ opacity: 0, y: 6 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{
-                  type: "spring",
-                  stiffness: 80,
-                  damping: 18,
+                  duration: 0.5,
+                  ease: [0.16, 1, 0.3, 1],
                   delay: i * 0.05,
                 }}
                 whileHover={{ y: -2 }}
-                className={isHighlight ? "v4-card-dark" : "v4-card"}
+                className="v4-card"
                 style={{
                   padding: "32px",
                   display: "flex",
                   flexDirection: "column",
+                  borderTop: isHighlight
+                    ? "2px solid var(--accent)"
+                    : "1px solid var(--border-card)",
                 }}
               >
                 <div className="flex items-center justify-between mb-6">
@@ -61,84 +65,111 @@ export default function V4Pillars() {
                     style={{
                       fontSize: "11px",
                       letterSpacing: "0.14em",
-                      color: isHighlight
-                        ? "var(--accent)"
-                        : "var(--text-tertiary)",
+                      color: "var(--text-tertiary)",
                     }}
                   >
                     PILAR 0{i + 1}
                   </span>
                   {isHighlight && (
                     <span
-                      className="px-2 py-0.5 rounded-full v4-mono uppercase"
+                      className="v4-serif"
                       style={{
-                        background: "var(--accent)",
+                        fontStyle: "italic",
+                        fontSize: "13px",
                         color: "var(--text-primary)",
-                        fontSize: "10px",
-                        letterSpacing: "0.12em",
+                        fontWeight: 500,
                       }}
                     >
-                      Diferencial
+                      diferencial Pagah
                     </span>
                   )}
                 </div>
 
                 <h3
                   className="text-[22px] font-bold mb-3 tracking-tight"
-                  style={{
-                    color: isHighlight
-                      ? "var(--text-on-dark)"
-                      : "var(--text-primary)",
-                  }}
+                  style={{ color: "var(--text-primary)" }}
                 >
                   {col.title}
                 </h3>
                 <p
                   className="text-[14.5px] leading-relaxed mb-7"
-                  style={{
-                    color: isHighlight
-                      ? "var(--text-on-dark-secondary)"
-                      : "var(--text-secondary)",
-                  }}
+                  style={{ color: "var(--text-secondary)" }}
                 >
                   {col.text}
                 </p>
 
-                <ul className="space-y-3 mt-auto">
-                  {col.bullets.map((b) => (
+                <ul className="space-y-2.5 mt-auto">
+                  {col.bullets.map((b, bi) => (
                     <li
                       key={b}
-                      className="flex items-start gap-2.5 text-[14px]"
-                      style={{
-                        color: isHighlight
-                          ? "var(--text-on-dark)"
-                          : "var(--text-primary)",
-                      }}
+                      className="flex items-baseline gap-3 text-[14px]"
+                      style={{ color: "var(--text-primary)" }}
                     >
                       <span
-                        className="grid place-items-center size-[18px] rounded-full shrink-0 mt-px"
-                        style={{ background: "var(--accent)" }}
+                        className="v4-mono v4-tabular shrink-0"
+                        style={{
+                          fontSize: "10px",
+                          color: isHighlight
+                            ? "var(--text-primary)"
+                            : "var(--text-tertiary)",
+                          letterSpacing: "0.06em",
+                          fontWeight: isHighlight ? 700 : 400,
+                          background: isHighlight ? "var(--accent)" : "transparent",
+                          padding: isHighlight ? "1px 5px" : "0",
+                          borderRadius: "2px",
+                        }}
                         aria-hidden="true"
                       >
-                        <svg
-                          viewBox="0 0 24 24"
-                          className="size-3"
-                          fill="none"
-                          style={{ color: "var(--text-primary)" }}
-                        >
-                          <path
-                            d="M5 13l4 4L19 7"
-                            stroke="currentColor"
-                            strokeWidth="3.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        {String(bi + 1).padStart(2, "0")}
                       </span>
                       <span>{b}</span>
                     </li>
                   ))}
                 </ul>
+
+                {isHighlight && (
+                  <div
+                    className="mt-6 pt-5 grid grid-cols-2 gap-3"
+                    style={{ borderTop: "1px solid var(--border-card)" }}
+                  >
+                    <div>
+                      <div
+                        className="v4-mono uppercase mb-1"
+                        style={{
+                          fontSize: "9px",
+                          letterSpacing: "0.18em",
+                          color: "var(--text-tertiary)",
+                        }}
+                      >
+                        Recuperação
+                      </div>
+                      <div
+                        className="v4-tabular font-bold"
+                        style={{ fontSize: "18px", color: "var(--text-primary)" }}
+                      >
+                        +27%
+                      </div>
+                    </div>
+                    <div>
+                      <div
+                        className="v4-mono uppercase mb-1"
+                        style={{
+                          fontSize: "9px",
+                          letterSpacing: "0.18em",
+                          color: "var(--text-tertiary)",
+                        }}
+                      >
+                        Ticket médio
+                      </div>
+                      <div
+                        className="v4-tabular font-bold"
+                        style={{ fontSize: "18px", color: "var(--text-primary)" }}
+                      >
+                        +38%
+                      </div>
+                    </div>
+                  </div>
+                )}
               </motion.article>
             );
           })}

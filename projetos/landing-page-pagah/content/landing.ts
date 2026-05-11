@@ -8,7 +8,7 @@ export const meta = {
   brand: "pagah",
   position: "Checkout + Call Center + Juros do Parcelamento para Você.",
   description:
-    "A Pagah une checkout, call center integrado e repasse de juros para transformar cada cliente em mais faturamento.",
+    "A Pagah cuida do que vem depois do botão Comprar: checkout que aprova, atendente que recupera, e juros do parcelamento que voltam para você.",
 };
 
 export const header = {
@@ -28,9 +28,9 @@ export const header = {
 export const hero = {
   headline: "Pare de perder vendas, carrinhos e juros do parcelamento.",
   subheadline:
-    "A Pagah une checkout, call center integrado e repasse de juros para transformar cada cliente em mais faturamento para sua operação.",
+    "Checkout que aprova, call center que recupera, juros do parcelamento que voltam pra você. Operação pensada pra quem despacha caixa todo dia.",
   support:
-    "Criada para produtores de encapsulados, suplementos, gotas, cosméticos e produtos físicos que precisam escalar com tráfego pago, aprovação alta e lucro real.",
+    "Feita pra quem vende encapsulado, suplemento, gotas e cosmético em volume, onde 1 ponto a mais de aprovação já paga o ano.",
   bullets: [
     "Até 40% mais vendas com call center integrado",
     "Recuperação de carrinhos abandonados",
@@ -74,7 +74,7 @@ export const threePoints = {
 };
 
 export const pillars = {
-  title: "A Pagah não é só checkout. É uma máquina de lucro pós-clique.",
+  title: "Não somos checkout. Somos o que acontece depois dele.",
   columns: [
     {
       title: "Checkout de alta conversão",
@@ -162,7 +162,7 @@ export const interestComparison = {
 export const moduleX1 = {
   title: "Vende pelo WhatsApp? A Pagah também foi feita para o X1.",
   subtitle:
-    "Para operações que rodam tráfego para o WhatsApp e fecham vendas no atendimento, a Pagah simplifica tudo.",
+    "Você consulta o cliente, monta o kit no atendimento e manda um link só. O cliente paga sem cadastrar de novo.",
   cards: [
     {
       title: "Importe dados do cliente",
@@ -191,7 +191,7 @@ export const moduleX1 = {
 export const fraud = {
   title: "Mais aprovação. Menos venda legítima desperdiçada.",
   text:
-    "A Pagah combina tecnologia, análise antifraude e avaliação manual para ajudar sua operação a aprovar mais vendas boas e reduzir riscos.",
+    "A gente olha pedido suspeito no olho. Antifraude automático recusa demais; análise manual recupera venda boa que outras plataformas jogam fora.",
   cards: [
     "Antifraude manual",
     "Análise de pedidos suspeitos",
@@ -219,7 +219,7 @@ export const specialization = {
     "Afiliados",
   ],
   text:
-    "Desde 2018, ajudamos produtores a escalar operações reais com checkout, atendimento, recuperação de vendas e estratégias de aumento de margem.",
+    "Desde 2018 a gente roda com produtor que despacha de R$ 200 mil a R$ 10 milhões por mês.",
 };
 
 export const integrations = {
@@ -260,7 +260,7 @@ export const social = {
   title:
     "Produtores grandes escolhem a Pagah porque lucro não vem só do checkout.",
   subtitle:
-    "Veja o que acontece quando checkout, atendimento e estratégia trabalham juntos.",
+    "Quem opera grande não compra checkout. Compra resultado por pedido.",
   testimonials: [
     {
       name: "Rafael M.",

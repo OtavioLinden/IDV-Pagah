@@ -1,4 +1,4 @@
-import { Ubuntu, Ubuntu_Mono } from "next/font/google";
+import { Ubuntu, Ubuntu_Mono, Fraunces } from "next/font/google";
 import VersionSwitcher from "@/components/shared/VersionSwitcher";
 import AmbientBackground from "@/components/v4/AmbientBackground";
 
@@ -16,6 +16,16 @@ const ubuntuMono = Ubuntu_Mono({
   display: "swap",
 });
 
+// Editorial serif — variable font with optical-size axis (proxy for Pagah Scale VF).
+// Used sparingly: section eyebrows, pull quotes, capitulares. Anti-AI-template signal.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-v4-serif",
+  display: "swap",
+});
+
 export const metadata = {
   title: "Pagah · Heritage Refined · Checkout, Call Center e Juros",
   description:
@@ -25,7 +35,7 @@ export const metadata = {
 export default function V4Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`${ubuntu.variable} ${ubuntuMono.variable}`}
+      className={`${ubuntu.variable} ${ubuntuMono.variable} ${fraunces.variable}`}
       style={
         {
           // Pagah official brand surfaces (preserved exact)
@@ -80,6 +90,51 @@ export default function V4Layout({ children }: { children: React.ReactNode }) {
         }
         .v4-mono {
           font-family: var(--font-v4-mono), monospace;
+        }
+        .v4-serif {
+          font-family: var(--font-v4-serif), "Fraunces", Georgia, serif;
+          font-feature-settings: "ss01", "ss02";
+        }
+        /* Editorial underline — replaces the SaaS-cliché "marca-texto amarelo".
+           A thick yellow underline that sits beneath the descender, like a
+           hand-drawn editor's mark. */
+        .v4-underline-accent {
+          position: relative;
+          white-space: nowrap;
+          padding: 0 2px;
+        }
+        .v4-underline-accent::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0.08em;
+          height: 0.32em;
+          background: var(--accent);
+          z-index: -1;
+          border-radius: 1px;
+        }
+        /* Editorial dropcap (capitulares estilo NYT/FT) */
+        .v4-dropcap::first-letter {
+          font-family: var(--font-v4-serif), Georgia, serif;
+          font-weight: 600;
+          font-size: 3.4em;
+          line-height: 0.88;
+          float: left;
+          padding: 0.06em 0.12em 0 0;
+          color: var(--text-primary);
+        }
+        /* Hairline section divider — broadsheet style */
+        .v4-section-rule {
+          border: 0;
+          border-top: 1px solid var(--border-subtle);
+          margin: 0;
+        }
+        .v4-section-rule--accent {
+          border: 0;
+          border-top: 2px solid var(--accent);
+          width: 48px;
+          margin: 0 0 24px 0;
         }
         .v4-card {
           background: var(--bg-card);

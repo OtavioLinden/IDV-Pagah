@@ -55,21 +55,23 @@ export default function V4ModuleX1() {
       <div className="mx-auto max-w-7xl px-6 md:px-10 grid lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 items-start">
         <div>
           <span
-            className="v4-mono uppercase mb-5 inline-block"
+            className="v4-serif mb-5 inline-block"
             style={{
-              fontSize: "11px",
-              letterSpacing: "0.18em",
+              fontStyle: "italic",
+              fontSize: "16px",
               color: "var(--text-secondary)",
+              letterSpacing: "-0.005em",
             }}
           >
-            Módulo X1 · WhatsApp
+            § 04 — Módulo X1 · WhatsApp
           </span>
           <motion.h2
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.05] mb-5"
+            transition={{ type: "spring", stiffness: 80, damping: 18 }}
+            className="font-bold tracking-[-0.025em] leading-[1.02] mb-5"
+            style={{ fontSize: "clamp(34px, 4.8vw, 60px)" }}
           >
             {moduleX1.title}
           </motion.h2>
@@ -84,13 +86,12 @@ export default function V4ModuleX1() {
             {moduleX1.cards.map((c, i) => (
               <motion.article
                 key={c.title}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 6 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 20,
+                  duration: 0.45,
+                  ease: [0.16, 1, 0.3, 1],
                   delay: i * 0.06,
                 }}
                 whileHover={{ y: -2 }}

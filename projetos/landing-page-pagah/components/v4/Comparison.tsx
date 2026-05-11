@@ -11,31 +11,37 @@ export default function V4Comparison() {
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <div className="max-w-3xl mb-12">
           <span
-            className="v4-mono uppercase mb-5 inline-block"
+            className="v4-serif mb-5 inline-block"
             style={{
-              fontSize: "11px",
-              letterSpacing: "0.18em",
+              fontStyle: "italic",
+              fontSize: "16px",
               color: "var(--text-secondary)",
+              letterSpacing: "-0.005em",
             }}
           >
-            Comparativo direto
+            Lado a lado, sem maquiagem
           </span>
           <motion.h2
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.05]"
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="tracking-[-0.02em] leading-[1.04]"
+            style={{
+              fontSize: "clamp(34px, 4.4vw, 54px)",
+              fontWeight: 300,
+              color: "var(--text-primary)",
+            }}
           >
             {comparison.title}
           </motion.h2>
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 6 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
-          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="v4-card overflow-hidden"
           style={{ padding: "0" }}
         >

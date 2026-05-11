@@ -19,14 +19,15 @@ export default function V4Fraud() {
                 color: "var(--text-secondary)",
               }}
             >
-              Antifraude · Aprovação
+              § 06 · Antifraude & Aprovação
             </span>
             <motion.h2
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ type: "spring", stiffness: 100, damping: 20 }}
-              className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.05] mb-5"
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="font-bold tracking-[-0.025em] leading-[1.02] mb-5"
+              style={{ fontSize: "clamp(36px, 5vw, 60px)" }}
             >
               {fraud.title}
             </motion.h2>
@@ -74,16 +75,18 @@ export default function V4Fraud() {
         </div>
 
         <motion.blockquote
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 6 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
-          transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          className="relative text-[20px] md:text-[22px] font-medium leading-relaxed max-w-3xl"
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="relative v4-serif leading-relaxed max-w-3xl"
           style={{
             color: "var(--text-primary)",
+            fontStyle: "italic",
+            fontSize: "clamp(22px, 2.4vw, 28px)",
+            fontWeight: 400,
             padding: "24px 28px",
-            background: "var(--accent-soft)",
-            borderRadius: "14px",
+            borderTop: "2px solid var(--accent)",
           }}
         >
           <span

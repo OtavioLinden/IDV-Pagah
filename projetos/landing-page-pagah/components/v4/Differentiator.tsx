@@ -11,12 +11,14 @@ export default function V4Differentiator() {
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10 grid lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 items-start">
         <div>
+          <hr className="v4-section-rule--accent" aria-hidden="true" />
           <span
-            className="v4-mono uppercase mb-5 inline-block"
+            className="v4-serif mb-5 inline-block"
             style={{
-              fontSize: "11px",
-              letterSpacing: "0.18em",
+              fontStyle: "italic",
+              fontSize: "16px",
               color: "var(--text-secondary)",
+              letterSpacing: "-0.005em",
             }}
           >
             Atendimento como motor de receita
@@ -26,7 +28,8 @@ export default function V4Differentiator() {
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ type: "spring", stiffness: 80, damping: 18 }}
-            className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.05] mb-5"
+            className="v4-serif tracking-[-0.02em] leading-[1.04] mb-6"
+            style={{ fontSize: "clamp(36px, 5vw, 60px)", fontWeight: 500 }}
           >
             {differentiator.title}
           </motion.h2>
@@ -37,7 +40,7 @@ export default function V4Differentiator() {
             {differentiator.subtitle}
           </p>
           <p
-            className="text-[15px] leading-relaxed mb-8"
+            className="text-[15px] leading-relaxed mb-8 v4-dropcap"
             style={{ color: "var(--text-secondary)" }}
           >
             {differentiator.text}
@@ -115,10 +118,10 @@ export default function V4Differentiator() {
 function CallCenterPhotoCard() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y: 6 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ type: "spring", stiffness: 80, damping: 18 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="v4-card relative overflow-hidden"
       style={{ padding: 0 }}
     >

@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { header } from "@/content/landing";
 
 export default function V4Header() {
@@ -35,15 +34,25 @@ export default function V4Header() {
           className="flex items-center gap-2.5 group"
           aria-label="Pagah"
         >
-          <Image
-            src="/brand/logo-principal.png"
-            alt="Pagah"
-            width={140}
-            height={40}
-            className="h-9 md:h-10 w-auto"
-            style={{ width: "auto" }}
-            priority
+          <img
+            src="/brand/icon-yellow-rounded.svg"
+            alt=""
+            aria-hidden="true"
+            className="h-8 w-8 md:h-9 md:w-9"
           />
+          <span
+            className="v4-serif"
+            style={{
+              fontStyle: "italic",
+              fontWeight: 500,
+              fontSize: "26px",
+              letterSpacing: "-0.02em",
+              color: "var(--text-primary)",
+              lineHeight: 1,
+            }}
+          >
+            pagah
+          </span>
         </Link>
 
         <nav

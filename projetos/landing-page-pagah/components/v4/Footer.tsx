@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
-import { footer, meta } from "@/content/landing";
+import { footer } from "@/content/landing";
 
 export default function V4Footer() {
   return (
@@ -25,14 +24,25 @@ export default function V4Footer() {
               className="flex items-center gap-2.5 mb-5"
               aria-label="Pagah"
             >
-              <Image
-                src="/brand/logo-principal.png"
-                alt={meta.brand}
-                width={140}
-                height={40}
-                className="h-9 w-auto"
-                style={{ width: "auto" }}
+              <img
+                src="/brand/icon-yellow-rounded.svg"
+                alt=""
+                aria-hidden="true"
+                className="h-9 w-9"
               />
+              <span
+                className="v4-serif"
+                style={{
+                  fontStyle: "italic",
+                  fontWeight: 500,
+                  fontSize: "28px",
+                  letterSpacing: "-0.02em",
+                  color: "var(--text-primary)",
+                  lineHeight: 1,
+                }}
+              >
+                pagah
+              </span>
             </Link>
             <p
               className="text-[15px] leading-relaxed max-w-md mb-6"
@@ -40,20 +50,22 @@ export default function V4Footer() {
             >
               {footer.tagline}
             </p>
-            <p
-              className="v4-mono uppercase"
+            <div
+              className="v4-mono"
               style={{
                 fontSize: "11px",
-                letterSpacing: "0.16em",
-                color: "var(--text-primary)",
-                background: "var(--accent)",
-                padding: "4px 8px",
-                display: "inline-block",
-                fontWeight: 700,
+                lineHeight: 1.7,
+                color: "var(--text-tertiary)",
+                letterSpacing: "0.02em",
               }}
             >
-              {meta.position}
-            </p>
+              <div style={{ color: "var(--text-secondary)" }}>
+                Pagah Tecnologia em Pagamentos Ltda.
+              </div>
+              <div>Av. Carlos Gomes, 700 · 5º andar · Boa Vista</div>
+              <div>Porto Alegre · RS · 90480-000</div>
+              <div className="v4-tabular">CNPJ 00.000.000/0001-00</div>
+            </div>
           </div>
 
           <div>
@@ -174,11 +186,12 @@ export default function V4Footer() {
             © 2026 Pagah · Todos os direitos reservados
           </p>
           <p
-            className="v4-mono uppercase"
+            className="v4-serif"
             style={{
-              fontSize: "10px",
-              letterSpacing: "0.18em",
+              fontStyle: "italic",
+              fontSize: "13px",
               color: "var(--text-secondary)",
+              letterSpacing: "-0.005em",
             }}
           >
             Venda depois da venda.

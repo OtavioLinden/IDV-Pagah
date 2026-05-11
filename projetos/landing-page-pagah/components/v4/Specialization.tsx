@@ -5,10 +5,10 @@ import { motion } from "motion/react";
 import { specialization } from "@/content/landing";
 
 const nichePhotos: Record<string, string> = {
-  Encapsulados: "/images/products/encapsulados.png",
-  Suplementos: "/images/products/suplementos.png",
-  Cosméticos: "/images/products/cosmeticos.png",
-  Gotas: "/images/products/gotas.png",
+  Encapsulados: "/v4-heritage/nicho-suplementos.png",
+  Suplementos: "/v4-heritage/nicho-suplementos.png",
+  Cosméticos: "/v4-heritage/nicho-cosmeticos.png",
+  Gotas: "/v4-heritage/nicho-capsulas.png",
 };
 
 const nicheIcons: Record<string, ReactNode> = {
@@ -102,6 +102,7 @@ export default function V4Specialization() {
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <div className="max-w-3xl mb-12">
+          <hr className="v4-section-rule--accent" aria-hidden="true" />
           <span
             className="v4-mono uppercase mb-5 inline-block"
             style={{
@@ -110,14 +111,19 @@ export default function V4Specialization() {
               color: "var(--text-secondary)",
             }}
           >
-            Especialização · Produtos físicos
+            § 03 · Quem nós atendemos
           </span>
           <motion.h2
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.05] mb-5"
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="tracking-[-0.02em] leading-[1.05] mb-5"
+            style={{
+              fontSize: "clamp(34px, 4.4vw, 54px)",
+              fontWeight: 300,
+              color: "var(--text-primary)",
+            }}
           >
             {specialization.title}
           </motion.h2>
@@ -135,13 +141,12 @@ export default function V4Specialization() {
             return (
               <motion.div
                 key={n}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 6 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 20,
+                  duration: 0.4,
+                  ease: [0.16, 1, 0.3, 1],
                   delay: (i % 4) * 0.05 + Math.floor(i / 4) * 0.08,
                 }}
                 whileHover={{ y: -2 }}

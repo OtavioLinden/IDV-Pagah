@@ -10,6 +10,7 @@ export default function V4Pricing() {
     >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <div className="max-w-3xl mb-12">
+          <hr className="v4-section-rule--accent" aria-hidden="true" />
           <span
             className="v4-mono uppercase mb-5 inline-block"
             style={{
@@ -18,14 +19,15 @@ export default function V4Pricing() {
               color: "var(--text-secondary)",
             }}
           >
-            Taxa & modelo
+            § 08 · Taxa & modelo
           </span>
           <motion.h2
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.05]"
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="v4-serif tracking-[-0.02em] leading-[1.04]"
+            style={{ fontSize: "clamp(34px, 4.6vw, 56px)", fontWeight: 500 }}
           >
             {pricing.title}
           </motion.h2>
@@ -34,10 +36,10 @@ export default function V4Pricing() {
         <div className="grid lg:grid-cols-[1.1fr_1fr] gap-5">
           {/* Pricing card - white, Pagah real "Saque" style */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ y: -3 }}
             className="v4-card relative overflow-hidden"
             style={{ padding: "40px" }}
@@ -62,13 +64,11 @@ export default function V4Pricing() {
 
             <div className="flex items-baseline gap-3 mb-6 flex-wrap">
               <span
-                className="v4-tabular font-bold"
+                className="v4-tabular font-bold v4-underline-accent"
                 style={{
                   fontSize: "72px",
                   lineHeight: 1,
                   letterSpacing: "-0.035em",
-                  background: "var(--accent)",
-                  padding: "0 8px",
                   color: "var(--text-primary)",
                 }}
               >
@@ -110,13 +110,12 @@ export default function V4Pricing() {
 
           {/* Settlement table - Pagah real style with dark header */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{
-              type: "spring",
-              stiffness: 100,
-              damping: 20,
+              duration: 0.5,
+              ease: [0.16, 1, 0.3, 1],
               delay: 0.07,
             }}
             className="v4-card overflow-hidden"

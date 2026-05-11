@@ -20,7 +20,7 @@ export default function V4Interest() {
               color: "var(--text-secondary)",
             }}
           >
-            Juros do parcelamento
+            § 05 · Juros do parcelamento
           </span>
           <motion.h2
             initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
@@ -42,10 +42,10 @@ export default function V4Interest() {
         <div className="grid md:grid-cols-2 gap-5 mb-10">
           {/* Common platforms - white card */}
           <motion.div
-            initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 6 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ type: "spring", stiffness: 80, damping: 18 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="v4-card relative"
             style={{ padding: "32px" }}
           >
@@ -131,13 +131,12 @@ export default function V4Interest() {
 
           {/* Pagah - dark card with big yellow KPI */}
           <motion.div
-            initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 6 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{
-              type: "spring",
-              stiffness: 80,
-              damping: 18,
+              duration: 0.5,
+              ease: [0.16, 1, 0.3, 1],
               delay: 0.05,
             }}
             whileHover={{ y: -2 }}

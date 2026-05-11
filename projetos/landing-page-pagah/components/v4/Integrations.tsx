@@ -19,14 +19,15 @@ export default function V4Integrations() {
               color: "var(--text-secondary)",
             }}
           >
-            Ecossistema · Integrações
+            § 09 · Ecossistema
           </span>
           <motion.h2
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="text-[32px] md:text-[44px] font-bold tracking-[-0.02em] leading-[1.05] mb-5"
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="font-bold tracking-[-0.02em] leading-[1.05] mb-5"
+            style={{ fontSize: "clamp(30px, 3.8vw, 44px)" }}
           >
             {integrations.title}
           </motion.h2>
@@ -42,13 +43,12 @@ export default function V4Integrations() {
           {integrations.list.map((name, i) => (
             <motion.div
               key={name}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 4 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{
-                type: "spring",
-                stiffness: 100,
-                damping: 20,
+                duration: 0.35,
+                ease: [0.16, 1, 0.3, 1],
                 delay: (i % 4) * 0.04 + Math.floor(i / 4) * 0.06,
               }}
               whileHover={{ y: -2 }}
