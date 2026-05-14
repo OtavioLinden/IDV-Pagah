@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -222,60 +222,116 @@
         .saldo-card {
             position: relative;
             background: #fff;
-            border-radius: 12px;
-            padding: 14px 16px;
-            border: 1px solid rgba(0, 0, 0, 0.04);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            border-radius: 14px;
+            padding: 18px 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
             cursor: pointer;
             overflow: hidden;
-            transition: transform .25s ease, box-shadow .25s ease;
+            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             color: inherit;
-        }
-        .saldo-card::before {
-            content: ''; position: absolute;
-            left: 0; top: 0; bottom: 0; width: 4px;
-            background: var(--pagah-light-gray);
-            transition: background .25s ease;
         }
         .saldo-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
         }
 
-        .saldo-card--green { background: var(--pagah-dark); color: #fff; }
-        .saldo-card--green::before { background: var(--pagah-yellow); width: 4px; }
-        .saldo-card--green:hover { box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35); }
-        .saldo-card--green .saldo-icon { background: rgba(241, 229, 47, 0.16); color: var(--pagah-yellow); }
+        /* SALDO DISPONÍVEL — hero escuro com aura amarela */
+        .saldo-card--green {
+            background: var(--pagah-dark);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+        }
+        .saldo-card--green:hover { box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32); }
+        .saldo-card--green .saldo-icon {
+            background: rgba(241, 229, 47, 0.18);
+            color: var(--pagah-yellow);
+            box-shadow: 0 0 0 1px rgba(241, 229, 47, 0.25);
+        }
         .saldo-card--green::after {
             content: ''; position: absolute;
-            top: -40%; right: -30%;
-            width: 200px; height: 200px;
-            background: radial-gradient(circle, rgba(241, 229, 47, 0.10), transparent 70%);
+            top: -50%; right: -30%;
+            width: 240px; height: 240px;
+            background: radial-gradient(circle, rgba(241, 229, 47, 0.14), transparent 65%);
             pointer-events: none;
             transition: opacity .3s ease;
-            opacity: 0.8;
+            opacity: 0.9;
         }
         .saldo-card--green:hover::after { opacity: 1; }
-        .saldo-card--green .saldo-value { color: var(--pagah-yellow); font-size: 1.55rem; }
+        .saldo-card--green .saldo-value { color: var(--pagah-yellow); font-size: 1.6rem; }
 
+        /* ANTECIPÁVEL — wash amarelo sutil */
         .saldo-card--yellow { background: #fff; }
-        .saldo-card--yellow::before { background: var(--pagah-yellow); width: 4px; }
-        .saldo-card--yellow:hover { box-shadow: 0 10px 24px rgba(241, 229, 47, 0.22); }
-        .saldo-card--yellow .saldo-icon { background: var(--pagah-yellow-soft); color: #6b5e00; }
+        .saldo-card--yellow::after {
+            content: ''; position: absolute;
+            top: -60%; right: -40%;
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(241, 229, 47, 0.22), transparent 70%);
+            pointer-events: none;
+            opacity: 0.85;
+            transition: opacity .3s ease;
+        }
+        .saldo-card--yellow:hover { box-shadow: 0 10px 28px rgba(241, 229, 47, 0.28); border-color: rgba(241, 229, 47, 0.45); }
+        .saldo-card--yellow:hover::after { opacity: 1; }
+        .saldo-card--yellow .saldo-icon {
+            background: var(--pagah-yellow);
+            color: var(--pagah-dark);
+            box-shadow: 0 4px 12px rgba(241, 229, 47, 0.4);
+        }
 
+        /* CHARGEBACK — wash vermelho discreto */
         .saldo-card--red { background: #fff; }
-        .saldo-card--red::before { background: var(--pagah-danger); width: 4px; }
-        .saldo-card--red:hover { box-shadow: 0 10px 24px rgba(220, 53, 69, 0.18); }
+        .saldo-card--red::after {
+            content: ''; position: absolute;
+            top: -60%; right: -40%;
+            width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(220, 53, 69, 0.10), transparent 70%);
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        .saldo-card--red:hover { box-shadow: 0 10px 24px rgba(220, 53, 69, 0.18); border-color: rgba(220, 53, 69, 0.25); }
         .saldo-card--red .saldo-icon { background: #FFEDED; color: var(--pagah-danger); }
         .saldo-card--red .saldo-value { color: var(--pagah-danger); }
 
+        /* Variante estática (não-clicável) — usada no card de Chargeback */
+        .saldo-card--static {
+            cursor: default;
+            border: 1px solid var(--pagah-border);
+            box-shadow: none;
+        }
+        .saldo-card--static::after { display: none; }
+        .saldo-card--static:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: var(--pagah-border);
+        }
+        .saldo-card--static .saldo-icon {
+            background: #F2F2F2 !important;
+            color: var(--pagah-gray) !important;
+            box-shadow: none !important;
+        }
+        /* RESERVA — wash azul */
         .saldo-card--blue { background: #fff; }
-        .saldo-card--blue::before { background: #0D6EFD; width: 4px; }
-        .saldo-card--blue:hover { box-shadow: 0 10px 24px rgba(13, 110, 253, 0.18); }
-        .saldo-card--blue .saldo-icon { background: #E3F2FD; color: #0D6EFD; }
+        .saldo-card--blue::after {
+            content: ''; position: absolute;
+            top: -60%; right: -40%;
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(13, 110, 253, 0.10), transparent 70%);
+            pointer-events: none;
+            opacity: 0.75;
+            transition: opacity .3s ease;
+        }
+        .saldo-card--blue:hover { box-shadow: 0 10px 28px rgba(13, 110, 253, 0.20); border-color: rgba(13, 110, 253, 0.25); }
+        .saldo-card--blue:hover::after { opacity: 1; }
+        .saldo-card--blue .saldo-icon {
+            background: #E3F2FD;
+            color: #0D6EFD;
+            box-shadow: 0 2px 8px rgba(13, 110, 253, 0.18);
+        }
 
         .saldo-head {
             display: flex; align-items: center; justify-content: space-between;
@@ -292,14 +348,16 @@
         .saldo-card--green .saldo-label { color: var(--pagah-yellow); }
         .saldo-card--yellow .saldo-label { color: var(--pagah-gray); }
         .saldo-icon {
-            width: 30px; height: 30px;
-            border-radius: 8px;
+            width: 38px; height: 38px;
+            border-radius: 10px;
             background: #F2F2F2;
             color: var(--pagah-gray);
             display: inline-flex; align-items: center; justify-content: center;
             flex-shrink: 0;
+            transition: transform .25s ease;
         }
-        .saldo-icon .material-symbols-rounded { font-size: 17px; }
+        .saldo-card:hover .saldo-icon { transform: scale(1.06); }
+        .saldo-icon .material-symbols-rounded { font-size: 21px; }
 
         .saldo-value {
             font-size: 1.35rem; font-weight: 800;
@@ -329,17 +387,26 @@
             position: relative;
             background: #fff;
             border-radius: 16px;
-            padding: 26px 30px;
-            border: 1px solid rgba(0, 0, 0, 0.04);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            padding: 28px 32px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
             overflow: hidden;
         }
         .card-saque::before {
             content: ''; position: absolute;
-            left: 0; top: 0; bottom: 0; width: 5px;
-            background: var(--pagah-dark);
-            border-top-left-radius: 16px;
-            border-bottom-left-radius: 16px;
+            top: 0; right: 0;
+            width: 280px; height: 280px;
+            background: radial-gradient(circle at top right, rgba(241, 229, 47, 0.18), transparent 60%);
+            pointer-events: none;
+            transform: translate(30%, -40%);
+        }
+        .card-saque::after {
+            content: ''; position: absolute;
+            bottom: 0; left: 0;
+            width: 180px; height: 180px;
+            background: radial-gradient(circle at bottom left, rgba(28, 28, 28, 0.04), transparent 60%);
+            pointer-events: none;
+            transform: translate(-30%, 30%);
         }
         .card-saque > * { position: relative; z-index: 1; }
 
@@ -504,51 +571,48 @@
         /* Breakdown linhas verticais */
         .break-row {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 11px 0;
+            padding: 8px 0;
             border-bottom: 1px solid #f0f0f0;
-            font-size: 13px;
+            font-size: 12.5px;
         }
         .break-row .lbl {
             color: var(--pagah-gray);
+            font-size: 12.5px;
             display: flex; align-items: center; gap: 9px;
         }
         .break-row .lbl .material-symbols-rounded {
-            font-size: 18px; color: #999;
+            font-size: 16px; color: #999;
         }
-        .break-row .val { color: var(--pagah-dark); font-weight: 700; }
+        .break-row .val {
+            color: var(--pagah-dark);
+            font-weight: 700;
+            font-size: 12.5px;
+        }
         .break-row .val.red { color: var(--pagah-danger); }
 
+        /* Linha "Líquido a receber" — destaque verde */
         .break-row.last {
             border-bottom: 0;
-            background: var(--pagah-dark);
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin: 12px -8px 0;
+            border-top: 1px solid var(--pagah-green-soft);
+            background: var(--pagah-green-bg);
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin: 10px 0 0;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 6px 18px rgba(0,0,0,.18);
-        }
-        .break-row.last::after {
-            content: ''; position: absolute;
-            top: -50%; right: -20%;
-            width: 180px; height: 180px;
-            background: radial-gradient(circle, rgba(241, 229, 47, 0.10), transparent 70%);
-            pointer-events: none;
         }
         .break-row.last .lbl {
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 700;
-            color: var(--pagah-yellow);
+            color: var(--pagah-green);
             text-transform: uppercase;
-            letter-spacing: 0.6px;
-            position: relative; z-index: 1;
+            letter-spacing: 0.5px;
         }
         .break-row.last .val {
-            font-size: 1.7rem;
+            font-size: 1.75rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
-            color: var(--pagah-yellow);
-            position: relative; z-index: 1;
+            letter-spacing: -0.6px;
+            color: var(--pagah-green);
         }
 
         /* Botão confirmar — com glow Pagah */
@@ -594,9 +658,14 @@
             overflow: hidden;
         }
         .historico-head {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px 20px;
+            display: flex; flex-direction: column;
+            padding: 0;
             border-bottom: 1px solid #F2F2F2;
+        }
+        .historico-head-top {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 20px 12px;
+            gap: 12px;
         }
         .historico-title {
             font-size: 0.95rem; font-weight: 700;
@@ -610,6 +679,32 @@
             line-height: 1.4;
         }
         .historico-title .material-symbols-rounded { font-size: 20px; }
+
+        /* Export dropdown */
+        .export-wrap { position: relative; display: inline-block; }
+        .export-menu {
+            position: absolute; right: 0; top: calc(100% + 6px);
+            background: #fff;
+            border: 1px solid #ECECEC;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,.08);
+            min-width: 140px;
+            padding: 6px;
+            z-index: 50;
+            display: none;
+        }
+        .export-wrap.open .export-menu { display: block; }
+        .export-menu button {
+            display: flex; align-items: center; gap: 8px;
+            width: 100%;
+            background: transparent; border: 0;
+            padding: 8px 10px; border-radius: 6px;
+            font-family: inherit; font-size: 13px; font-weight: 500;
+            color: var(--pagah-dark);
+            cursor: pointer; text-align: left;
+        }
+        .export-menu button:hover { background: #FFFBEA; }
+        .export-menu button .material-symbols-rounded { font-size: 16px; color: var(--pagah-gray); }
 
         .saques-table {
             width: 100%;
@@ -627,6 +722,15 @@
         }
         .saques-table thead th:first-child { padding-left: 20px; }
         .saques-table thead th:last-child { padding-right: 20px; text-align: right; }
+        .saques-table thead th.num { text-align: right; }
+        .saques-table thead th.sortable { cursor: pointer; user-select: none; }
+        .saques-table thead th.sortable:hover { background: #2a2a2a; }
+        .saques-table thead th.sortable .sort-ic {
+            font-size: 14px; vertical-align: middle;
+            opacity: 0.55; margin-left: 2px;
+        }
+        .saques-table thead th.sortable.sorted .sort-ic { opacity: 1; color: var(--pagah-yellow); }
+        .saques-table thead th .sort-wrap { display: inline-flex; align-items: center; gap: 2px; }
         .saques-table tbody td {
             padding: 14px;
             border-bottom: 1px solid #F5F5F5;
@@ -635,9 +739,54 @@
         }
         .saques-table tbody td:first-child { padding-left: 20px; font-weight: 700; }
         .saques-table tbody td:last-child { padding-right: 20px; text-align: right; }
-        .saques-table tbody tr { transition: background .15s ease; }
-        .saques-table tbody tr:hover { background: #FAFAFA; }
+        .saques-table tbody td.num {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+        .saques-table tbody td.col-liquido {
+            color: var(--pagah-green);
+            font-weight: 800;
+        }
+        .saques-table tbody td.col-taxa {
+            color: #9C6500;
+            font-weight: 500;
+        }
+        .saques-table tbody tr {
+            transition: background .15s ease, box-shadow .15s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .saques-table tbody tr:hover {
+            background: var(--pagah-yellow-faint);
+            box-shadow: inset 3px 0 0 var(--pagah-yellow);
+        }
+        .saques-table tbody tr.row-erro {
+            background: #FEF7F7;
+            box-shadow: inset 3px 0 0 var(--pagah-danger);
+        }
+        .saques-table tbody tr.row-erro:hover {
+            background: #FDEEEE;
+            box-shadow: inset 3px 0 0 var(--pagah-danger);
+        }
+        .saques-table tbody tr.row-cancelado {
+            background: #FAFAFA;
+            box-shadow: inset 3px 0 0 #BDBDBD;
+        }
+        .saques-table tbody tr.row-cancelado:hover {
+            background: #F2F2F2;
+            box-shadow: inset 3px 0 0 #BDBDBD;
+        }
         .saques-table tbody tr:last-child td { border-bottom: 0; }
+        .saques-table .id-link {
+            color: var(--pagah-dark);
+            text-decoration: none;
+            font-weight: 700;
+            border-bottom: 2px solid transparent;
+            transition: border-color .15s ease;
+        }
+        .saques-table .id-link:hover {
+            border-bottom-color: var(--pagah-yellow);
+        }
         .red { color: var(--pagah-danger); font-weight: 700; }
         .text-dark-bold { color: var(--pagah-dark); font-weight: 700; }
         .text-muted { color: var(--pagah-gray); }
@@ -654,16 +803,10 @@
         }
         .badge-green { background: #E8F5E9; color: #2E7D32; }
         .badge-yellow { background: #FFF6A8; color: #856404; }
-        .badge-red { background: #FFEBEE; color: #C62828; }
+        .badge-red { background: #FDECEA; color: #B91C1C; }
+        .badge-gray { background: #F0F0F0; color: #575756; }
 
         /* FILTROS DO HISTÓRICO */
-        .historico-filters {
-            display: flex; flex-wrap: wrap;
-            align-items: center; gap: 10px;
-            padding: 12px 20px;
-            border-bottom: 1px solid #F2F2F2;
-            background: #FAFAFA;
-        }
         .filter-group { display: inline-flex; align-items: center; gap: 6px; }
         .filter-label {
             font-size: 11px; font-weight: 700;
@@ -684,34 +827,6 @@
             outline: 0;
         }
         .filter-select:focus { border-color: var(--pagah-dark); }
-        .status-pills { display: inline-flex; gap: 4px; }
-        .status-pill {
-            background: #fff;
-            border: 1px solid #E0E0E0;
-            color: var(--pagah-gray);
-            font-size: 11.5px;
-            font-weight: 600;
-            padding: 5px 10px;
-            border-radius: 99px;
-            cursor: pointer;
-            transition: all .2s ease;
-            display: inline-flex; align-items: center; gap: 5px;
-            font-family: inherit;
-        }
-        .status-pill:hover { border-color: var(--pagah-dark); color: var(--pagah-dark); }
-        .status-pill.active {
-            background: var(--pagah-dark);
-            color: #fff;
-            border-color: var(--pagah-dark);
-        }
-        .status-pill .count {
-            background: rgba(0,0,0,.06);
-            font-size: 10px;
-            padding: 1px 6px;
-            border-radius: 99px;
-            font-weight: 700;
-        }
-        .status-pill.active .count { background: rgba(255,255,255,.18); color: #fff; }
         .filter-search {
             position: relative;
         }
@@ -739,14 +854,59 @@
 
         /* PAGINAÇÃO */
         .pagination-bar {
-            display: flex; justify-content: space-between; align-items: center;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
             padding: 12px 20px;
             border-top: 1px solid #F2F2F2;
             background: #FAFAFA;
             font-size: 12.5px;
             color: var(--pagah-gray);
-            flex-wrap: wrap; gap: 10px;
+            gap: 10px;
         }
+        .pagination-bar .pagination-info { justify-self: start; }
+        .pagination-bar .pagination-controls { justify-self: center; }
+        .pagination-bar .pagination-perpage { justify-self: end; }
+        .pagination-perpage .filter-select { padding: 5px 8px; font-size: 12px; }
+        @media (max-width: 700px) {
+            .pagination-bar {
+                grid-template-columns: 1fr;
+            }
+            .pagination-bar .pagination-info,
+            .pagination-bar .pagination-controls,
+            .pagination-bar .pagination-perpage { justify-self: center; }
+        }
+        /* Empty state melhor */
+        .empty-state {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 48px 16px;
+            gap: 6px;
+            color: var(--pagah-gray);
+        }
+        .empty-state .material-symbols-rounded {
+            font-size: 64px;
+            color: #D9D9D9;
+            margin-bottom: 4px;
+        }
+        .empty-state .empty-title {
+            font-size: 15px; font-weight: 700;
+            color: var(--pagah-dark);
+        }
+        .empty-state .empty-sub {
+            font-size: 13px;
+            color: var(--pagah-gray);
+            margin-bottom: 10px;
+        }
+        .empty-state .empty-clear {
+            background: var(--pagah-yellow);
+            border: 0;
+            color: var(--pagah-dark);
+            font-weight: 700; font-size: 12.5px;
+            padding: 7px 14px; border-radius: 8px;
+            cursor: pointer; font-family: inherit;
+        }
+        .empty-state .empty-clear:hover { background: #f4ea4a; }
         .pagination-info strong { color: var(--pagah-dark); }
         .pagination-controls { display: inline-flex; align-items: center; gap: 4px; }
         .pag-btn {
@@ -1577,14 +1737,14 @@
         </div>
         <div class="pb-header__nav_right">
             <button class="pb-header__icon" type="button" title="Notificações">
-                <span class="material-symbols-rounded">notifications_active</span>
+                <span class="material-symbols-rounded" aria-hidden="true">notifications_active</span>
                 <span class="notification-count">4</span>
             </button>
             <button class="pb-header__icon" type="button" title="Ajuda">
-                <span class="material-symbols-rounded">help</span>
+                <span class="material-symbols-rounded" aria-hidden="true">help</span>
             </button>
             <button class="pb-header__icon" type="button" title="Perfil">
-                <span class="material-symbols-rounded">person</span>
+                <span class="material-symbols-rounded" aria-hidden="true">person</span>
             </button>
         </div>
     </header>
@@ -1594,13 +1754,13 @@
         <ul class="pb-side_menu__list">
             <li class="pb-side_menu__item">
                 <a href="/home" class="pb-side_menu__link" title="Dashboard">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">home</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">home</span></span>
                     <span class="pb-side_menu__label">Dashboard</span>
                 </a>
             </li>
             <li class="pb-side_menu__item has_submenu">
                 <a class="pb-side_menu__link" title="Relatórios">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">monitoring</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">monitoring</span></span>
                     <span class="pb-side_menu__label">Relatórios</span>
                 </a>
                 <ul class="submenu">
@@ -1612,13 +1772,13 @@
             </li>
             <li class="pb-side_menu__item">
                 <a href="/produtos/lista" class="pb-side_menu__link" title="Produtos">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">box_add</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">box_add</span></span>
                     <span class="pb-side_menu__label">Produtos</span>
                 </a>
             </li>
             <li class="pb-side_menu__item has_submenu">
                 <a class="pb-side_menu__link" title="Afiliados">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">handshake</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">handshake</span></span>
                     <span class="pb-side_menu__label">Afiliados</span>
                 </a>
                 <ul class="submenu">
@@ -1629,25 +1789,25 @@
             </li>
             <li class="pb-side_menu__item">
                 <a href="/pedidos" class="pb-side_menu__link" title="Vendas">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">paid</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">paid</span></span>
                     <span class="pb-side_menu__label">Vendas</span>
                 </a>
             </li>
             <li class="pb-side_menu__item">
                 <a href="/pedidos-marketplace" class="pb-side_menu__link" title="Vendas Marketplace">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">storefront</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">storefront</span></span>
                     <span class="pb-side_menu__label">Vendas Marketplace</span>
                 </a>
             </li>
             <li class="pb-side_menu__item">
                 <a href="/suporte-index" class="pb-side_menu__link" title="Suporte">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">support_agent</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">support_agent</span></span>
                     <span class="pb-side_menu__label">Suporte</span>
                 </a>
             </li>
             <li class="pb-side_menu__item has_submenu">
                 <a class="pb-side_menu__link" title="Conversão">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">control_camera</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">control_camera</span></span>
                     <span class="pb-side_menu__label">Conversão</span>
                 </a>
                 <ul class="submenu">
@@ -1659,7 +1819,7 @@
             </li>
             <li class="pb-side_menu__item has_submenu">
                 <a class="pb-side_menu__link" title="Ferramentas">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">manufacturing</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">manufacturing</span></span>
                     <span class="pb-side_menu__label">Ferramentas</span>
                 </a>
                 <ul class="submenu">
@@ -1669,13 +1829,13 @@
             </li>
             <li class="pb-side_menu__item">
                 <a href="/saque" class="pb-side_menu__link active" title="Saques">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">receipt_long</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">receipt_long</span></span>
                     <span class="pb-side_menu__label">Saques</span>
                 </a>
             </li>
             <li class="pb-side_menu__item has_submenu">
                 <a class="pb-side_menu__link" title="Configurações">
-                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded">settings</span></span>
+                    <span class="pb-side_menu__icon"><span class="material-symbols-rounded" aria-hidden="true">settings</span></span>
                     <span class="pb-side_menu__label">Configurações</span>
                 </a>
                 <ul class="submenu">
@@ -1705,10 +1865,10 @@
                 </div>
                 <div class="tw-flex tw-gap-2">
                     <button class="btn-soft" data-bs-toggle="modal" data-bs-target="#modalTaxas">
-                        <span class="material-symbols-rounded">percent</span> Taxas e Prazos
+                        <span class="material-symbols-rounded" aria-hidden="true">percent</span> Taxas e Prazos
                     </button>
                     <button class="btn-soft" data-bs-toggle="modal" data-bs-target="#modalPix">
-                        <span class="material-symbols-rounded">account_balance</span> Dados PIX
+                        <span class="material-symbols-rounded" aria-hidden="true">account_balance</span> Dados PIX
                     </button>
                 </div>
             </div>
@@ -1721,7 +1881,7 @@
                 <a href="saldo-disponivel.html" class="saldo-card saldo-card--green tw-no-underline">
                     <div class="saldo-head">
                         <span class="saldo-label">Saldo Disponível</span>
-                        <span class="saldo-icon"><span class="material-symbols-rounded">account_balance_wallet</span></span>
+                        <span class="saldo-icon"><span class="material-symbols-rounded" aria-hidden="true">account_balance_wallet</span></span>
                     </div>
                     <div class="saldo-value">R$ 5.241,21</div>
                 </a>
@@ -1729,23 +1889,23 @@
                 <a href="recebiveis-futuros.html" class="saldo-card saldo-card--yellow tw-no-underline">
                     <div class="saldo-head">
                         <span class="saldo-label">Antecipável</span>
-                        <span class="saldo-icon"><span class="material-symbols-rounded">bolt</span></span>
+                        <span class="saldo-icon"><span class="material-symbols-rounded" aria-hidden="true">bolt</span></span>
                     </div>
                     <div class="saldo-value">R$ 12.121,49</div>
                 </a>
 
-                <a href="chargebacks.html" class="saldo-card saldo-card--red tw-no-underline">
+                <div class="saldo-card saldo-card--red saldo-card--static" aria-label="Chargebacks e estornos: informativo, não navegável">
                     <div class="saldo-head">
                         <span class="saldo-label">Chargebacks / Estornos</span>
-                        <span class="saldo-icon"><span class="material-symbols-rounded">sync_problem</span></span>
+                        <span class="saldo-icon"><span class="material-symbols-rounded" aria-hidden="true">sync_problem</span></span>
                     </div>
                     <div class="saldo-value">- R$ 350,00</div>
-                </a>
+                </div>
 
                 <a href="reserva-seguranca.html" class="saldo-card saldo-card--blue tw-no-underline">
                     <div class="saldo-head">
                         <span class="saldo-label">Reserva (90 dias)</span>
-                        <span class="saldo-icon"><span class="material-symbols-rounded">shield</span></span>
+                        <span class="saldo-icon"><span class="material-symbols-rounded" aria-hidden="true">shield</span></span>
                     </div>
                     <div class="saldo-value">R$ 2.161,54</div>
                 </a>
@@ -1754,9 +1914,9 @@
             <!-- Card de Saque -->
             <div class="anim-3 card-saque tw-mb-6">
                 <div class="saque-header">
-                    <div class="label-q">Quanto você deseja sacar?</div>
+                    <div class="label-q">Quanto você quer receber?</div>
                     <div class="saldo-info">
-                        <span class="material-symbols-rounded">savings</span>
+                        <span class="material-symbols-rounded" aria-hidden="true">savings</span>
                         Total disponível: <strong id="saldoTotalLbl">R$ 17.362,70</strong>
                     </div>
                 </div>
@@ -1769,7 +1929,7 @@
                     <button class="btn-max" id="btnMax" type="button">Tudo</button>
                 </div>
                 <div class="err-msg" id="errMsg">
-                    <span class="material-symbols-rounded">error</span>
+                    <span class="material-symbols-rounded" aria-hidden="true">error</span>
                     <span id="errMsgText">Valor excede o limite total disponível.</span>
                 </div>
 
@@ -1777,25 +1937,25 @@
                 <div class="saque-detail" id="saqueDetail" style="display:none;">
                     <div class="origem-box" id="origemBox">
                         <div class="origem-row">
-                            <span class="lbl"><span class="material-symbols-rounded">account_balance_wallet</span>Do saldo disponível</span>
+                            <span class="lbl"><span class="material-symbols-rounded" aria-hidden="true">account_balance_wallet</span>Do saldo disponível</span>
                             <strong id="oDisp">R$ 0,00</strong>
                         </div>
                         <div class="origem-row" id="oRowAntec" style="display:none;">
-                            <span class="lbl"><span class="material-symbols-rounded">bolt</span>Antecipação automática</span>
+                            <span class="lbl"><span class="material-symbols-rounded" aria-hidden="true">bolt</span>Antecipação automática</span>
                             <strong id="oAntec">R$ 0,00</strong>
                         </div>
                     </div>
 
                     <div class="break-row">
-                        <span class="lbl"><span class="material-symbols-rounded">request_page</span>Solicitado</span>
+                        <span class="lbl"><span class="material-symbols-rounded" aria-hidden="true">request_page</span>Bruto a solicitar</span>
                         <span class="val" id="bSolicitado">R$ 0,00</span>
                     </div>
                     <div class="break-row">
-                        <span class="lbl"><span class="material-symbols-rounded">request_quote</span>Taxa de saque</span>
+                        <span class="lbl"><span class="material-symbols-rounded" aria-hidden="true">request_quote</span>Taxa de saque</span>
                         <span class="val red" id="bTaxa">R$ 0,00</span>
                     </div>
                     <div class="break-row" id="rowAntec" style="display:none;">
-                        <span class="lbl"><span class="material-symbols-rounded">bolt</span>Antecipação <small style="color:#999;">(1,99%)</small></span>
+                        <span class="lbl"><span class="material-symbols-rounded" aria-hidden="true">bolt</span>Antecipação <small style="color:#999;">(1,99%)</small></span>
                         <span class="val red" id="bAntec">R$ 0,00</span>
                     </div>
                     <div class="break-row last">
@@ -1810,22 +1970,36 @@
             <!-- Histórico -->
             <div class="anim-4 historico-wrap">
                 <div class="historico-head">
-                    <div class="historico-title">
-                        <span class="material-symbols-rounded">receipt_long</span>
-                        Histórico de saques
-                    </div>
-                    <div class="tw-flex tw-items-center tw-gap-2">
-                        <span class="filter-label">Período</span>
-                        <select class="filter-select" id="filtroPeriodo">
-                            <option value="30">Últimos 30 dias</option>
-                            <option value="90" selected>Últimos 90 dias</option>
-                            <option value="180">Últimos 6 meses</option>
-                            <option value="365">Último ano</option>
-                            <option value="all">Tudo</option>
-                        </select>
-                        <button class="btn-soft" id="btnExportar">
-                            <span class="material-symbols-rounded">download</span> Exportar Extrato
-                        </button>
+                    <div class="historico-head-top">
+                        <div class="historico-title">
+                            <span class="material-symbols-rounded" aria-hidden="true">receipt_long</span>
+                            Histórico de saques
+                            <span class="counter" id="histCounter">0 saques</span>
+                        </div>
+                        <div class="tw-flex tw-items-center tw-gap-2">
+                            <span class="filter-label">Período</span>
+                            <select class="filter-select" id="filtroPeriodo">
+                                <option value="mes_atual">Mês atual</option>
+                                <option value="mes_anterior">Mês anterior</option>
+                                <option value="30">Últimos 30 dias</option>
+                                <option value="90" selected>Últimos 90 dias</option>
+                                <option value="180">Últimos 6 meses</option>
+                                <option value="365">Último ano</option>
+                                <option value="all">Tudo</option>
+                            </select>
+                            <div class="export-wrap" id="exportWrap">
+                                <button class="btn-soft" id="btnExportar" type="button" aria-haspopup="menu" aria-expanded="false">
+                                    <span class="material-symbols-rounded" aria-hidden="true">download</span>
+                                    Exportar
+                                    <span class="material-symbols-rounded" aria-hidden="true">expand_more</span>
+                                </button>
+                                <div class="export-menu" role="menu">
+                                    <button type="button" data-fmt="csv"><span class="material-symbols-rounded" aria-hidden="true">description</span> CSV</button>
+                                    <button type="button" data-fmt="xlsx"><span class="material-symbols-rounded" aria-hidden="true">table_chart</span> XLSX</button>
+                                    <button type="button" data-fmt="pdf"><span class="material-symbols-rounded" aria-hidden="true">picture_as_pdf</span> PDF</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1834,12 +2008,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Data</th>
-                                <th>Bruto</th>
-                                <th>Taxa</th>
-                                <th>Líquido</th>
+                                <th class="sortable" data-sort="data"><span class="sort-wrap">Data <span class="material-symbols-rounded sort-ic" aria-hidden="true">unfold_more</span></span></th>
+                                <th class="sortable num" data-sort="bruto"><span class="sort-wrap">Bruto <span class="material-symbols-rounded sort-ic" aria-hidden="true">unfold_more</span></span></th>
+                                <th class="sortable num" data-sort="taxa"><span class="sort-wrap">Taxa <span class="material-symbols-rounded sort-ic" aria-hidden="true">unfold_more</span></span></th>
+                                <th class="sortable num" data-sort="liquido"><span class="sort-wrap">Líquido <span class="material-symbols-rounded sort-ic" aria-hidden="true">unfold_more</span></span></th>
                                 <th>Status</th>
-                                <th>Ação</th>
                             </tr>
                         </thead>
                         <tbody id="historicoTbody"></tbody>
@@ -1848,12 +2021,11 @@
 
                 <div class="pagination-bar">
                     <div class="pagination-info">
-                        Mostrando <strong id="pagFrom">1</strong>-<strong id="pagTo">10</strong> de <strong id="pagTotal">12</strong> saques
+                        Mostrando <strong id="pagFrom">1</strong>-<strong id="pagTo">10</strong> de <strong id="pagTotal">12</strong>
                     </div>
                     <div class="pagination-controls" id="pagControls"></div>
-                    <div class="filter-group">
-                        <span class="filter-label">Por página</span>
-                        <select class="filter-select" id="filtroPerPage">
+                    <div class="pagination-perpage">
+                        <select class="filter-select" id="filtroPerPage" aria-label="Itens por página">
                             <option value="10" selected>10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
@@ -1882,7 +2054,7 @@
                     </div>
 
                     <div class="pix-row">
-                        <span class="ic"><span class="material-symbols-rounded">account_balance</span></span>
+                        <span class="ic"><span class="material-symbols-rounded" aria-hidden="true">account_balance</span></span>
                         <div class="info">
                             Será creditado na sua chave PIX:
                             <strong>CNPJ · 12.345.678/0001-90</strong>
@@ -1905,7 +2077,7 @@
                     </div>
 
                     <div class="prazo-row">
-                        <span class="material-symbols-rounded">schedule</span>
+                        <span class="material-symbols-rounded" aria-hidden="true">schedule</span>
                         Cai na sua conta em até 1 dia útil.
                     </div>
 
@@ -1924,7 +2096,7 @@
             <div class="modal-content">
                 <div class="modal-body" style="padding:36px 32px;">
                     <div class="success-modal">
-                        <div class="check-circle"><span class="material-symbols-rounded">check</span></div>
+                        <div class="check-circle"><span class="material-symbols-rounded" aria-hidden="true">check</span></div>
                         <h3>Solicitação enviada</h3>
                         <p class="sub">Seu saque foi registrado e está sendo processado.</p>
 
@@ -1972,7 +2144,7 @@
                         </div>
                         <div class="tx-v2-hero-card tx-v2-hero-card--reward">
                             <span class="tx-v2-hero-label">
-                                <span class="material-symbols-rounded">verified</span>
+                                <span class="material-symbols-rounded" aria-hidden="true">verified</span>
                                 Saque acima de R$ 10.000
                             </span>
                             <span class="tx-v2-hero-sub">benefício automático na operação</span>
@@ -1986,7 +2158,7 @@
                             <div class="tx-v2-section">
                                 <div class="tx-v2-section-head">
                                     <span class="tx-v2-section-icon">
-                                        <span class="material-symbols-rounded">payments</span>
+                                        <span class="material-symbols-rounded" aria-hidden="true">payments</span>
                                     </span>
                                     <div>
                                         <h6 class="tx-v2-section-title">Tarifas de saque</h6>
@@ -1997,21 +2169,21 @@
                                 <div class="tx-v2-card">
                                     <div class="tx-v2-row">
                                         <span class="tx-v2-row-lbl">
-                                            <span class="tx-v2-chip"><span class="material-symbols-rounded">percent</span></span>
+                                            <span class="tx-v2-chip"><span class="material-symbols-rounded" aria-hidden="true">percent</span></span>
                                             Taxa de juros
                                         </span>
                                         <span class="tx-v2-row-val">2,99% <span class="tx-v2-row-unit">a.m.</span></span>
                                     </div>
                                     <div class="tx-v2-row">
                                         <span class="tx-v2-row-lbl">
-                                            <span class="tx-v2-chip"><span class="material-symbols-rounded">bolt</span></span>
+                                            <span class="tx-v2-chip"><span class="material-symbols-rounded" aria-hidden="true">bolt</span></span>
                                             Taxa de antecipação
                                         </span>
                                         <span class="tx-v2-row-val">1,99%</span>
                                     </div>
                                     <div class="tx-v2-row tx-v2-row--accent">
                                         <span class="tx-v2-row-lbl">
-                                            <span class="tx-v2-chip tx-v2-chip--yellow"><span class="material-symbols-rounded">shield</span></span>
+                                            <span class="tx-v2-chip tx-v2-chip--yellow"><span class="material-symbols-rounded" aria-hidden="true">shield</span></span>
                                             Reserva de Segurança
                                             <span class="tx-v2-help material-symbols-rounded" title="Percentual retido por 90 dias para cobrir possíveis chargebacks e estornos.">help</span>
                                         </span>
@@ -2029,7 +2201,7 @@
                             <div class="tx-v2-section">
                                 <div class="tx-v2-section-head">
                                     <span class="tx-v2-section-icon">
-                                        <span class="material-symbols-rounded">credit_card</span>
+                                        <span class="material-symbols-rounded" aria-hidden="true">credit_card</span>
                                     </span>
                                     <div>
                                         <h6 class="tx-v2-section-title">Tarifas por método de recebimento</h6>
@@ -2048,22 +2220,22 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><span class="badge-method blue"><span class="material-symbols-rounded">credit_card</span>Crédito</span></td>
+                                                <td><span class="badge-method blue"><span class="material-symbols-rounded" aria-hidden="true">credit_card</span>Crédito</span></td>
                                                 <td class="tx-v2-num">3,49%</td>
                                                 <td class="tx-v2-num">D+30</td>
                                             </tr>
                                             <tr>
-                                                <td><span class="badge-method blue"><span class="material-symbols-rounded">account_balance_wallet</span>Débito</span></td>
+                                                <td><span class="badge-method blue"><span class="material-symbols-rounded" aria-hidden="true">account_balance_wallet</span>Débito</span></td>
                                                 <td class="tx-v2-num">1,99%</td>
                                                 <td class="tx-v2-num">D+1</td>
                                             </tr>
                                             <tr>
-                                                <td><span class="badge-method green"><span class="material-symbols-rounded">bolt</span>PIX</span></td>
+                                                <td><span class="badge-method green"><span class="material-symbols-rounded" aria-hidden="true">bolt</span>PIX</span></td>
                                                 <td class="tx-v2-num">0,99%</td>
                                                 <td class="tx-v2-num">D+1</td>
                                             </tr>
                                             <tr>
-                                                <td><span class="badge-method gray"><span class="material-symbols-rounded">receipt_long</span>Boleto</span></td>
+                                                <td><span class="badge-method gray"><span class="material-symbols-rounded" aria-hidden="true">receipt_long</span>Boleto</span></td>
                                                 <td class="tx-v2-num">R$ 2,50</td>
                                                 <td class="tx-v2-num">D+2</td>
                                             </tr>
@@ -2089,7 +2261,7 @@
             <div class="modal-content">
                 <div class="modal-header pix-v2-header">
                     <h5 class="modal-title pix-v2-title">
-                        <span class="pix-v2-title-ic"><span class="material-symbols-rounded">lock</span></span>
+                        <span class="pix-v2-title-ic"><span class="material-symbols-rounded" aria-hidden="true">lock</span></span>
                         Dados PIX para recebimento
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -2102,8 +2274,6 @@
                             Chave verificada
                             <span class="pix-v2-trust-sep">·</span>
                             última alteração 12/03/2026
-                            <span class="pix-v2-trust-sep">·</span>
-                            próxima rotação não agendada
                         </span>
                     </div>
 
@@ -2112,7 +2282,7 @@
                             <div class="pix-v2-key-head">
                                 <small class="pix-v2-key-label">Chave PIX atual</small>
                                 <span class="pix-v2-type-pill">
-                                    <span class="material-symbols-rounded">badge</span>
+                                    <span class="material-symbols-rounded" aria-hidden="true">badge</span>
                                     CNPJ
                                 </span>
                             </div>
@@ -2127,7 +2297,7 @@
 
                         <div class="security-note pix-v2-security">
                             <span class="pix-v2-security-chip">
-                                <span class="material-symbols-rounded">shield</span>
+                                <span class="material-symbols-rounded" aria-hidden="true">shield</span>
                             </span>
                             <span class="pix-v2-security-text">
                                 Toda alteração na chave PIX gera e-mail de confirmação e fica registrada no histórico de auditoria.
@@ -2135,7 +2305,7 @@
                         </div>
 
                         <button class="btn-trocar-pix pix-v2-cta-secondary" id="btnTrocarPix">
-                            <span class="material-symbols-rounded">edit</span> Trocar chave PIX
+                            <span class="material-symbols-rounded" aria-hidden="true">edit</span> Trocar chave PIX
                         </button>
                     </div>
 
@@ -2157,14 +2327,14 @@
                         </div>
 
                         <div class="pix-v2-warning">
-                            <span class="material-symbols-rounded">mark_email_read</span>
+                            <span class="material-symbols-rounded" aria-hidden="true">mark_email_read</span>
                             Esta operação dispara e-mail de confirmação para o endereço cadastrado.
                         </div>
 
                         <div class="modal-actions pix-v2-actions">
                             <button class="btn-cancel" id="btnCancelarEdit">Cancelar</button>
                             <button class="btn-trocar-pix" style="background:var(--pagah-dark);" id="btnSalvarPix">
-                                <span class="material-symbols-rounded">check</span> Salvar nova chave
+                                <span class="material-symbols-rounded" aria-hidden="true">check</span> Salvar nova chave
                             </button>
                         </div>
                     </div>
@@ -2218,42 +2388,76 @@
         // Atualiza label do total disponível
         $saldoTotalLbl.textContent = fmt(saldoTotal);
 
+        // Cálculo inverso: dado o líquido desejado, retorna o bruto a solicitar
+        function calcularBruto(liquidoDesejado) {
+            if (liquidoDesejado <= 0) return 0;
+
+            // Tenta sem antecipação (bruto <= saldoDisp)
+            const taxaFlat = (liquidoDesejado + TAXA_SAQUE < LIMITE_ISENCAO) ? TAXA_SAQUE : 0;
+            const brutoSemAntec = liquidoDesejado + taxaFlat;
+            if (brutoSemAntec <= saldoDisp) {
+                return Math.round(brutoSemAntec * 100) / 100;
+            }
+
+            // Precisa de antecipação: bruto > saldoDisp
+            const t1 = (saldoDisp > 0 && saldoDisp < LIMITE_ISENCAO) ? TAXA_SAQUE : 0;
+            // Tenta com t2 = TAXA_SAQUE (usoAntec < LIMITE_ISENCAO)
+            let totalTaxaSaque = t1 + TAXA_SAQUE;
+            let bruto = (liquidoDesejado + totalTaxaSaque - saldoDisp * TAXA_ANTECIPACAO) / (1 - TAXA_ANTECIPACAO);
+            // Se usoAntec >= LIMITE_ISENCAO, refaz sem t2
+            if (bruto - saldoDisp >= LIMITE_ISENCAO) {
+                totalTaxaSaque = t1;
+                bruto = (liquidoDesejado + totalTaxaSaque - saldoDisp * TAXA_ANTECIPACAO) / (1 - TAXA_ANTECIPACAO);
+            }
+            return Math.round(bruto * 100) / 100;
+        }
+
+        // Líquido máximo que o usuário pode receber sacando tudo
+        function liquidoMaximo() {
+            const usoAntec = saldoAntec;
+            const t1 = (saldoDisp > 0 && saldoDisp < LIMITE_ISENCAO) ? TAXA_SAQUE : 0;
+            const t2 = (usoAntec > 0 && usoAntec < LIMITE_ISENCAO) ? TAXA_SAQUE : 0;
+            const taxas = t1 + t2 + usoAntec * TAXA_ANTECIPACAO;
+            return Math.max(0, saldoTotal - taxas);
+        }
+
         function recalcular() {
-            let valor = parseFloat($valor.value);
-            if (isNaN(valor)) valor = 0;
+            let liquidoDesejado = parseFloat($valor.value);
+            if (isNaN(liquidoDesejado)) liquidoDesejado = 0;
 
             $err.classList.remove('show');
             $inputWrap.classList.remove('is-error');
 
-            if (valor <= 0) {
+            if (liquidoDesejado <= 0) {
                 $detail.style.display = 'none';
                 return;
             }
 
             $detail.style.display = 'block';
 
-            if (valor > saldoTotal) {
+            const liqMax = liquidoMaximo();
+            if (liquidoDesejado > liqMax) {
                 $err.classList.add('show');
+                document.getElementById('errMsgText').textContent = 'Valor excede o máximo disponível para receber.';
                 $inputWrap.classList.add('is-error');
                 $btn.disabled = true;
                 $btn.textContent = 'Saldo insuficiente';
                 $origem.classList.remove('show');
-                $bSolicitado.textContent = fmt(valor);
+                $bSolicitado.textContent = '—';
                 $bTaxa.textContent = 'R$ 0,00';
-                $bLiquido.textContent = 'R$ 0,00';
+                $bLiquido.textContent = fmt(liquidoDesejado);
                 $rowAntec.style.display = 'none';
                 return;
             }
 
-            const usoDisp = (valor <= saldoDisp) ? valor : saldoDisp;
-            const usoAntec = (valor > saldoDisp) ? valor - saldoDisp : 0;
+            const bruto = calcularBruto(liquidoDesejado);
+            const usoDisp = (bruto <= saldoDisp) ? bruto : saldoDisp;
+            const usoAntec = (bruto > saldoDisp) ? bruto - saldoDisp : 0;
 
             const t1 = (usoDisp > 0 && usoDisp < LIMITE_ISENCAO) ? TAXA_SAQUE : 0;
             const t2 = (usoAntec > 0 && usoAntec < LIMITE_ISENCAO) ? TAXA_SAQUE : 0;
             const totalTaxaSaque = t1 + t2;
             const totalTaxaAntec = usoAntec * TAXA_ANTECIPACAO;
-            const totalTaxas = totalTaxaSaque + totalTaxaAntec;
-            const liquido = Math.max(0, valor - totalTaxas);
 
             $oDisp.textContent = fmt(usoDisp);
             if (usoAntec > 0) {
@@ -2264,28 +2468,24 @@
             }
             $origem.classList.add('show');
 
-            $bSolicitado.textContent = fmt(valor);
-            $bTaxa.textContent = totalTaxaSaque > 0 ? '- ' + fmt(totalTaxaSaque) : 'R$ 0,00';
+            $bSolicitado.textContent = fmt(bruto);
+            $bTaxa.textContent = totalTaxaSaque > 0 ? '− ' + fmt(totalTaxaSaque) : 'R$ 0,00';
             if (usoAntec > 0) {
-                $bAntec.textContent = '- ' + fmt(totalTaxaAntec);
+                $bAntec.textContent = '− ' + fmt(totalTaxaAntec);
                 $rowAntec.style.display = 'flex';
             } else {
                 $rowAntec.style.display = 'none';
             }
-            $bLiquido.textContent = fmt(liquido);
+            $bLiquido.textContent = fmt(liquidoDesejado);
 
-            if (liquido <= 0) {
-                $btn.disabled = true; $btn.textContent = 'Valor insuficiente para cobrir as taxas';
-            } else {
-                $btn.disabled = false; $btn.textContent = 'confirmar saque';
-            }
+            $btn.disabled = false; $btn.textContent = 'confirmar saque';
         }
 
         $valor.addEventListener('input', recalcular);
 
-        // Botão "Tudo" — preenche com saldo total
+        // Botão "Tudo" — preenche com o máximo líquido possível
         $btnMax.addEventListener('click', () => {
-            $valor.value = saldoTotal.toFixed(2);
+            $valor.value = liquidoMaximo().toFixed(2);
             $valor.focus();
             recalcular();
         });
@@ -2298,34 +2498,28 @@
 
         $btn.addEventListener('click', () => {
             if ($btn.disabled) return;
-            const valor = parseFloat($valor.value) || 0;
-            if (valor <= 0) return;
+            const liquidoDesejado = parseFloat($valor.value) || 0;
+            if (liquidoDesejado <= 0) return;
 
-            const usoDisp = (valor <= saldoDisp) ? valor : saldoDisp;
-            const usoAntec = (valor > saldoDisp) ? valor - saldoDisp : 0;
+            const bruto = calcularBruto(liquidoDesejado);
+            const usoDisp = (bruto <= saldoDisp) ? bruto : saldoDisp;
+            const usoAntec = (bruto > saldoDisp) ? bruto - saldoDisp : 0;
             const t1 = (usoDisp > 0 && usoDisp < LIMITE_ISENCAO) ? TAXA_SAQUE : 0;
             const t2 = (usoAntec > 0 && usoAntec < LIMITE_ISENCAO) ? TAXA_SAQUE : 0;
             const totalTaxas = t1 + t2 + (usoAntec * TAXA_ANTECIPACAO);
-            const liquido = Math.max(0, valor - totalTaxas);
 
-            document.getElementById('cLiquido').textContent = fmt(liquido);
-            document.getElementById('cSolicitado').textContent = fmt(valor);
-            document.getElementById('cTaxas').textContent = '- ' + fmt(totalTaxas);
-            document.getElementById('cLiquidoMini').textContent = fmt(liquido);
+            document.getElementById('cLiquido').textContent = fmt(liquidoDesejado);
+            document.getElementById('cSolicitado').textContent = fmt(bruto);
+            document.getElementById('cTaxas').textContent = '− ' + fmt(totalTaxas);
+            document.getElementById('cLiquidoMini').textContent = fmt(liquidoDesejado);
 
             modalConfirm.show();
         });
 
         document.getElementById('btnConfirmarFinal').addEventListener('click', () => {
-            const valor = parseFloat($valor.value) || 0;
-            const usoDisp = (valor <= saldoDisp) ? valor : saldoDisp;
-            const usoAntec = (valor > saldoDisp) ? valor - saldoDisp : 0;
-            const t1 = (usoDisp > 0 && usoDisp < LIMITE_ISENCAO) ? TAXA_SAQUE : 0;
-            const t2 = (usoAntec > 0 && usoAntec < LIMITE_ISENCAO) ? TAXA_SAQUE : 0;
-            const totalTaxas = t1 + t2 + (usoAntec * TAXA_ANTECIPACAO);
-            const liquido = Math.max(0, valor - totalTaxas);
+            const liquidoDesejado = parseFloat($valor.value) || 0;
 
-            document.getElementById('sValor').textContent = fmt(liquido);
+            document.getElementById('sValor').textContent = fmt(liquidoDesejado);
             document.getElementById('sId').textContent = '#' + Math.floor(Math.random() * 900 + 100);
 
             modalConfirm.hide();
@@ -2341,7 +2535,9 @@
         const SAQUES = [
             { id: 273, data: '17/11/2025', bruto: 13500.00, taxa: 3318.90, liquido: 10181.10, status: 'pago' },
             { id: 272, data: '10/11/2025', bruto: 8200.00, taxa: 7.34, liquido: 8192.66, status: 'pago' },
+            { id: 274, data: '12/11/2025', bruto: 1500.00, taxa: 0.00, liquido: 1500.00, status: 'erro' },
             { id: 271, data: '03/11/2025', bruto: 4500.00, taxa: 3.67, liquido: 4496.33, status: 'analise' },
+            { id: 275, data: '02/11/2025', bruto: 950.00, taxa: 0.00, liquido: 950.00, status: 'cancelado' },
             { id: 270, data: '28/10/2025', bruto: 12000.00, taxa: 238.80, liquido: 11761.20, status: 'pago' },
             { id: 269, data: '21/10/2025', bruto: 5300.00, taxa: 3.67, liquido: 5296.33, status: 'pago' },
             { id: 268, data: '14/10/2025', bruto: 9100.00, taxa: 7.34, liquido: 9092.66, status: 'pago' },
@@ -2350,95 +2546,217 @@
             { id: 265, data: '23/09/2025', bruto: 11200.00, taxa: 222.88, liquido: 10977.12, status: 'pago' },
             { id: 264, data: '16/09/2025', bruto: 3200.00, taxa: 3.67, liquido: 3196.33, status: 'pago' },
             { id: 263, data: '09/09/2025', bruto: 7800.00, taxa: 3.67, liquido: 7796.33, status: 'analise' },
-            { id: 262, data: '02/09/2025', bruto: 4100.00, taxa: 3.67, liquido: 4096.33, status: 'pago' }
+            { id: 262, data: '02/09/2025', bruto: 4100.00, taxa: 3.67, liquido: 4096.33, status: 'pago' },
+            // Entradas adicionais para testar filtros (mês atual / anterior / erros)
+            { id: 281, data: '05/05/2026', bruto: 9800.00, taxa: 196.00, liquido: 9604.00, status: 'pago' },
+            { id: 280, data: '02/05/2026', bruto: 2300.00, taxa: 3.67, liquido: 2296.33, status: 'analise' },
+            { id: 279, data: '28/04/2026', bruto: 6700.00, taxa: 7.34, liquido: 6692.66, status: 'pago' },
+            { id: 278, data: '20/04/2026', bruto: 1200.00, taxa: 0.00, liquido: 1200.00, status: 'erro' },
+            { id: 277, data: '15/04/2026', bruto: 3400.00, taxa: 3.67, liquido: 3396.33, status: 'pago' },
+            { id: 276, data: '07/04/2026', bruto: 5800.00, taxa: 7.34, liquido: 5792.66, status: 'cancelado' },
+            { id: 261, data: '20/08/2025', bruto: 2200.00, taxa: 3.67, liquido: 2196.33, status: 'pago' },
+            { id: 260, data: '10/07/2025', bruto: 4800.00, taxa: 3.67, liquido: 4796.33, status: 'pago' }
         ];
 
         const STATUS_LABELS = {
             pago: { label: 'Pago', cls: 'badge-green' },
             analise: { label: 'Em análise', cls: 'badge-yellow' },
-            cancelado: { label: 'Cancelado', cls: 'badge-red' }
+            cancelado: { label: 'Cancelado', cls: 'badge-gray' },
+            erro: { label: 'Erro', cls: 'badge-red' }
         };
 
         let perPage = 10;
         let currentPage = 1;
+        let activePeriodo = '90';
+        let sortKey = 'data';
+        let sortDir = 'desc';
+
+        // Hoje fixo no protótipo (alinhado com currentDate do projeto)
+        const HOJE = new Date(2026, 4, 8); // mês 4 = maio (0-indexed)
 
         const $tbody = document.getElementById('historicoTbody');
         const $pagFrom = document.getElementById('pagFrom');
         const $pagTo = document.getElementById('pagTo');
         const $pagTotal = document.getElementById('pagTotal');
         const $pagControls = document.getElementById('pagControls');
+        const $histCounter = document.getElementById('histCounter');
 
+        function parseData(s) {
+            const [d, m, y] = s.split('/').map(Number);
+            return new Date(y, m - 1, d);
+        }
+
+        function inPeriodo(saque, periodo) {
+            const d = parseData(saque.data);
+            if (periodo === 'all') return true;
+            if (periodo === 'mes_atual') {
+                return d.getFullYear() === HOJE.getFullYear() && d.getMonth() === HOJE.getMonth();
+            }
+            if (periodo === 'mes_anterior') {
+                const ref = new Date(HOJE.getFullYear(), HOJE.getMonth() - 1, 1);
+                return d.getFullYear() === ref.getFullYear() && d.getMonth() === ref.getMonth();
+            }
+            const dias = parseInt(periodo, 10);
+            if (!dias) return true;
+            const limite = new Date(HOJE);
+            limite.setDate(limite.getDate() - dias);
+            return d >= limite && d <= HOJE;
+        }
+
+        // Filtra por período (sem ordenar)
+        function getFilteredBase() {
+            return SAQUES.filter(s => inPeriodo(s, activePeriodo));
+        }
+
+        // Aplica também ordenação
         function getFiltered() {
-            // Filtro de período é cosmético no protótipo (todos mocks no mesmo período).
-            return SAQUES.slice();
+            const arr = getFilteredBase().slice();
+            arr.sort((a, b) => {
+                let av, bv;
+                if (sortKey === 'data') { av = parseData(a.data); bv = parseData(b.data); }
+                else { av = a[sortKey]; bv = b[sortKey]; }
+                if (av < bv) return sortDir === 'asc' ? -1 : 1;
+                if (av > bv) return sortDir === 'asc' ? 1 : -1;
+                return 0;
+            });
+            return arr;
+        }
+
+        function renderTotals(filtered) {
+            $histCounter.textContent = filtered.length + (filtered.length === 1 ? ' saque' : ' saques');
+        }
+
+        function renderSortIndicators() {
+            document.querySelectorAll('.saques-table thead th.sortable').forEach(th => {
+                const ic = th.querySelector('.sort-ic');
+                const key = th.getAttribute('data-sort');
+                if (key === sortKey) {
+                    th.classList.add('sorted');
+                    ic.textContent = sortDir === 'asc' ? 'arrow_upward' : 'arrow_downward';
+                } else {
+                    th.classList.remove('sorted');
+                    ic.textContent = 'unfold_more';
+                }
+            });
+        }
+
+        function renderEmptyState() {
+            const tr = document.createElement('tr');
+            tr.className = 'empty-row';
+            const td = document.createElement('td');
+            td.colSpan = 6;
+            td.style.padding = '0';
+            const wrap = document.createElement('div');
+            wrap.className = 'empty-state';
+            const ic = document.createElement('span');
+            ic.className = 'material-symbols-rounded';
+            ic.setAttribute('aria-hidden', 'true');
+            ic.textContent = 'search_off';
+            const t = document.createElement('div');
+            t.className = 'empty-title';
+            t.textContent = 'Nenhum saque encontrado';
+            const sub = document.createElement('div');
+            sub.className = 'empty-sub';
+            sub.textContent = 'Tente ajustar os filtros ou período';
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'empty-clear';
+            btn.textContent = 'Limpar filtros';
+            btn.addEventListener('click', () => {
+                activePeriodo = '90';
+                document.getElementById('filtroPeriodo').value = '90';
+                currentPage = 1;
+                renderHistorico();
+            });
+            wrap.appendChild(ic);
+            wrap.appendChild(t);
+            wrap.appendChild(sub);
+            wrap.appendChild(btn);
+            td.appendChild(wrap);
+            tr.appendChild(td);
+            $tbody.appendChild(tr);
         }
 
         function renderHistorico() {
+            renderSortIndicators();
             const filtered = getFiltered();
+            renderTotals(filtered);
+
             const total = filtered.length;
             const totalPages = Math.max(1, Math.ceil(total / perPage));
             if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
 
             const start = (currentPage - 1) * perPage;
             const end = Math.min(start + perPage, total);
             const pageRows = filtered.slice(start, end);
 
-            // Render rows (sem innerHTML para evitar XSS)
             $tbody.replaceChildren();
             if (pageRows.length === 0) {
-                const tr = document.createElement('tr');
-                tr.className = 'empty-row';
-                const td = document.createElement('td');
-                td.colSpan = 7;
-                td.textContent = 'Nenhum saque encontrado com os filtros aplicados.';
-                tr.appendChild(td);
-                $tbody.appendChild(tr);
+                renderEmptyState();
             } else {
                 pageRows.forEach(s => {
                     const tr = document.createElement('tr');
-                    const cells = [
-                        { text: '#' + s.id },
-                        { text: s.data, cls: 'text-muted' },
-                        { text: fmt(s.bruto) },
-                        { text: '- ' + fmt(s.taxa), cls: 'red' },
-                        { text: fmt(s.liquido), cls: 'text-dark-bold' },
-                        { html: 'badge', status: s.status },
-                        { html: 'btn', id: s.id }
-                    ];
-                    cells.forEach(c => {
-                        const td = document.createElement('td');
-                        if (c.cls) td.className = c.cls;
-                        if (c.html === 'badge') {
-                            const span = document.createElement('span');
-                            const st = STATUS_LABELS[c.status];
-                            span.className = 'badge-pagah ' + st.cls;
-                            span.textContent = st.label;
-                            td.appendChild(span);
-                        } else if (c.html === 'btn') {
-                            const a = document.createElement('a');
-                            a.className = 'btn-soft';
-                            a.href = 'saque-detalhes.html?id=' + c.id;
-                            const ic = document.createElement('span');
-                            ic.className = 'material-symbols-rounded';
-                            ic.textContent = 'visibility';
-                            a.appendChild(ic);
-                            a.appendChild(document.createTextNode(' Detalhes'));
-                            td.appendChild(a);
-                        } else {
-                            td.textContent = c.text;
-                        }
-                        tr.appendChild(td);
+                    if (s.status === 'erro') tr.classList.add('row-erro');
+                    if (s.status === 'cancelado') tr.classList.add('row-cancelado');
+                    tr.addEventListener('click', (ev) => {
+                        // Evita disparo se clicou direto no link (já navega)
+                        if (ev.target.closest('a')) return;
+                        window.location.href = 'saque-detalhes.html?id=' + s.id;
                     });
+
+                    // ID (link)
+                    const tdId = document.createElement('td');
+                    const a = document.createElement('a');
+                    a.className = 'id-link';
+                    a.href = 'saque-detalhes.html?id=' + s.id;
+                    a.textContent = '#' + s.id;
+                    tdId.appendChild(a);
+                    tr.appendChild(tdId);
+
+                    // Data
+                    const tdData = document.createElement('td');
+                    tdData.className = 'text-muted';
+                    tdData.textContent = s.data;
+                    tr.appendChild(tdData);
+
+                    // Bruto
+                    const tdBruto = document.createElement('td');
+                    tdBruto.className = 'num';
+                    tdBruto.textContent = fmt(s.bruto);
+                    tr.appendChild(tdBruto);
+
+                    // Taxa
+                    const tdTaxa = document.createElement('td');
+                    tdTaxa.className = 'num col-taxa';
+                    tdTaxa.textContent = '− ' + fmt(s.taxa);
+                    tr.appendChild(tdTaxa);
+
+                    // Líquido
+                    const tdLiq = document.createElement('td');
+                    tdLiq.className = 'num col-liquido';
+                    tdLiq.textContent = fmt(s.liquido);
+                    tr.appendChild(tdLiq);
+
+                    // Status
+                    const tdStatus = document.createElement('td');
+                    const span = document.createElement('span');
+                    const st = STATUS_LABELS[s.status];
+                    span.className = 'badge-pagah ' + st.cls;
+                    span.textContent = st.label;
+                    tdStatus.appendChild(span);
+                    tr.appendChild(tdStatus);
+
                     $tbody.appendChild(tr);
                 });
             }
 
-            // Info
+            // Info paginação
             $pagFrom.textContent = total === 0 ? 0 : start + 1;
             $pagTo.textContent = end;
             $pagTotal.textContent = total;
 
-            // Pagination buttons (sem innerHTML)
+            // Botões
             $pagControls.replaceChildren();
             const mkBtn = (label, onClick, opts = {}) => {
                 const b = document.createElement('button');
@@ -2447,6 +2765,7 @@
                 if (opts.icon) {
                     const ic = document.createElement('span');
                     ic.className = 'material-symbols-rounded';
+                    ic.setAttribute('aria-hidden', 'true');
                     ic.textContent = label;
                     b.appendChild(ic);
                 } else {
@@ -2468,27 +2787,63 @@
             currentPage = 1;
             renderHistorico();
         });
-        document.getElementById('filtroPeriodo').addEventListener('change', () => {
-            // Filtro de período é cosmético no protótipo (todos os mocks são do mesmo período)
+        document.getElementById('filtroPeriodo').addEventListener('change', (e) => {
+            activePeriodo = e.target.value;
             currentPage = 1;
             renderHistorico();
         });
 
+        // Sortable headers
+        document.querySelectorAll('.saques-table thead th.sortable').forEach(th => {
+            th.addEventListener('click', () => {
+                const key = th.getAttribute('data-sort');
+                if (sortKey === key) {
+                    sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+                } else {
+                    sortKey = key;
+                    sortDir = key === 'data' ? 'desc' : 'desc';
+                }
+                renderHistorico();
+            });
+        });
+
         renderHistorico();
 
-        // Exportar CSV (a partir do dataset filtrado)
-        document.getElementById('btnExportar').addEventListener('click', () => {
-            const rows = [['ID', 'Data', 'Bruto', 'Taxa', 'Líquido', 'Status']];
-            getFiltered().forEach(s => {
-                rows.push(['#' + s.id, s.data, fmt(s.bruto), '- ' + fmt(s.taxa), fmt(s.liquido), STATUS_LABELS[s.status].label]);
+        // Export dropdown
+        const $exportWrap = document.getElementById('exportWrap');
+        const $btnExportar = document.getElementById('btnExportar');
+        $btnExportar.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const open = $exportWrap.classList.toggle('open');
+            $btnExportar.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        document.addEventListener('click', (e) => {
+            if (!$exportWrap.contains(e.target)) {
+                $exportWrap.classList.remove('open');
+                $btnExportar.setAttribute('aria-expanded', 'false');
+            }
+        });
+        $exportWrap.querySelectorAll('.export-menu button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const f = btn.getAttribute('data-fmt');
+                $exportWrap.classList.remove('open');
+                $btnExportar.setAttribute('aria-expanded', 'false');
+                if (f === 'csv') {
+                    const rows = [['ID', 'Data', 'Bruto', 'Taxa', 'Líquido', 'Status']];
+                    getFiltered().forEach(s => {
+                        rows.push(['#' + s.id, s.data, fmt(s.bruto), '- ' + fmt(s.taxa), fmt(s.liquido), STATUS_LABELS[s.status].label]);
+                    });
+                    const csv = rows.map(r => r.map(c => `"${c.replace(/"/g, '""')}"`).join(';')).join('\n');
+                    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url; a.download = 'extrato-saques.csv';
+                    document.body.appendChild(a); a.click();
+                    document.body.removeChild(a); URL.revokeObjectURL(url);
+                } else {
+                    alert('Exportação ' + f.toUpperCase() + ' em breve.');
+                }
             });
-            const csv = rows.map(r => r.map(c => `"${c.replace(/"/g, '""')}"`).join(';')).join('\n');
-            const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url; a.download = 'extrato-saques.csv';
-            document.body.appendChild(a); a.click();
-            document.body.removeChild(a); URL.revokeObjectURL(url);
         });
 
         // Modal PIX
@@ -2526,3 +2881,4 @@
 </body>
 
 </html>
+

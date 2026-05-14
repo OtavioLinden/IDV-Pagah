@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -204,59 +204,65 @@
         .kpi-bar {
             display: grid;
             grid-template-columns: 1.6fr 1fr 1fr;
+            grid-template-rows: auto auto;
             gap: 12px;
             margin-bottom: 20px;
         }
         @media (max-width: 900px) {
-            .kpi-bar { grid-template-columns: 1fr; }
+            .kpi-bar { grid-template-columns: 1fr; grid-template-rows: auto; }
         }
         .kpi-cell {
             background: #fff;
             border: 1px solid rgba(0,0,0,.04);
             border-radius: 10px;
-            padding: 12px 14px;
+            padding: 14px 16px;
             box-shadow: 0 2px 6px rgba(0,0,0,.03);
+            display: flex; flex-direction: column; justify-content: center;
         }
         .kpi-cell .lbl {
             font-size: 10px; font-weight: 700;
             color: var(--pagah-gray);
             text-transform: uppercase; letter-spacing: 0.5px;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             display: flex; align-items: center; gap: 5px;
         }
         .kpi-cell .lbl .material-symbols-rounded { font-size: 14px; }
         .kpi-cell .val {
-            font-size: 1.1rem; font-weight: 800;
+            font-size: 1.25rem; font-weight: 800;
             color: var(--pagah-dark);
             letter-spacing: -0.3px;
             line-height: 1.1;
         }
-        .kpi-cell .val.green { color: var(--pagah-green); }
-        .kpi-cell .sub { font-size: 11px; color: var(--pagah-gray); margin-top: 2px; }
+        .kpi-cell .sub { font-size: 11px; color: var(--pagah-gray); margin-top: 4px; }
 
         /* HERO PRETO */
         .kpi-hero {
             position: relative;
             background: var(--pagah-dark);
             border-radius: 12px;
-            padding: 18px 22px;
+            padding: 22px 24px;
             color: #fff;
             box-shadow: 0 6px 18px rgba(0,0,0,.18);
             overflow: hidden;
-            display: flex; flex-direction: column; gap: 12px;
-            grid-row: span 2;
+            display: flex; flex-direction: column;
+            grid-column: 1; grid-row: 1 / 3;
+            justify-content: space-between;
+            min-height: 200px;
         }
-        @media (max-width: 900px) { .kpi-hero { grid-row: auto; } }
+        @media (max-width: 900px) {
+            .kpi-hero { grid-column: auto; grid-row: auto; min-height: 0; }
+        }
         .kpi-hero::after {
             content: ''; position: absolute;
             top: -40%; right: -25%;
-            width: 220px; height: 220px;
-            background: radial-gradient(circle, rgba(241, 229, 47, 0.10), transparent 70%);
+            width: 240px; height: 240px;
+            background: radial-gradient(circle, rgba(241, 229, 47, 0.12), transparent 70%);
             pointer-events: none;
         }
         .kpi-hero .hero-top {
             position: relative; z-index: 1;
             display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 14px;
         }
         .kpi-hero .hero-lbl {
             font-size: 10px; font-weight: 700;
@@ -273,126 +279,34 @@
         }
         .kpi-hero .hero-val {
             position: relative; z-index: 1;
-            font-size: 2.2rem; font-weight: 800;
+            font-size: 2.4rem; font-weight: 800;
             color: var(--pagah-yellow);
             letter-spacing: -1px; line-height: 1;
+            margin-bottom: 8px;
         }
         .kpi-hero .hero-cta-line {
             position: relative; z-index: 1;
-            font-size: 11.5px;
+            font-size: 12px;
             color: rgba(255,255,255,.7);
+            margin-bottom: 18px;
         }
-        .kpi-hero .hero-meta {
+        .kpi-hero .hero-chips {
             position: relative; z-index: 1;
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            padding-top: 12px;
+            display: flex; flex-wrap: wrap; gap: 8px;
+            padding-top: 14px;
             border-top: 1px solid rgba(255,255,255,.08);
         }
-        .kpi-hero .hero-meta .col { display: flex; flex-direction: column; gap: 2px; }
-        .kpi-hero .hero-meta .mlbl {
-            font-size: 9.5px; font-weight: 600;
-            color: rgba(255,255,255,.55);
-            text-transform: uppercase; letter-spacing: 0.5px;
+        .hero-chip {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.08);
+            padding: 6px 10px; border-radius: 99px;
+            font-size: 11.5px; font-weight: 600;
+            color: #fff;
         }
-        .kpi-hero .hero-meta .mval {
-            font-size: 13px; font-weight: 700; color: #fff;
-            line-height: 1.1;
-        }
-        .kpi-hero .hero-meta .msub {
-            font-size: 10px; color: rgba(255,255,255,.55);
-        }
-
-        /* CARDS DE MÉTODO SELECIONÁVEIS */
-        .metodos-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        @media (max-width: 900px) {
-            .metodos-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 600px) {
-            .metodos-grid { grid-template-columns: 1fr; }
-        }
-        .metodo-card {
-            background: #fff;
-            border: 1.5px solid rgba(0,0,0,.06);
-            border-radius: 12px;
-            padding: 14px 16px;
-            cursor: pointer;
-            transition: all .2s ease;
-            display: flex; align-items: flex-start; gap: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,.03);
-            position: relative;
-            font-family: inherit;
-            text-align: left;
-            color: inherit;
-        }
-        .metodo-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,.06);
-            border-color: #DADADA;
-        }
-        .metodo-card.active {
-            border-color: var(--pagah-dark);
-            box-shadow: 0 4px 14px rgba(0,0,0,.08);
-            background: #FAFAFA;
-        }
-        .metodo-card.active::after {
-            content: 'check_circle';
-            font-family: 'Material Symbols Rounded';
-            position: absolute;
-            top: 10px; right: 10px;
-            font-size: 18px;
-            color: var(--pagah-dark);
-        }
-        .metodo-icon {
-            width: 38px; height: 38px;
-            border-radius: 10px;
-            display: inline-flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-        .metodo-icon .material-symbols-rounded { font-size: 20px; }
-        .metodo-icon.todos  { background: #ECEFF1; color: #455A64; }
-        .metodo-icon.cartao { background: #E3F2FD; color: #1565c0; }
-        .metodo-icon.pix    { background: #E8F5E9; color: #2E7D32; }
-        .metodo-icon.boleto { background: #F5F5F5; color: #424242; }
-
-        .metodo-info { flex: 1; min-width: 0; }
-        .metodo-name {
-            font-size: 0.95rem; font-weight: 700;
-            color: var(--pagah-dark);
-            display: flex; align-items: center; gap: 8px;
-            margin-bottom: 8px;
-            padding-right: 22px;
-            flex-wrap: wrap;
-        }
-        .metodo-name .qty {
-            background: #F2F2F2; color: var(--pagah-gray);
-            font-size: 11px; font-weight: 700;
-            padding: 2px 8px; border-radius: 99px;
-        }
-        .metodo-card.active .metodo-name .qty {
-            background: var(--pagah-dark); color: #fff;
-        }
-        .metodo-summary {
-            display: flex; align-items: flex-start; gap: 12px;
-            font-size: 11px;
-            color: var(--pagah-gray);
-        }
-        .metodo-summary .col {
-            display: flex; flex-direction: column;
-            min-width: 0;
-        }
-        .metodo-summary .col strong {
-            color: var(--pagah-dark);
-            font-size: 13px; font-weight: 700;
-            margin-top: 1px;
-            white-space: nowrap;
-        }
-        .metodo-summary .col strong.yellow-deep { color: var(--pagah-yellow-deep); }
+        .hero-chip .material-symbols-rounded { font-size: 14px; color: var(--pagah-yellow); }
+        .hero-chip strong { font-weight: 800; color: #fff; }
+        .hero-chip .chip-sep { color: rgba(255,255,255,.35); margin: 0 2px; }
 
         /* CARD DA TABELA DE PEDIDOS */
         .pedidos-card {
@@ -416,12 +330,13 @@
             flex-wrap: wrap;
         }
         .pedidos-title .material-symbols-rounded { font-size: 18px; }
-        .pedidos-title .selected-method {
-            background: var(--pagah-dark); color: var(--pagah-yellow);
+        .pedidos-title .badge-cartao {
+            background: #E3F2FD; color: #1565c0;
             font-size: 11px; font-weight: 700;
-            padding: 2px 9px; border-radius: 99px;
-            text-transform: uppercase; letter-spacing: 0.4px;
+            padding: 3px 9px; border-radius: 99px;
+            display: inline-flex; align-items: center; gap: 4px;
         }
+        .pedidos-title .badge-cartao .material-symbols-rounded { font-size: 12px; }
         .pedidos-head-right {
             display: flex; align-items: center; gap: 8px;
             flex-wrap: wrap;
@@ -460,15 +375,6 @@
         .filter-search .clear-btn .material-symbols-rounded {
             position: static; transform: none; font-size: 16px;
         }
-        .auto-select-toast {
-            display: inline-flex; align-items: center; gap: 6px;
-            font-size: 11px; color: var(--pagah-green);
-            font-weight: 600;
-            padding: 3px 8px;
-            background: #E8F5E9;
-            border-radius: 99px;
-        }
-        .auto-select-toast .material-symbols-rounded { font-size: 13px; }
 
         /* TABELA INTERNA */
         .pedidos-table {
@@ -495,32 +401,19 @@
         .text-muted { color: var(--pagah-gray); }
         .text-dark-bold { color: var(--pagah-dark); font-weight: 700; }
         .text-green-bold { color: var(--pagah-green); font-weight: 700; }
-        .badge-method {
+        .text-taxa { color: var(--pagah-yellow-deep); font-weight: 600; }
+        .libera-pill {
             display: inline-flex; align-items: center; gap: 4px;
-            padding: 3px 8px; border-radius: 99px;
-            font-size: 11px; font-weight: 600;
-        }
-        .badge-method .material-symbols-rounded { font-size: 12px; }
-        .badge-method.cartao { background: #E3F2FD; color: #1565c0; }
-        .badge-method.pix    { background: #E8F5E9; color: #2E7D32; }
-        .badge-method.boleto { background: #F5F5F5; color: #424242; }
-        .parcela-pill {
-            display: inline-block;
             background: #FFFBEA; color: var(--pagah-yellow-deep);
-            font-size: 11px; font-weight: 700;
-            padding: 2px 8px; border-radius: 6px;
+            font-size: 11.5px; font-weight: 700;
+            padding: 3px 9px; border-radius: 99px;
             border: 1px solid #FFF6A8;
         }
-        .btn-antecipar {
-            background: var(--pagah-yellow); border: 1px solid var(--pagah-yellow);
-            color: var(--pagah-dark); font-weight: 700; font-size: 11.5px;
-            padding: 5px 11px; border-radius: 99px;
-            display: inline-flex; align-items: center; gap: 4px;
-            cursor: pointer; transition: all .2s;
-            font-family: inherit;
+        .libera-pill.soon {
+            background: #E8F5E9; color: var(--pagah-green);
+            border-color: #C8E6C9;
         }
-        .btn-antecipar:hover { background: #f4ea4a; transform: translateY(-1px); }
-        .btn-antecipar .material-symbols-rounded { font-size: 13px; }
+        .libera-pill .material-symbols-rounded { font-size: 13px; }
 
         /* PAGINAÇÃO INTERNA */
         .pag-internal {
@@ -544,22 +437,6 @@
         .pag-btn.active { background: var(--pagah-dark); color: #fff; border-color: var(--pagah-dark); }
         .pag-btn .material-symbols-rounded { font-size: 14px; }
 
-        /* INFO BAR (faixa explicativa amarela) */
-        .info-bar {
-            background: var(--pagah-yellow-faint);
-            border-left: 3px solid var(--pagah-yellow);
-            border-radius: 8px;
-            padding: 10px 14px;
-            display: flex; align-items: center; gap: 10px;
-            font-size: 12.5px; color: var(--pagah-dark);
-            margin-bottom: 16px;
-        }
-        .info-bar .material-symbols-rounded {
-            font-size: 18px; color: var(--pagah-yellow-deep);
-            flex-shrink: 0;
-        }
-        .info-bar strong { font-weight: 700; }
-
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
@@ -567,8 +444,6 @@
         .anim-1 { animation: fadeUp .5s ease both .05s; }
         .anim-2 { animation: fadeUp .5s ease both .15s; }
         .anim-3 { animation: fadeUp .5s ease both .25s; }
-        .anim-4 { animation: fadeUp .5s ease both .35s; }
-        .anim-5 { animation: fadeUp .5s ease both .45s; }
     </style>
 </head>
 
@@ -610,7 +485,7 @@
             <li class="pb-side_menu__item"><a href="/suporte-index" class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">support_agent</span></span><span class="pb-side_menu__label">Suporte</span></a></li>
             <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">control_camera</span></span><span class="pb-side_menu__label">Conversão</span></a><ul class="submenu"><li><a href="/pixel_api" class="submenu__link">Pixel</a></li><li><a href="/listas-sms-novas" class="submenu__link">Listas</a></li><li><a href="/campanhas" class="submenu__link">ENVIO$</a></li><li><a href="/funis" class="submenu__link">Funil de Eventos</a></li></ul></li>
             <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">manufacturing</span></span><span class="pb-side_menu__label">Ferramentas</span></a><ul class="submenu"><li><a href="/webhooks-eventos-2" class="submenu__link">Webhooks</a></li><li><a href="/integracoes" class="submenu__link">Integrações</a></li></ul></li>
-            <li class="pb-side_menu__item"><a href="index.html" class="pb-side_menu__link active"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">receipt_long</span></span><span class="pb-side_menu__label">Saques</span></a></li>
+            <li class="pb-side_menu__item"><a href="Tela de Saque V2.html" class="pb-side_menu__link active"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">receipt_long</span></span><span class="pb-side_menu__label">Saques</span></a></li>
             <li class="pb-side_menu__item has_submenu"><a class="pb-side_menu__link"><span class="pb-side_menu__icon"><span class="material-symbols-rounded">settings</span></span><span class="pb-side_menu__label">Configurações</span></a><ul class="submenu"><li><a href="/usuarios" class="submenu__link">Usuários</a></li><li><a href="/notas" class="submenu__link">Notas</a></li></ul></li>
         </ul>
         <div class="apps">
@@ -629,7 +504,7 @@
             <div class="anim-1 tw-flex tw-flex-col md:tw-flex-row md:tw-items-end tw-justify-between tw-mb-6 tw-gap-3">
                 <div>
                     <div class="breadcrumb-line">
-                        <a href="index.html">Saques</a>
+                        <a href="Tela de Saque V2.html">Saques</a>
                         <span class="material-symbols-rounded">chevron_right</span>
                         <strong>Antecipável</strong>
                     </div>
@@ -637,17 +512,14 @@
                         <span class="title-icon"><span class="material-symbols-rounded">bolt</span></span>
                         Antecipável
                     </h1>
-                    <p class="page-subtitle">Recebíveis futuros que você pode adiantar pagando 1,99%/mês</p>
+                    <p class="page-subtitle">Receba a comissão dos seus pedidos no cartão em D+2 pagando 1,99% de taxa</p>
                 </div>
                 <div class="tw-flex tw-gap-2">
-                    <a href="index.html" class="btn-soft">
+                    <a href="Tela de Saque V2.html" class="btn-soft">
                         <span class="material-symbols-rounded">arrow_back</span> Voltar
                     </a>
                     <button class="btn-soft" id="btnXls">
                         <span class="material-symbols-rounded">download</span> Exportar Planilha
-                    </button>
-                    <button class="btn-soft btn-primary-yellow" id="btnAnteciparAll">
-                        <span class="material-symbols-rounded">bolt</span> Antecipar selecionados
                     </button>
                 </div>
             </div>
@@ -656,75 +528,59 @@
             <div class="anim-2 kpi-bar">
                 <!-- HERO PRETO: Total a antecipar -->
                 <div class="kpi-hero">
-                    <div class="hero-top">
-                        <div class="hero-lbl"><span class="material-symbols-rounded">bolt</span>Total a antecipar</div>
-                        <span class="hero-pagah-badge">PAGAH</span>
+                    <div>
+                        <div class="hero-top">
+                            <div class="hero-lbl"><span class="material-symbols-rounded">bolt</span>Total a antecipar</div>
+                            <span class="hero-pagah-badge">PAGAH</span>
+                        </div>
+                        <div class="hero-val" id="heroTotal">R$ 0,00</div>
+                        <div class="hero-cta-line">Receba em D+2 pagando 1,99% sobre o valor do pedido</div>
                     </div>
-                    <div class="hero-val">R$ 12.121,49</div>
-                    <div class="hero-cta-line">Receba hoje pagando taxa de antecipação</div>
-                    <div class="hero-meta">
-                        <div class="col">
-                            <span class="mlbl">Parcelas a vencer</span>
-                            <span class="mval">47</span>
-                            <span class="msub">de 23 pedidos</span>
-                        </div>
-                        <div class="col">
-                            <span class="mlbl">Líquido se antecipar TUDO hoje</span>
-                            <span class="mval">R$ 11.880,29</span>
-                            <span class="msub">após taxa</span>
-                        </div>
-                        <div class="col">
-                            <span class="mlbl">Próxima cai naturalmente em</span>
-                            <span class="mval">12/05</span>
-                            <span class="msub">R$ 380,00</span>
-                        </div>
+                    <div class="hero-chips">
+                        <span class="hero-chip">
+                            <span class="material-symbols-rounded">receipt_long</span>
+                            <strong id="heroQtd">0</strong> pedidos
+                            <span class="chip-sep">·</span>
+                            cartão
+                        </span>
                     </div>
                 </div>
                 <div class="kpi-cell">
                     <div class="lbl"><span class="material-symbols-rounded">percent</span>Taxa de antecipação</div>
-                    <div class="val">1,99%/mês</div>
-                    <div class="sub">Cobrada proporcional ao prazo</div>
+                    <div class="val">1,99%</div>
+                    <div class="sub">Flat sobre o valor do pedido</div>
                 </div>
                 <div class="kpi-cell">
-                    <div class="lbl"><span class="material-symbols-rounded">savings</span>Economia se esperar</div>
-                    <div class="val green">R$ 241,20</div>
-                    <div class="sub">0 taxa se aguardar vencimento</div>
+                    <div class="lbl"><span class="material-symbols-rounded">payments</span>Líquido se antecipar tudo</div>
+                    <div class="val" id="kpiLiquido">R$ 0,00</div>
+                    <div class="sub">Após taxa de 1,99%</div>
                 </div>
-                <div class="kpi-cell" style="grid-column: 2 / 4;">
-                    <div class="lbl"><span class="material-symbols-rounded">event_available</span>Janela de vencimento</div>
-                    <div class="val" style="font-size:0.95rem;">até 90 dias</div>
-                    <div class="sub">Pedidos com parcelas entre 07/05 e 05/08</div>
+                <div class="kpi-cell">
+                    <div class="lbl"><span class="material-symbols-rounded">savings</span>Ticket médio</div>
+                    <div class="val" id="kpiTicket">R$ 0,00</div>
+                    <div class="sub">Valor médio por pedido</div>
+                </div>
+                <div class="kpi-cell">
+                    <div class="lbl"><span class="material-symbols-rounded">event_available</span>Próximo libera em</div>
+                    <div class="val" id="kpiProxData">—</div>
+                    <div class="sub" id="kpiProxValor">—</div>
                 </div>
             </div>
 
-            <!-- Faixa explicativa -->
-            <div class="anim-3 info-bar">
-                <span class="material-symbols-rounded">bolt</span>
-                <span><strong>Antecipar</strong> = receber agora pagando taxa. <strong>Esperar</strong> = receber 100% mas só na data de vencimento. Você escolhe pedido por pedido.</span>
-            </div>
-
-            <!-- 4 Cards selecionáveis (Todos / Cartão / PIX / Boleto) -->
-            <div class="anim-4 metodos-grid" id="metodosGrid"></div>
-
-            <!-- Tabela de parcelas -->
-            <div class="anim-5 pedidos-card">
+            <!-- Tabela de pedidos -->
+            <div class="anim-3 pedidos-card">
                 <div class="pedidos-head">
                     <div class="pedidos-title">
                         <span class="material-symbols-rounded">schedule</span>
-                        Parcelas a vencer
-                        <span class="selected-method" id="selectedMethodLabel">Todos</span>
-                        <span class="auto-select-toast" id="autoSelectToast" style="display:none;">
-                            <span class="material-symbols-rounded">check_circle</span>
-                            Método selecionado pela busca
-                        </span>
+                        Pedidos antecipáveis
+                        <span class="badge-cartao"><span class="material-symbols-rounded">credit_card</span>Cartão</span>
                     </div>
                     <div class="pedidos-head-right">
                         <select class="filter-period" id="filterPeriod">
-                            <option value="all">Todos os períodos</option>
-                            <option value="7">Próximos 7 dias</option>
-                            <option value="15">Próximos 15 dias</option>
-                            <option value="30">Próximos 30 dias</option>
-                            <option value="30-90">30-90 dias</option>
+                            <option value="all">Todos os pedidos</option>
+                            <option value="7">Liberam em até 7 dias</option>
+                            <option value="15">Liberam em até 15 dias</option>
+                            <option value="30">Liberam em até 30 dias</option>
                         </select>
                         <div class="filter-search" id="searchWrap">
                             <span class="material-symbols-rounded">search</span>
@@ -738,13 +594,12 @@
                         <thead>
                             <tr>
                                 <th>Pedido</th>
-                                <th>Parcela</th>
-                                <th>Vence em</th>
+                                <th>Data da venda</th>
+                                <th>Libera em</th>
                                 <th>Cliente</th>
-                                <th>Método</th>
-                                <th>Valor original</th>
-                                <th>Líquido se antecipar hoje</th>
-                                <th></th>
+                                <th>Valor do pedido</th>
+                                <th>Taxa (1,99%)</th>
+                                <th>Líquido em D+2</th>
                             </tr>
                         </thead>
                         <tbody id="pedidosTbody"></tbody>
@@ -766,192 +621,81 @@
         });
 
         const fmt = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
-        // ====== Mock: gerar 47 parcelas totalizando ~R$ 12.121,49 ======
-        // Estratégia: alvo bruto = 12121.49. Geramos 47 parcelas com valores realistas
-        // (R$ 200-1500), depois normalizamos para bater no alvo.
-        const TARGET_TOTAL = 12121.49;
+        const TAXA = 0.0199;
         const TODAY = new Date('2026-05-06');
         const CLIENTES = ['Maria Silva', 'João Souza', 'Ana Costa', 'Carlos Lima', 'Beatriz Reis', 'Felipe Almeida', 'Juliana Rocha', 'Pedro Henrique', 'Larissa Mendes', 'Rafael Torres', 'Camila Duarte', 'Bruno Martins', 'Patrícia Nunes', 'Eduardo Vieira', 'Sofia Cardoso', 'Lucas Ferreira', 'Renata Barbosa', 'Gustavo Pires', 'Mariana Pinto', 'Tiago Moreira', 'Vanessa Castro', 'Ricardo Gomes', 'Isabela Ramos'];
 
-        // 23 pedidos -> distribuir 47 parcelas entre eles
-        // Maioria cartão (parcelado), poucos pix/boleto (1x ou parcelas atrasadas)
-        const pedidoSeed = [
-            // [qtdParcelas, totalParcelas, metodo]
-            { metodo: 'cartao', total: 12 },
-            { metodo: 'cartao', total: 10 },
-            { metodo: 'cartao', total: 8 },
-            { metodo: 'cartao', total: 6 },
-            { metodo: 'cartao', total: 6 },
-            { metodo: 'cartao', total: 4 },
-            { metodo: 'cartao', total: 4 },
-            { metodo: 'cartao', total: 3 },
-            { metodo: 'cartao', total: 3 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'cartao', total: 2 },
-            { metodo: 'pix',    total: 1 }, // pix com prazo (raro, mas existente)
-            { metodo: 'boleto', total: 1 }
-        ];
+        // ====== Mock: 23 pedidos no cartão totalizando ~R$ 12.121,49 ======
+        const TARGET_TOTAL = 12121.49;
+        const QTD_PEDIDOS = 23;
 
-        // Gerar todas parcelas iniciais
-        let parcelaCounter = 0;
-        let pedidoId = 9100;
-        let allParcelas = [];
+        let allPedidos = [];
+        let pid = 9100;
 
-        pedidoSeed.forEach((seed) => {
-            const id = pedidoId++;
-            const cliente = CLIENTES[Math.floor(Math.random() * CLIENTES.length)];
-            // ticket por parcela
-            const baseTicket = 200 + Math.random() * 1300;
-            for (let i = 0; i < seed.total; i++) {
-                // Espalhar vencimentos: parcela i+1 vence ~30*(i+1) dias após hoje
-                // Ajuste para caber em janela de 1-90 dias
-                const baseDays = (i + 1) * Math.max(2, Math.floor(85 / Math.max(seed.total, 1)));
-                const daysToDue = Math.min(89, Math.max(1, baseDays + Math.floor(Math.random() * 5 - 2)));
-                const valor = baseTicket * (0.85 + Math.random() * 0.3);
-                allParcelas.push({
-                    pid: id,
-                    parcelaNum: i + 1,
-                    totalParcelas: seed.total,
-                    daysToDue,
-                    cliente,
-                    metodo: seed.metodo,
-                    valorOriginal: valor
-                });
-                parcelaCounter++;
-                if (parcelaCounter >= 47) return;
-            }
-        });
+        for (let i = 0; i < QTD_PEDIDOS; i++) {
+            // Dias desde a venda: 2 a 29 (já passou D+2, ainda não liberou D+30)
+            const diasDesdeVenda = 2 + Math.floor(Math.random() * 28);
+            const diasAteLiberar = 30 - diasDesdeVenda;
+            const valor = 200 + Math.random() * 1300;
 
-        // Cortar/garantir exatamente 47
-        allParcelas = allParcelas.slice(0, 47);
+            const dataVenda = new Date(TODAY);
+            dataVenda.setDate(dataVenda.getDate() - diasDesdeVenda);
 
-        // Normalizar para bater no alvo R$ 12.121,49
-        const somaAtual = allParcelas.reduce((a, p) => a + p.valorOriginal, 0);
-        const fator = TARGET_TOTAL / somaAtual;
-        allParcelas.forEach(p => { p.valorOriginal = p.valorOriginal * fator; });
+            const dataLiberacao = new Date(TODAY);
+            dataLiberacao.setDate(dataLiberacao.getDate() + diasAteLiberar);
 
-        // Calcular líquido antecipado: liquido = valor * (1 - 0.0199 * (days/30))
-        allParcelas.forEach(p => {
-            const taxaProporcional = 0.0199 * (p.daysToDue / 30);
-            p.liquidoAntecipado = p.valorOriginal * (1 - taxaProporcional);
-        });
-
-        // Ordenar por proximidade de vencimento
-        allParcelas.sort((a, b) => a.daysToDue - b.daysToDue);
-
-        function dueLabel(daysToDue) {
-            const d = new Date(TODAY);
-            d.setDate(d.getDate() + daysToDue);
-            return d.toLocaleDateString('pt-BR');
+            allPedidos.push({
+                pid: pid++,
+                cliente: CLIENTES[Math.floor(Math.random() * CLIENTES.length)],
+                valorPedido: valor,
+                diasDesdeVenda,
+                diasAteLiberar,
+                dataVenda,
+                dataLiberacao
+            });
         }
 
-        // Estrutura de métodos
-        const METODOS = {
-            todos:  { key: 'todos',  label: 'Todos',  icon: 'apps' },
-            cartao: { key: 'cartao', label: 'Cartão', icon: 'credit_card' },
-            pix:    { key: 'pix',    label: 'PIX',    icon: 'bolt' },
-            boleto: { key: 'boleto', label: 'Boleto', icon: 'receipt_long' }
-        };
-        Object.values(METODOS).forEach(m => {
-            const arr = m.key === 'todos' ? allParcelas : allParcelas.filter(p => p.metodo === m.key);
-            m.parcelas = arr;
-            m.bruto = arr.reduce((acc, p) => acc + p.valorOriginal, 0);
-            m.liquido = arr.reduce((acc, p) => acc + p.liquidoAntecipado, 0);
+        // Normalizar para bater no alvo
+        const somaAtual = allPedidos.reduce((a, p) => a + p.valorPedido, 0);
+        const fator = TARGET_TOTAL / somaAtual;
+        allPedidos.forEach(p => {
+            p.valorPedido = p.valorPedido * fator;
+            p.taxa = p.valorPedido * TAXA;
+            p.liquidoAntecipado = p.valorPedido - p.taxa;
         });
 
-        let selectedMetodo = 'todos';
+        // Ordenar pelos que liberam mais cedo
+        allPedidos.sort((a, b) => a.diasAteLiberar - b.diasAteLiberar);
+
+        const fmtDate = (d) => d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+
+        // KPIs do hero
+        const totalBruto = allPedidos.reduce((a, p) => a + p.valorPedido, 0);
+        const totalLiquido = allPedidos.reduce((a, p) => a + p.liquidoAntecipado, 0);
+        const ticketMedio = totalBruto / allPedidos.length;
+        const proximo = allPedidos[0];
+
+        document.getElementById('heroTotal').textContent = fmt(totalBruto);
+        document.getElementById('heroQtd').textContent = allPedidos.length;
+        document.getElementById('kpiLiquido').textContent = fmt(totalLiquido);
+        document.getElementById('kpiTicket').textContent = fmt(ticketMedio);
+        document.getElementById('kpiProxData').textContent = fmtDate(proximo.dataLiberacao);
+        document.getElementById('kpiProxValor').textContent = fmt(proximo.valorPedido) + ' · em ' + proximo.diasAteLiberar + 'd';
+
+        // Estado da tabela
         let searchPedido = '';
         let filterPeriod = 'all';
         let pedidosPage = 1;
         const PER_PAGE = 10;
-        let lastAutoSelected = false;
 
-        function renderMetodoCards() {
-            const grid = document.getElementById('metodosGrid');
-            grid.replaceChildren();
-            Object.values(METODOS).forEach(m => {
-                const card = document.createElement('button');
-                card.type = 'button';
-                card.className = 'metodo-card' + (m.key === selectedMetodo ? ' active' : '');
-                card.dataset.metodo = m.key;
-
-                const icon = document.createElement('div');
-                icon.className = 'metodo-icon ' + m.key;
-                const iconSym = document.createElement('span');
-                iconSym.className = 'material-symbols-rounded';
-                iconSym.textContent = m.icon;
-                icon.appendChild(iconSym);
-
-                const info = document.createElement('div');
-                info.className = 'metodo-info';
-
-                const name = document.createElement('div');
-                name.className = 'metodo-name';
-                name.appendChild(document.createTextNode(m.label));
-                const qty = document.createElement('span');
-                qty.className = 'qty';
-                qty.textContent = m.parcelas.length;
-                name.appendChild(qty);
-                info.appendChild(name);
-
-                const summary = document.createElement('div');
-                summary.className = 'metodo-summary';
-                const col = document.createElement('div');
-                col.className = 'col';
-                if (m.parcelas.length === 0) {
-                    col.appendChild(document.createTextNode('Sem parcelas a vencer'));
-                    const s = document.createElement('strong');
-                    s.textContent = '—';
-                    col.appendChild(s);
-                } else {
-                    col.appendChild(document.createTextNode('Líquido antecipando'));
-                    const s = document.createElement('strong');
-                    s.className = 'yellow-deep';
-                    s.textContent = fmt(m.liquido);
-                    col.appendChild(s);
-                }
-                summary.appendChild(col);
-                info.appendChild(summary);
-
-                card.appendChild(icon);
-                card.appendChild(info);
-                card.addEventListener('click', () => {
-                    if (selectedMetodo !== m.key) {
-                        selectedMetodo = m.key;
-                        pedidosPage = 1;
-                        lastAutoSelected = false;
-                        document.getElementById('autoSelectToast').style.display = 'none';
-                        renderMetodoCards();
-                        renderPedidos();
-                    }
-                });
-                grid.appendChild(card);
-            });
-        }
-
-        function inPeriod(daysToDue, key) {
+        function inPeriod(dias, key) {
             if (key === 'all') return true;
-            if (key === '30-90') return daysToDue > 30 && daysToDue <= 90;
-            return daysToDue <= parseInt(key);
+            return dias <= parseInt(key);
         }
 
         function renderPedidos() {
-            const metodo = METODOS[selectedMetodo];
-            document.getElementById('selectedMethodLabel').textContent = metodo.label;
-
-            const filtered = metodo.parcelas.filter(p => {
-                if (!inPeriod(p.daysToDue, filterPeriod)) return false;
+            const filtered = allPedidos.filter(p => {
+                if (!inPeriod(p.diasAteLiberar, filterPeriod)) return false;
                 if (!searchPedido) return true;
                 return String(p.pid).includes(searchPedido.replace('#', ''));
             });
@@ -967,12 +711,12 @@
             if (pageRows.length === 0) {
                 const tr = document.createElement('tr');
                 const td = document.createElement('td');
-                td.colSpan = 8;
+                td.colSpan = 7;
                 td.style.textAlign = 'center';
                 td.style.padding = '32px';
                 td.style.color = 'var(--pagah-gray)';
                 td.style.fontStyle = 'italic';
-                td.textContent = 'Nenhuma parcela encontrada com esses filtros.';
+                td.textContent = 'Nenhum pedido encontrado com esses filtros.';
                 tr.appendChild(td);
                 tbody.appendChild(tr);
             } else {
@@ -985,7 +729,7 @@
                 const info2 = document.createElement('div');
                 const fromN = start + 1;
                 const toN = Math.min(start + PER_PAGE, filtered.length);
-                info2.textContent = `Mostrando ${fromN}-${toN} de ${filtered.length} parcelas`;
+                info2.textContent = `Mostrando ${fromN}-${toN} de ${filtered.length} pedidos`;
                 pag.appendChild(info2);
 
                 if (filtered.length > PER_PAGE) {
@@ -1016,104 +760,59 @@
             }
         }
 
-        const METHOD_META = {
-            cartao: { label: 'Cartão', icon: 'credit_card' },
-            pix:    { label: 'PIX',    icon: 'bolt' },
-            boleto: { label: 'Boleto', icon: 'receipt_long' }
-        };
-
         function buildPedidoRow(p) {
             const tr = document.createElement('tr');
-            const meta = METHOD_META[p.metodo];
 
             const tdId = document.createElement('td');
             tdId.textContent = '#' + p.pid;
             tr.appendChild(tdId);
 
-            const tdParc = document.createElement('td');
-            const pill = document.createElement('span');
-            pill.className = 'parcela-pill';
-            pill.textContent = p.parcelaNum + '/' + p.totalParcelas;
-            tdParc.appendChild(pill);
-            tr.appendChild(tdParc);
+            const tdVenda = document.createElement('td');
+            tdVenda.className = 'text-muted';
+            tdVenda.textContent = fmtDate(p.dataVenda);
+            tr.appendChild(tdVenda);
 
-            const tdDue = document.createElement('td');
-            tdDue.className = 'text-muted';
-            tdDue.textContent = dueLabel(p.daysToDue);
-            tr.appendChild(tdDue);
+            const tdLib = document.createElement('td');
+            const pill = document.createElement('span');
+            pill.className = 'libera-pill' + (p.diasAteLiberar <= 7 ? ' soon' : '');
+            const pi = document.createElement('span');
+            pi.className = 'material-symbols-rounded';
+            pi.textContent = 'event';
+            pill.appendChild(pi);
+            pill.appendChild(document.createTextNode(fmtDate(p.dataLiberacao) + ' · ' + p.diasAteLiberar + 'd'));
+            tdLib.appendChild(pill);
+            tr.appendChild(tdLib);
 
             const tdCli = document.createElement('td');
             tdCli.className = 'text-muted';
             tdCli.textContent = p.cliente;
             tr.appendChild(tdCli);
 
-            const tdMet = document.createElement('td');
-            const badge = document.createElement('span');
-            badge.className = 'badge-method ' + p.metodo;
-            const ic = document.createElement('span');
-            ic.className = 'material-symbols-rounded';
-            ic.textContent = meta.icon;
-            badge.appendChild(ic);
-            badge.appendChild(document.createTextNode(meta.label));
-            tdMet.appendChild(badge);
-            tr.appendChild(tdMet);
-
             const tdVal = document.createElement('td');
-            tdVal.textContent = fmt(p.valorOriginal);
+            tdVal.textContent = fmt(p.valorPedido);
             tr.appendChild(tdVal);
+
+            const tdTaxa = document.createElement('td');
+            tdTaxa.className = 'text-taxa';
+            tdTaxa.textContent = '− ' + fmt(p.taxa);
+            tr.appendChild(tdTaxa);
 
             const tdLiq = document.createElement('td');
             tdLiq.className = 'text-green-bold';
             tdLiq.textContent = fmt(p.liquidoAntecipado);
             tr.appendChild(tdLiq);
 
-            const tdAct = document.createElement('td');
-            const btn = document.createElement('button');
-            btn.className = 'btn-antecipar';
-            btn.type = 'button';
-            const bi = document.createElement('span');
-            bi.className = 'material-symbols-rounded';
-            bi.textContent = 'bolt';
-            btn.appendChild(bi);
-            btn.appendChild(document.createTextNode('Antecipar'));
-            btn.addEventListener('click', () => {
-                alert('Confirmação de antecipação para pedido #' + p.pid + ' (a implementar)');
-            });
-            tdAct.appendChild(btn);
-            tr.appendChild(tdAct);
-
             return tr;
-        }
-
-        // Auto-seleção pelo ID
-        function findMetodoByPedidoId(rawTerm) {
-            const term = rawTerm.replace('#', '').trim();
-            if (!term) return null;
-            const match = allParcelas.find(p => String(p.pid) === term);
-            return match ? match.metodo : null;
         }
 
         const $search = document.getElementById('searchPedido');
         const $searchWrap = document.getElementById('searchWrap');
         const $clearBtn = document.getElementById('clearSearch');
-        const $toast = document.getElementById('autoSelectToast');
         const $filterPeriod = document.getElementById('filterPeriod');
 
         $search.addEventListener('input', (e) => {
             searchPedido = e.target.value.trim();
             $searchWrap.classList.toggle('has-value', searchPedido.length > 0);
-
-            const matchKey = findMetodoByPedidoId(searchPedido);
-            if (matchKey && matchKey !== selectedMetodo && selectedMetodo !== 'todos') {
-                selectedMetodo = matchKey;
-                lastAutoSelected = true;
-                $toast.style.display = 'inline-flex';
-                renderMetodoCards();
-            } else if (!matchKey && lastAutoSelected) {
-                $toast.style.display = 'none';
-                lastAutoSelected = false;
-            }
-
             pedidosPage = 1;
             renderPedidos();
         });
@@ -1122,8 +821,6 @@
             $search.value = '';
             searchPedido = '';
             $searchWrap.classList.remove('has-value');
-            $toast.style.display = 'none';
-            lastAutoSelected = false;
             pedidosPage = 1;
             renderPedidos();
         });
@@ -1135,10 +832,9 @@
         });
 
         document.getElementById('btnXls').addEventListener('click', () => alert('Exportação da planilha (a implementar)'));
-        document.getElementById('btnAnteciparAll').addEventListener('click', () => alert('Antecipação em lote dos pedidos selecionados (a implementar)'));
 
-        renderMetodoCards();
         renderPedidos();
     </script>
 </body>
 </html>
+
